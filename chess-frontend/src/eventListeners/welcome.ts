@@ -15,9 +15,69 @@ export class WelcomePage {
   }
 
   static initEventListeners() {
-    sessionChangeListeners()
+    sessionChangeListeners();
+    this.fetchUserDetails();
+    this.dropDownToggle();
+  }
 
+  static async fetchUserDetails() {
+    let token = Auth.getAccessToken();
+    try {
+      const response = await fetch(
+        "http://localhost:3000/user/getUserDetails",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!response.ok) {
+        console.log(response);
+      }
+      const userData = await response.json();
+      console.log(userData);
+      this.updateUserDetails(userData);
+    } catch (error) {
+      console.error("Failed to fetch user details:", error);
+    }
+  }
 
+  static updateUserDetails(userData: { profilePicture: string; name: string }) {
+    const userImage = document.getElementById(
+      "user-greeting-information__user-image"
+    ) as HTMLImageElement;
+    const greetingMessage = document.getElementById(
+      "user-greeting-information__greeting-message"
+    );
 
+    if (userImage) {
+      userImage.src = userData.profilePicture;
+    }
+
+    if (greetingMessage) {
+      greetingMessage.textContent = `Hello, ${userData.name}!`;
+    }
+  }
+
+  static dropDownToggle() {
+    const dropdownToggles = document.querySelectorAll(".dropdown-toggle");
+    const dropdownMenus = document.querySelectorAll(".dropdown-menu");
+
+    dropdownToggles.forEach((toggle, index) => {
+      toggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const menu = dropdownMenus[index] as HTMLElement;
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
+      });
+    });
+
+    document.addEventListener("click", () => {
+      dropdownMenus.forEach((menu) => {
+        const menuElement = menu as HTMLElement;
+        menuElement.style.display = "none";
+      });
+    });
   }
 }

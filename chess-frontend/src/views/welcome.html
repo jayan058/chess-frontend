@@ -5,13 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-  <body>
-    <aside>
-      <button id="play-online">Play Online</button>
-      <button id="play-offline">Play Offline</button>
-      <button id="view-profile">Edit Profile</button>
-    </aside>
-    <div id="profile-details"></div>
-    <div id="game-details"></div>
+  <body> 
+    <header class="main-content__header">
+      <h1>Welcome to Chess.com</h1>
+      <nav>
+        <div class="dropdown">
+          <span class="dropdown-title">Play Now</span>
+          <button class="dropdown-toggle">▼</button>
+          <div class="dropdown-menu">
+              <a href="#" id="play-online">Play Online</a>
+              <a href="#" id="play-offline">Play Offline</a>
+          </div>
+      </div>
+      </nav>
+    </header>
+    <main class="main-content">
+      <div id="game-details"></div>
+    </main>
   </body>
 </html>

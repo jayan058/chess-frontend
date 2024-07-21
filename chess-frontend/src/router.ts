@@ -22,7 +22,7 @@ export class Router {
       document.getElementById("main-content")!.innerHTML = content;
       route.component.initEventListeners();
 
-      loadCSS(route.css); 
+      loadCSS(route.css);
     }
   }
 
@@ -45,8 +45,20 @@ export class Router {
             `;
     } else if (hash === "#/welcome") {
       headerContent = `
-                <div id="user-greeting-information"></div>
-                <button id="logout">Logout</button>
+             <div id="user-greeting-information" class="user-greeting-information">
+    <img id="user-greeting-information__user-image" class="user-greeting-information__user-image" src="path/to/user-image.jpg" alt="User Image">
+    <span id="user-greeting-information__greeting-message" class="user-greeting-information__greeting-message">Hello, User! Welcome back.</span>
+  </div>
+    <div class="dropdown main-content__header">
+        <span class="dropdown-title">Manage your account</span>
+        <button class="dropdown-toggle">▼</button>
+        <div class="dropdown-menu">
+            <a href="#" id="edit-profile">Edit Profile</a>
+            <a href="#" id="logout">Logout</a>
+        </div>
+    </div>
+
+</div>
             `;
     }
 
