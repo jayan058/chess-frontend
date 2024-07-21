@@ -1,19 +1,43 @@
 export class Auth {
-  private static TOKEN_KEY = "auth-token";
-
-  static login(token: string) {
-    localStorage.setItem(this.TOKEN_KEY, token);
-  }
-
-  static logout() {
-    localStorage.removeItem(this.TOKEN_KEY);
-  }
+  private static ACCESS_TOKEN_KEY = "accessToken";
+  private static REFRESH_TOKEN_KEY = "refreshToken";
+  private static SESSION_STATE_KEY = "sessionState";
 
   static isLoggedIn(): boolean {
-    return !!localStorage.getItem(this.TOKEN_KEY);
+    return !!this.getAccessToken();
   }
 
-  static getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY);
+  static getAccessToken(): string | null {
+    return this.getToken(this.ACCESS_TOKEN_KEY);
+  }
+
+  static clearTokens() {
+    // Trigger server-side logout
+    fetch('/logout', { method: 'POST' })
+      .then(response => {
+        if (response.ok) {
+          // Clear access and refresh tokens on the client side
+          document.cookie = `${this.ACCESS_TOKEN_KEY}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+          document.cookie = `${this.REFRESH_TOKEN_KEY}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+          // Notify other tabs of session change
+          localStorage.setItem(this.SESSION_STATE_KEY, Date.now().toString());
+        }
+      })
+      .catch(error => console.error('Logout error:', error));
+  }
+
+  static logout(){
+
+  }
+
+  private static getToken(key: string): string | null {
+    const nameEQ = `${key}=`;
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === ' ') c = c.substring(1);
+      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
   }
 }

@@ -27,7 +27,7 @@ export class ModalManager {
   show(message: string, type: "success" | "error"): void {
     if (this.modalMessage) {
       this.modalMessage.textContent = message;
-      this.modalMessage.className = type; // Set class based on message type
+      this.modalMessage.className = type; 
     }
     if (this.modal) {
       this.modal.style.display = "block";

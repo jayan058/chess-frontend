@@ -45,7 +45,7 @@ export class Router {
             `;
     } else if (hash === "#/welcome") {
       headerContent = `
-                <button id="edit-profile">Edit Your Profile</button>
+                <div id="user-greeting-information"></div>
                 <button id="logout">Logout</button>
             `;
     }

@@ -1,6 +1,7 @@
 // eventListeners/welcome.ts
 import { Auth } from "../auth";
 import { Router } from "../router";
+import { sessionChangeListeners } from "../utils/sessionChangeListener";
 
 export class WelcomePage {
   static async load(): Promise<string> {
@@ -9,11 +10,14 @@ export class WelcomePage {
       Router.loadContent();
       return "";
     }
-    const response = await fetch("views/welcome.html");
+    const response = await fetch("src/views/welcome.html");
     return response.text();
   }
 
   static initEventListeners() {
-    // Initialize event listeners for the welcome page
+    sessionChangeListeners()
+
+
+
   }
 }

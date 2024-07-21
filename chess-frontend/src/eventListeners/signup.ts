@@ -69,8 +69,7 @@ export class SignupPage {
             result.message + " now login to Chess.com using the new credentials"
           );
           const modal = new ModalManager("myModal", "modalMessage", "close");
-          console.log(formattedMessage);
-
+          console.log(formattedMessage)
           modal.show(formattedMessage, "success");
           window.location.hash = "#/login";
         } catch (error: unknown) {}
