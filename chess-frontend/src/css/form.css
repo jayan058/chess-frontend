@@ -1,0 +1,43 @@
+/* Form Styles */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=file] {
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+input[type=text]:focus,
+input[type=password]:focus,
+input[type=email]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.file-name {
+  padding: 0;
+  border: none;
+  display: none;
+}
+
+.image-preview {
+  display: block;
+  max-width: 100%;
+  max-height: 300px;
+  width: auto;
+  height: auto;
+  -o-object-fit: contain;
+     object-fit: contain;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}/*# sourceMappingURL=form.css.map */
