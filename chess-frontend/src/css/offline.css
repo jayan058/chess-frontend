@@ -1,0 +1,464 @@
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+header {
+  background-color: #f8f9fa;
+  padding: 10px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+}
+
+header a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+header a:hover {
+  color: #0056b3;
+  background-color: rgba(0, 123, 255, 0.1);
+  border-color: #0056b3;
+}
+
+.footer {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: #fff;
+  padding: 20px 40px;
+  text-align: center;
+  border-top: 4px solid #004085;
+  box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+
+@media (max-width: 600px) {
+  .header,
+  .footer {
+    padding: 15px 20px;
+  }
+  .header a {
+    font-size: 16px;
+    margin: 0 10px;
+  }
+}
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  -webkit-backdrop-filter: blur(5px);
+          backdrop-filter: blur(5px);
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Modal content */
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 600px;
+  display: flex;
+  justify-content: space-between;
+  align-self: center;
+  animation: slide-down 0.5s ease-out;
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.close {
+  font-size: 24px;
+  font-weight: bold;
+  color: #999;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: #333;
+}
+
+.success {
+  color: green;
+}
+
+.error {
+  color: red;
+}
+
+@media (max-width: 600px) {
+  .modal-content {
+    width: 85%;
+    margin: 20% auto;
+  }
+}
+.modal-content h2,
+.modal-content p,
+.modal-content button {
+  margin: 10px 0;
+}
+
+.modal-content button {
+  align-self: center;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+  background-color: #0056b3;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  height: 90vh;
+}
+
+.footer {
+  background-color: #f8f9fa;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer p {
+  margin: 0;
+}
+
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+.board {
+  width: 400px;
+  height: 400px;
+}
+
+body {
+  height: 96vh;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  margin-bottom: 20px;
+  align-items: flex-start;
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.move-history {
+  height: 400px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #f3eeee #e0e0e0;
+  -ms-overflow-style: none;
+  border-radius: 8px;
+  background: #f9f9f9;
+  padding: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.move-history::-webkit-scrollbar {
+  width: 8px;
+}
+
+.move-history::-webkit-scrollbar-track {
+  background: #e0e0e0;
+  border-radius: 8px;
+}
+
+.move-history::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 8px;
+}
+
+.move-history::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.move-history::-webkit-scrollbar {
+  display: none;
+}
+
+/*!
+  * chessboard.js $version$
+  *
+  * Copyright 2013 Chris Oakman
+  * Released under the MIT license
+  * https://github.com/oakmac/chessboardjs/blob/master/LICENSE
+  *
+  * Date: $date$
+  */
+/* clearfix */
+.clearfix-7da63 {
+  clear: both;
+}
+
+/* board */
+.board-b72b1 {
+  border: 2px solid #404040;
+  box-sizing: content-box;
+}
+
+square .square-55d63 {
+  float: left;
+  position: relative;
+  /* disable any native browser highlighting */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+/* highlighted square */
+.highlight1-32417,
+.highlight2-9c5d2 {
+  box-shadow: inset 0 0 3px 3px yellow;
+}
+
+/* notation */
+.notation-322f9 {
+  cursor: default;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  position: absolute;
+}
+
+.alpha-d2270 {
+  bottom: 1px;
+  right: 3px;
+}
+
+.numeric-fc462 {
+  top: 2px;
+  left: 2px;
+}
+
+.container {
+  display: flex;
+  gap: 30px;
+  padding: 10px;
+  height: 100%;
+}
+
+.status {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.difficulty-level {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.move-history {
+  display: flex;
+  gap: 30px;
+  background-color: antiquewhite;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  height: 400px;
+}
+
+.moves-header {
+  font-weight: bold;
+  text-align: center;
+}
+
+.move-row {
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.info-and-history {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.player-moves-container,
+.computer-moves-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@media (max-width: 799px) {
+  .container {
+    flex-direction: column;
+    width: 100%;
+  }
+}
+.time-constraint {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.board-history {
+  flex-direction: column;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 80%;
+}
+
+.info {
+  width: 20%;
+  height: 100%;
+}
+
+.board-and-history {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.captured-piece-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.captured-piece-container__actual-captured-piece {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+/*!
+ * chessboard.js $version$
+ *
+ * Copyright 2013 Chris Oakman
+ * Released under the MIT license
+ * https://github.com/oakmac/chessboardjs/blob/master/LICENSE
+ *
+ * Date: $date$
+ */
+/* clearfix */
+.clearfix-7da63 {
+  clear: both;
+}
+
+/* board */
+.board-b72b1 {
+  border: 2px solid #404040;
+  box-sizing: content-box;
+}
+
+/* square */
+.square-55d63 {
+  float: left;
+  position: relative;
+  /* disable any native browser highlighting */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+/* white square */
+/*
+.white-1e1d7 {
+  background-color: #f0d9b5;
+  color: #b58863;
+}
+*/
+/* black square */
+/*
+.black-3c85d {
+  background-color: #b58863;
+  color: #f0d9b5;
+}
+*/
+/* highlighted square */
+.highlight1-32417,
+.highlight2-9c5d2 {
+  box-shadow: inset 0 0 3px 3px yellow;
+}
+
+/* notation */
+.notation-322f9 {
+  cursor: default;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  position: absolute;
+}
+
+.alpha-d2270 {
+  bottom: 1px;
+  right: 3px;
+}
+
+.numeric-fc462 {
+  top: 2px;
+  left: 2px;
+}
+
+select {
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-size: 14px;
+  color: #333;
+}/*# sourceMappingURL=offline.css.map */

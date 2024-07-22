@@ -31,9 +31,7 @@ body {
 
 #game-details {
   width: 100%;
-
   background: #fff;
-
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -77,48 +75,56 @@ header {
 }
 
 .dropdown {
-    position: relative;
-    display: inline-block;
-    margin-left: 10px;
-  }
-  
-  /* Dropdown toggle button */
-  .dropdown-toggle {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-  }
-  
-  /* Dropdown menu */
-  .dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    min-width: 150px;
-    z-index: 1;
-  }
-  
-  /* Dropdown menu items */
-  .dropdown-menu a {
-    display: block;
-    padding: 10px;
-    color: #333;
-    text-decoration: none;
-    font-family: 'Arial', sans-serif;
-  }
-  
-  .dropdown-menu a:hover {
-    background-color: #f1f1f1;
-  }
+  position: relative;
 
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
-  .dropdown-title{
-    color: #007bff;
-    font-family: 'Arial', sans-serif;
-  }
+/* Dropdown toggle button */
+.dropdown-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  min-width: 150px;
+  z-index: 1;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 10px;
+  color: #333;
+  text-decoration: none;
+  font-family: "Arial", sans-serif;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown-title {
+  color: #007bff;
+  font-family: "Arial", sans-serif;
+  text-align: center;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+}

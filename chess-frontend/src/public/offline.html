@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./chessboard-1.0.0.min.css" />
+    <title>Chess Bot</title>
+  </head>
+
+  <body>
+    <div class="container">
+        <div class="info">
+            <div class="difficulty-level">
+              Difficulty Level:
+              <select id="search-depth">
+                <option value="1">Easy</option>
+                <option value="2">Medium</option>
+                <option value="3" selected>Hard</option>
+              </select>
+            </div>
+            <div class="difficulty-level">
+              Piece Theme:
+              <select id="piece-theme">
+                <option value="alpha_piece_theme">Alpha</option>
+                <option value="chess24_piece_theme">Chess24</option>
+                <option value="dilena_piece_theme">Dilena</option>
+                <option value="leipzig_piece_theme">Leipzig</option>
+                <option value="metro_piece_theme" selected>Metro</option>
+                <option value="symbol_piece_theme">Symbol</option>
+                <option value="uscf_piece_theme">USCF</option>
+                <option value="wikipedia_piece_theme">Wikipedia</option>
+              </select>
+            </div>
+            <div class="difficulty-level">
+              Board Theme:
+              <select id="board-theme">
+                <option value="chess24_board_theme" selected>Chess24</option>
+                <option value="dilena_board_theme">Dilena</option>
+                <option value="leipzig_board_theme">Leipzig</option>
+                <option value="metro_board_theme">Metro</option>
+                <option value="symbol_board_theme" >Symbol</option>
+                <option value="uscf_board_theme">USCF</option>
+                <option value="wikipedia_board_theme">Wikipedia</option>
+              </select>
+            </div>
+            <span>Positions evaluated: <span id="position-count"></span></span>
+  
+            <span>Time: <span id="time"></span></span>
+  
+            <span>Positions/s: <span id="positions-per-s"></span> </span>
+          </div>
+          <div class="board-history">
+         
+      <div class="status">
+        <div id="status"></div>
+        <div id="turn-status"></div>
+        
+
+      </div>
+      <div class="board-and-history">
+      <div id="board" class="board"></div>
+       <div id="capturedPieces"  class="captured-piece-container">
+        <h3>Captured Pieces:</h3>
+        <div class="captured-piece-container__actual-captured-piece"> <div id="captured-list-for-black" class="captured-list-for-black"> </div>
+        <div id="captured-list-for-white" class="captured-list-for-white"></div></div>
+       
+      </div>
+      
+
+      <div class="info-and-history">
+       
+        <div>
+
+        </div>
+          <div id="move-history" class="move-history">
+            <div class="player-moves-container">
+              <div class="moves-header">Players Move</div>
+              <div class="actual-move-player"></div>
+              <!-- Players move content will be dynamically populated here -->
+            </div>
+
+            <div class="computer-moves-container">
+              <div class="moves-header">Computers Move</div>
+              <div class="actual-move-computer"></div>
+              <!-- Computer's move content will be dynamically populated here -->
+            </div>
+            
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="src/public/chessboard-1.0.0.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+    <script src="src/public/chessboardjs-themes.js"></script>
+    <script src="src/public/script.js">
+    </script>
+  </body>
+</html>

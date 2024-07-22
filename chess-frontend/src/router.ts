@@ -2,14 +2,15 @@ import { HomePage } from "./eventListeners/home";
 import { LoginPage } from "./eventListeners/login";
 import { SignupPage } from "./eventListeners/signup";
 import { WelcomePage } from "./eventListeners/welcome";
-import { Auth } from "./auth";
-import { loadCSS } from "./utils/cssLoader"; // Import the CSS loader
+import { OfflinePage } from "./eventListeners/offline";
+import { loadCSS } from "./utils/cssLoader"; 
 
 const routes: { [key: string]: any } = {
   "#/home": { component: HomePage, css: "home" },
   "#/login": { component: LoginPage, css: "login" },
   "#/signup": { component: SignupPage, css: "signup" },
   "#/welcome": { component: WelcomePage, css: "welcome" },
+  "#/offline": { component: OfflinePage,css: "offline"},
 };
 
 export class Router {
@@ -49,27 +50,17 @@ export class Router {
     <img id="user-greeting-information__user-image" class="user-greeting-information__user-image" src="path/to/user-image.jpg" alt="User Image">
     <span id="user-greeting-information__greeting-message" class="user-greeting-information__greeting-message">Hello, User! Welcome back.</span>
   </div>
-    <div class="dropdown main-content__header">
-        <span class="dropdown-title">Manage your account</span>
-        <button class="dropdown-toggle">▼</button>
-        <div class="dropdown-menu">
-            <a href="#" id="edit-profile">Edit Profile</a>
-            <a href="#" id="logout">Logout</a>
-        </div>
-    </div>
-
-</div>
             `;
     }
+    else if (hash === "#/offline") {
+      headerContent = `
+           <button id="pause-button" class="pause-button">Pause</button>
+            `;
+    }
+   
 
     header.innerHTML = headerContent;
-    if (hash === "#/welcome") {
-      document.getElementById("logout")!.addEventListener("click", () => {
-        Auth.logout();
-        window.location.hash = "#/home";
-        Router.loadContent();
-      });
-    }
+   
   }
 
   static handleRouteChange() {

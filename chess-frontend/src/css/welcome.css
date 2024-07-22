@@ -259,8 +259,11 @@ header {
 
 .dropdown {
   position: relative;
-  display: inline-block;
   margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Dropdown toggle button */
@@ -285,7 +288,6 @@ header {
   z-index: 1;
 }
 
-/* Dropdown menu items */
 .dropdown-menu a {
   display: block;
   padding: 10px;
@@ -301,4 +303,10 @@ header {
 .dropdown-title {
   color: #007bff;
   font-family: "Arial", sans-serif;
+  text-align: center;
+}
+
+nav {
+  display: flex;
+  align-items: center;
 }/*# sourceMappingURL=welcome.css.map */

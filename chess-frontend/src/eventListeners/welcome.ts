@@ -16,8 +16,9 @@ export class WelcomePage {
 
   static initEventListeners() {
     sessionChangeListeners();
-    this.fetchUserDetails();
     this.dropDownToggle();
+    this.fetchUserDetails();
+    this.setupPlayOfflineEventListener();
   }
 
   static async fetchUserDetails() {
@@ -65,8 +66,12 @@ export class WelcomePage {
     const dropdownToggles = document.querySelectorAll(".dropdown-toggle");
     const dropdownMenus = document.querySelectorAll(".dropdown-menu");
 
+    console.log("Dropdown toggles:", dropdownToggles);
+    console.log("Dropdown menus:", dropdownMenus);
+
     dropdownToggles.forEach((toggle, index) => {
       toggle.addEventListener("click", (e) => {
+        console.log("Hello");
         e.stopPropagation();
         const menu = dropdownMenus[index] as HTMLElement;
         menu.style.display = menu.style.display === "block" ? "none" : "block";
@@ -78,6 +83,34 @@ export class WelcomePage {
         const menuElement = menu as HTMLElement;
         menuElement.style.display = "none";
       });
+    });
+  }
+  static setupPlayOfflineEventListener() {
+    document.getElementById("play-offline")!.addEventListener("click", async (e) => {
+      e.preventDefault();
+      const token = Auth.getAccessToken();
+
+      try {
+        const response = await fetch("http://localhost:3000/offline", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (response.ok) {
+          window.location.hash = "#/offline";
+          Router.loadContent();
+        } else {
+          window.location.hash = "#/login";
+          Router.loadContent();
+        }
+      } catch (error) {
+        console.error("Failed to verify token:", error);
+        window.location.hash = "#/login";
+        Router.loadContent();
+      }
     });
   }
 }
