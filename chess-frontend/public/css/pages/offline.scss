@@ -126,6 +126,8 @@ left: 2px;
 
 #modalButtons {
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 #modalButtons button {
