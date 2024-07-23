@@ -1,12 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Document</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./chessboard-1.0.0.min.css" />
+        <title>Chess Bot</title>
 </head>
 <body>
+   
 
+    <main>
+        <section class="chess-container">
+
+            <div id="board" class="board"></div>
+            <div class="info">
+                <label for="search-depth">Search depth:</label>
+                <select id="search-depth">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3" selected>3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <p>Positions evaluated: <span id="position-count"></span></p>
+                <p>Time: <span id="time"></span></p>
+                <p>Positions/s: <span id="positions-per-s"></span></p>
+            </div>
+           
+        </section>
+    </main>
+
+    <!-- Modal Structure -->
+    <div id="tableModal" class="modal">
+        <div class="modal-content">
+            <p id="modalMessage"></p>
+            <table id="move-history-table" class="modal-table">
+                <thead>
+                    <tr>
+                        <th>Player's Move</th>
+                        <th>Computer's Move</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+          
+            <button class="modal-close" id="openModalButton">Close</button>
+        </div>
+    </div>
+
+    <div id="modal" style="display:none;" class="modal">
+        <p id="modalMessage" class="modal-message"></p>
+        <div id="modalButtons"></div>
+    </div>
+   
+    
 </body>
 </html>

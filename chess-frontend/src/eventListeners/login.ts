@@ -4,7 +4,6 @@ import { ModalManager } from "../utils/modal";
 export class LoginPage {
   static async load(): Promise<string> {
     const response = await fetch("src/views/login.html");
-
     return response.text();
   }
 

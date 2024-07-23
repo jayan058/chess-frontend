@@ -10,7 +10,7 @@ const routes: { [key: string]: any } = {
   "#/login": { component: LoginPage, css: "login" },
   "#/signup": { component: SignupPage, css: "signup" },
   "#/welcome": { component: WelcomePage, css: "welcome" },
-  "#/offline": { component: OfflinePage,css: "offline"},
+  "#/offline": { component: OfflinePage, css: "offline"},
 };
 
 export class Router {
@@ -21,9 +21,11 @@ export class Router {
       this.loadHeader(hash);
       const content = await route.component.load();
       document.getElementById("main-content")!.innerHTML = content;
-      route.component.initEventListeners();
+      await loadCSS(route.css);    
 
-      loadCSS(route.css);
+      route.component.initEventListeners()
+       
+
     }
   }
 
@@ -54,7 +56,10 @@ export class Router {
     }
     else if (hash === "#/offline") {
       headerContent = `
-           <button id="pause-button" class="pause-button">Pause</button>
+             <button id="pauseBtn"><i class="fas fa-pause"></i> Pause</button>
+          <button id="restartBtn"><i class="fas fa-redo"></i> Restart</button>
+          <button id="abortBtn"><i class="fas fa-times"></i> Abort</button>
+          <button id="openModalButton">Show The Game Moves</button>
             `;
     }
    
@@ -69,6 +74,7 @@ export class Router {
 
   static init() {
     window.addEventListener("popstate", () => this.handleRouteChange());
-    this.handleRouteChange();
+      this.handleRouteChange();
+      window.addEventListener("beforeunload", () => {this.handleRouteChange()} ) 
   }
 }
