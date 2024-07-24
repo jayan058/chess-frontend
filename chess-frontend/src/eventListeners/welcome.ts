@@ -2,6 +2,7 @@
 import { Auth } from "../auth";
 import { Router } from "../router";
 import { sessionChangeListeners } from "../utils/sessionChangeListener";
+import { ChessAlertModal } from "../modals/chessAlertModal";
 
 export class WelcomePage {
   static async load(): Promise<string> {
@@ -19,6 +20,7 @@ export class WelcomePage {
     this.dropDownToggle();
     this.fetchUserDetails();
     this.setupPlayOfflineEventListener();
+    this.setupPlayOnlineEventListener();
   }
 
   static async fetchUserDetails() {
@@ -85,31 +87,46 @@ export class WelcomePage {
     });
   }
   static setupPlayOfflineEventListener() {
-    document.getElementById("play-offline")!.addEventListener("click", async (e) => {
-      e.preventDefault();
-      const token = Auth.getAccessToken();
+    document
+      .getElementById("play-offline")!
+      .addEventListener("click", async (e) => {
+        e.preventDefault();
+        const token = Auth.getAccessToken();
 
-      try {
-        const response = await fetch("http://localhost:3000/offline", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
+        try {
+          const response = await fetch("http://localhost:3000/offline", {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          });
 
-        if (response.ok) {   
-           
-          window.location.hash = "#/offline";
-      
-          
-        } else {
+          if (response.ok) {
+            window.location.hash = "#/offline";
+          } else {
+            window.location.hash = "#/login";
+          }
+        } catch (error) {
+          console.error("Failed to verify token:", error);
           window.location.hash = "#/login";
         }
-      } catch (error) {
-        console.error("Failed to verify token:", error);
-        window.location.hash = "#/login";
-      }
+      });
+  }
+
+  static setupPlayOnlineEventListener() {
+    document.getElementById("play-online")?.addEventListener("click", () => {
+      const modal = new ChessAlertModal();
+
+      modal.show("", [
+        { text: "Create A New Room", onClick: () => console.log("Hello") },
+        { text: "Join A Room", onClick: () => console.log("Hello") },
+        { text: "Watch Live Game", onClick: () => console.log("Hello") },
+        {
+          text: "Play With A Random Stranger",
+          onClick: () => console.log("Hello"),
+        },
+      ]);
     });
   }
 }

@@ -195,6 +195,7 @@ body {
 
 .main-content__header h1 {
   margin: 0;
+  color: #007bff;
 }
 
 .main-content__header button {
@@ -268,7 +269,6 @@ header {
 
 .dropdown-toggle {
   background: none;
-  border: none;
   cursor: pointer;
   font-size: 18px;
 }
@@ -289,7 +289,6 @@ header {
 .dropdown-menu a {
   display: block;
   padding: 10px;
-  color: #333;
   text-decoration: none;
   font-family: "Arial", sans-serif;
 }
@@ -302,9 +301,33 @@ header {
   color: #007bff;
   font-family: "Arial", sans-serif;
   text-align: center;
+  font-size: 18px;
 }
 
 nav {
   display: flex;
   align-items: center;
+}
+
+.dropdown-menu__online-dropdown-contanior {
+  display: flex;
+  width: 100%;
+}
+
+.modal-content {
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-buttons__indivisual-buttons {
+  width: 100%;
 }/*# sourceMappingURL=welcome.css.map */

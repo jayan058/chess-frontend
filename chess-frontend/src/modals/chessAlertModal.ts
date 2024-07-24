@@ -9,7 +9,7 @@ export class ChessAlertModal {
         this.modalElement.innerHTML = `
             <div class="modal-content">
                 <p id="modalMessage"></p>
-                <div id="modalButtons"></div>
+                <div id="modalButtons" class="modal-buttons"></div>
             </div>
         `;
         document.body.appendChild(this.modalElement);
@@ -22,6 +22,7 @@ export class ChessAlertModal {
         this.buttonsElement.innerHTML = '';
         buttons.forEach(button => {
             const buttonElement = document.createElement('button');
+            buttonElement.classList.add('modal-buttons__indivisual-buttons')
             buttonElement.innerText = button.text;
             buttonElement.onclick = button.onClick;
             this.buttonsElement.appendChild(buttonElement);
@@ -32,4 +33,6 @@ export class ChessAlertModal {
     hide() {
         this.modalElement.style.display = 'none';
     }
+    
+    
 }

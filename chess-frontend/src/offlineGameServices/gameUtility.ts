@@ -12,5 +12,4 @@ export const evaluateBoard = (board: any) => {
     return totalEvaluation;
 };
 
-// Additional functions like minimax, minimaxRoot, getPieceValue, and evaluation arrays
-// can be added here or in separate files if necessary.
+
