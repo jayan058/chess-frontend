@@ -1,8 +1,8 @@
 import { Auth } from "../auth";
 import { Router } from "../router";
-import { TableModal } from "../utils/tableModal";
-import { ChessAlertModal } from "../utils/chessAlertModal";
-import { minimaxRoot } from "../utils/gameLogic";
+import { TableModal } from "../modals/tableModal";
+import { ChessAlertModal } from "../modals/chessAlertModal";
+import { minimaxRoot } from "../offlineGameServices/gameLogic";
 import { updateStatus } from "../offlineGameServices/updateStatus";
 import { initializeGameControls } from "../offlineGameServices/gameControls";
 

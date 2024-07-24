@@ -1,5 +1,5 @@
 // utils.ts
-import { getPieceValue } from "./gameLogic";
+import { getPieceValue } from "../offlineGameServices/gameLogic";
 export const reverseArray = (array: number[][]) => array.slice().reverse();
 
 export const evaluateBoard = (board: any) => {

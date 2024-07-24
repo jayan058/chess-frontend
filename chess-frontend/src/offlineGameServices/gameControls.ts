@@ -1,4 +1,4 @@
-import { ChessAlertModal } from "../utils/chessAlertModal";
+import { ChessAlertModal } from "../modals/chessAlertModal";
 import { updateStatus } from "./updateStatus";
 export function initializeGameControls(game: any, board: any) {
   // Initialize the modal
