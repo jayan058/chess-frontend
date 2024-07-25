@@ -4,13 +4,9 @@ import { Router } from "../router";
 import { ModalManager } from "../utils/modal";
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:3000', {
-  transports: ['websocket'], // Optional: Use WebSocket transport
-  withCredentials: true,     // Ensure credentials are sent if needed
-  auth: {
-    token: Auth.getAccessToken() // Send the token in the auth object
-  }
-});
+import socketInstance from '../utils/socket';
+
+const socket = socketInstance.getSocket();
 
 export class JoinGame{
   static async load(): Promise<string> {
