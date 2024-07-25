@@ -119,11 +119,21 @@ export class WelcomePage {
       const modal = new ChessAlertModal();
 
       modal.show("", [
-        { text: "Create A New Room", onClick: () => console.log("Hello") },
-        { text: "Join A Room", onClick: () => console.log("Hello") },
-        { text: "Watch Live Game", onClick: () => console.log("Hello") },
+        { text: "Create A New Room", onClick: () => {
+          window.location.hash='#/create-game'
+          modal.hide()
+        } },
+        { text: "Join A Game", onClick: () => {
+          window.location.hash='#/join-game'
+          modal.hide()
+        } },
+        { text: "Watch Live Games", onClick: () => console.log("Hello") },
         {
           text: "Play With A Random Stranger",
+          onClick: () => console.log("Hello"),
+        },
+        {
+          text: "Invite A Friend To A Game",
           onClick: () => console.log("Hello"),
         },
       ]);

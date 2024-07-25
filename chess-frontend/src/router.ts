@@ -4,6 +4,9 @@ import { SignupPage } from "./eventListeners/signup";
 import { WelcomePage } from "./eventListeners/welcome";
 import { OfflinePage } from "./eventListeners/offline";
 import { loadCSS } from "./utils/cssLoader"; 
+import { CreateGamePage } from "./onlineGameServices/createGame";
+import { WaitingForOpponent } from "./onlineGameServices/waitingForOpponent";
+import { JoinGame } from "./onlineGameServices/joinGame";
 
 const routes: { [key: string]: any } = {
   "#/home": { component: HomePage, css: "home" },
@@ -11,6 +14,9 @@ const routes: { [key: string]: any } = {
   "#/signup": { component: SignupPage, css: "signup" },
   "#/welcome": { component: WelcomePage, css: "welcome" },
   "#/offline": { component: OfflinePage, css: "offline"},
+  "#/create-game": { component: CreateGamePage, css: "createRoom"},
+  "#/waiting-for-opponent": { component: WaitingForOpponent, css: "waitingForOpponent"},
+  "#/join-game": { component: JoinGame, css: "joinRoom"},
 };
 
 export class Router {
