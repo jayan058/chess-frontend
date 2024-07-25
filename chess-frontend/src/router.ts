@@ -7,6 +7,7 @@ import { loadCSS } from "./utils/cssLoader";
 import { CreateGamePage } from "./onlineGameServices/createGame";
 import { WaitingForOpponent } from "./onlineGameServices/waitingForOpponent";
 import { JoinGame } from "./onlineGameServices/joinGame";
+import { Online } from "./onlineGameServices/online";
 
 const routes: { [key: string]: any } = {
   "#/home": { component: HomePage, css: "home" },
@@ -17,6 +18,7 @@ const routes: { [key: string]: any } = {
   "#/create-game": { component: CreateGamePage, css: "createRoom"},
   "#/waiting-for-opponent": { component: WaitingForOpponent, css: "waitingForOpponent"},
   "#/join-game": { component: JoinGame, css: "joinRoom"},
+  "#/online": { component: Online, css: "online"},
 };
 
 export class Router {

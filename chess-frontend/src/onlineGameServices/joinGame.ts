@@ -24,6 +24,8 @@ export class JoinGame{
   }
 
   static initEventListeners() {
+ 
+
     const createRoomForm = document.getElementById('join-room-form') as HTMLFormElement;
     createRoomForm.addEventListener('submit', (event) => {
       event.preventDefault();
@@ -34,14 +36,20 @@ export class JoinGame{
       socket.on('joinRoomError', (response) => {
         const modal = new ModalManager("myModal", "modalMessage", "close");
         modal.show(response.message, "error");
-      });
-      socket.on('opponentConnected', () => {
-        //Create Modal do display who is playing who like in the professional games
+      });  
+      const modal = new ModalManager("myModal", "modalMessage", "close");
+      socket.on('opponentConnected', (data) => {
+        
+      
+        modal.show("Opponent Connected Redirecting to Game!!!", "success");
+
       });
       socket.on('redirectToGame', () => {
-        window.location.href = '#/game'; // Redirect both users to the game page
+        modal.close()
+        window.location.href = '#/online'; // Redirect both users to the game page
       });
         
     });
   }
 }
+

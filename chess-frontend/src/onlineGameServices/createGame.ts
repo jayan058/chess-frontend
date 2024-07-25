@@ -3,7 +3,7 @@ import { Auth } from "../auth";
 import { Router } from "../router";
 import { ModalManager } from "../utils/modal";
 import io from 'socket.io-client';
-
+import { OpponentConnectModal } from "../modals/opponentConnect";
 const socket = io('http://localhost:3000', {
   transports: ['websocket'], // Optional: Use WebSocket transport
   withCredentials: true,     // Ensure credentials are sent if needed
@@ -32,17 +32,26 @@ export class CreateGamePage {
     
         socket.emit('createRoom', { roomName });
         socket.on('roomCreated', () => {
-          const modal = new ModalManager("myModal", "modalMessage", "close");
-
-          modal.show("Room Created Successfully", "success");
-          window.location.href = '#/waiting-for-opponent'; // Redirect to waiting page
+          const modal = new ModalManager("myModal", "modalMessage", "close")
+          modal.show("Room Created Successfully Waiting For Opponent", "success");
+         
         });
         socket.on('roomExists', () => {
           const modal = new ModalManager("myModal", "modalMessage", "close");
 
           modal.show("Room Exists", "error");
           window.location.href = '#/create-game'; // Redirect to waiting page
+        }); 
+        const modal = new ModalManager("myModal", "modalMessage", "close");
+        socket.on('opponentConnected', (data) => {
+         
+        modal.show("Opponent Connected Redirecting to Game!!!", "success");
+    });
+        socket.on('redirectToGame', () => {
+         modal.close()
+          window.location.href = '#/online'; // Redirect both users to the game page
         });
+          
      
         
     });
