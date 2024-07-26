@@ -5,7 +5,6 @@ import { WelcomePage } from "./eventListeners/welcome";
 import { OfflinePage } from "./eventListeners/offline";
 import { loadCSS } from "./utils/cssLoader"; 
 import { CreateGamePage } from "./onlineGameServices/createGame";
-import { WaitingForOpponent } from "./onlineGameServices/waitingForOpponent";
 import { JoinGame } from "./onlineGameServices/joinGame";
 import { Online } from "./onlineGameServices/online";
 
@@ -16,7 +15,6 @@ const routes: { [key: string]: any } = {
   "#/welcome": { component: WelcomePage, css: "welcome" },
   "#/offline": { component: OfflinePage, css: "offline"},
   "#/create-game": { component: CreateGamePage, css: "createRoom"},
-  "#/waiting-for-opponent": { component: WaitingForOpponent, css: "waitingForOpponent"},
   "#/join-game": { component: JoinGame, css: "joinRoom"},
   "#/online": { component: Online, css: "online"},
 };

@@ -1,12 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Chess Game</title>
 </head>
 <body>
-    This is online Game Page
-    <div id="board" class="board"></div>
+    <div id="game-info"></div>
+  
+    <div class="timers">
+        <div class="timer">
+            <span>White Timer:</span>
+            <span id="white-timer">10:00</span>
+        </div>
+        <div class="timer">
+            <span>Black Timer:</span>
+            <span id="black-timer">10:00</span>
+        </div>
+    </div>
+  <!-- <div id="turn-indicator"></div> -->
+  <div id="board" style="width: 400px"></div>
 </body>
 </html>

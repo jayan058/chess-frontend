@@ -2,7 +2,7 @@ import { io, Socket } from 'socket.io-client';
 import { Auth } from '../auth';
 
 class SocketSingleton {
-    private static instance: SocketSingleton;
+    private static instance: SocketSingleton | null = null;
     public socket: Socket;
 
     private constructor() {
@@ -13,10 +13,13 @@ class SocketSingleton {
                 token: Auth.getAccessToken()
             }
         });
+        
+        console.log(this.socket.auth);
 
         // Handle reconnection
         this.socket.on('reconnect_attempt', () => {
-            (this.socket.auth as any).token = Auth.getAccessToken();
+            console.log('Reconnection attempt detected. Updating socket auth token...');
+            this.updateAuthToken();
         });
     }
 
@@ -28,8 +31,31 @@ class SocketSingleton {
         return SocketSingleton.instance;
     }
 
+    public static destroyInstance() {
+        if (SocketSingleton.instance) {
+            SocketSingleton.instance.socket.disconnect();
+            SocketSingleton.instance.socket.off(); // Remove all listeners
+            SocketSingleton.instance = null;
+        }
+    }
+
     public getSocket(): Socket {
         return this.socket;
+    }
+
+    public disconnect() {
+        this.socket.disconnect();
+    }
+
+    public reconnect() {
+        this.updateAuthToken();
+        this.socket.connect();
+    }
+
+    private updateAuthToken() {
+        this.socket.auth = {
+            token: Auth.getAccessToken()
+        };
     }
 }
 
