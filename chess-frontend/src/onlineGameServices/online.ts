@@ -3,6 +3,7 @@ import { Chess } from "chess.js";
 import { Game } from "./updatePlayersinfo";
 import socketInstance from "../utils/socket";
 import { Auth } from "../auth";
+import { ModalManager } from "../utils/modal";
 const socket = socketInstance.getSocket();
 
 interface Player {
@@ -11,16 +12,16 @@ interface Player {
   profilePicture: string;
   roomId: number;
   userId: number;
-  color: string; // Add color property
+  color: string;
 }
 
 export class Online {
   private static game: Chess;
   private static board: any;
-  private static currentTurn: string = "w"; // Default turn to white
+  private static currentTurn: string = "w";
   private static whitePlayer: Player;
   private static blackPlayer: Player;
-  private static myColor: string; // Add this to track the current player's color
+  private static myColor: string;
 
   static async load(): Promise<string> {
     const response = await fetch("src/views/online.html");
@@ -56,7 +57,7 @@ export class Online {
     console.log(Auth.getAccessToken());
 
     this.game = new Chess();
-    
+
     // Clear previous event handlers if any
     socket.off("gameStarted");
     socket.off("turn");
@@ -81,6 +82,9 @@ export class Online {
       console.log("Recieved");
 
       setTimeout(() => {
+        if (data.myColor == "black") {
+          this.board.flip();
+        }
         const game = new Game("game-info");
         game.updatePlayerInfo(data);
       }, 3000); // 5000 milliseconds = 5 seconds
@@ -97,6 +101,15 @@ export class Online {
         }
       }
     );
+    socket.on("game-over", (data) => {
+      const modal = new ModalManager("myModal", "modalMessage", "close");
+      modal.show(data, "success");
+
+      setTimeout(() => {
+        modal.close();
+        window.location.hash = "#/welcome";
+      }, 5000);
+    });
 
     socket.on("move", (move) => {
       console.log("Move received from server:", move);
@@ -112,10 +125,34 @@ export class Online {
         console.warn("Invalid move received from server:", move);
       }
     });
-    
+    socket.on("timeOut", (message) => {
+      const modal = new ModalManager("myModal", "modalMessage", "close");
+      modal.show(message, "error");
+
+      let timeout = setTimeout(() => {
+        modal.close();
+        window.location.hash = "#/welcome";
+        clearTimeout(timeout);
+      }, 8000);
+    });
+
+    socket.on("gameOverByMoves", (message) => {
+      const modal = new ModalManager("myModal", "modalMessage", "close");
+      modal.show(message.reason, "error");
+      console.log(message);
+
+      let timeout = setTimeout(() => {
+        modal.close();
+        window.location.hash = "#/welcome";
+        clearTimeout(timeout);
+      }, 8000);
+    });
+
+    socket.on("checkMate", (message) => {
+      const modal = new ModalManager("myModal", "modalMessage", "close");
+      modal.show(message.reason, "success");
+    });
   }
-
-
 
   private static handleMove(source: string, target: string) {
     console.log("Handling move:", { source, target });
@@ -127,7 +164,7 @@ export class Online {
       if (result) {
         console.log("New FEN after move:", this.game.fen());
         this.updateBoard();
-
+        this.checkGameStatus();
         const playerId = this.getCurrentPlayerId();
         this.sendMove(move, playerId, this.myColor); // Emit the move to the server
         this.switchTurn();
@@ -150,6 +187,34 @@ export class Online {
       }${seconds}`;
     }
   }
+  private static checkGameStatus() {
+    let result = "";
+
+    if (this.game.isCheckmate()) {
+      console.log("Checkmate detected");
+      const winner = this.getCurrentTurnColor() === "w" ? "Black" : "White";
+      result = `${winner} is in checkmate! ${this.getCurrentTurnColor()} wins the Game`;
+      // Emit checkmate event and handle end of game
+      this.handleGameOver(result);
+    } else if (this.game.isStalemate()) {
+      result = "Stalemate! Game is a draw.";
+      this.handleGameOver(result);
+    } else if (this.game.isThreefoldRepetition()) {
+      result = "Threefold repetition! Game is a draw.";
+      this.handleGameOver(result);
+    } else if (this.game.isDraw()) {
+      result = "Game is a draw.";
+      this.handleGameOver(result);
+    } else if (this.game.inCheck()) {
+      console.log("Check detected");
+      const checkMessage = `${this.getCurrentTurnColor()} is in check!`;
+      socket.emit("check", { reason: checkMessage });
+      // Optionally show check message to the players
+      const modal = new ModalManager("myModal", "modalMessage", "close");
+      modal.show(checkMessage, "error");
+      setTimeout(() => modal.close(), 3000);
+    }
+  }
 
   // Event listeners for timers
 
@@ -161,6 +226,10 @@ export class Online {
 
   private static onSnapEnd() {
     this.updateBoard();
+  }
+  private static handleGameOver(message: string) {
+    // Emit game-over event to server
+    socket.emit("gameOver", { reason: message });
   }
 
   private static renderBoard() {
@@ -207,12 +276,6 @@ export class Online {
     this.updateTurnIndicator(this.currentTurn);
     socket.emit("turn", this.currentTurn); // Notify the server of the turn change
   }
-
-  
 }
 
-
-Online.initEventListeners()
-
-
-
+Online.initEventListeners();

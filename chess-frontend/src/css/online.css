@@ -3,16 +3,6 @@
   margin: auto;
 }
 
-.info {
-  width: 400px;
-  margin: auto;
-}
-
-.move-history {
-  max-height: 100px;
-  overflow-y: scroll;
-}
-
 /*!
 * chessboard.js $version$
 *
@@ -77,4 +67,26 @@
 .numeric-fc462 {
   top: 2px;
   left: 2px;
+}
+
+.player-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.player {
+  text-align: center;
+}
+
+.timers {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }/*# sourceMappingURL=online.css.map */

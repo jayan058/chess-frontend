@@ -2,7 +2,6 @@
 import { Auth } from "../auth";
 import { Router } from "../router";
 import { ModalManager } from "../utils/modal";
-import io from 'socket.io-client';
 
 import socketInstance from '../utils/socket';
 
@@ -34,7 +33,7 @@ export class JoinGame{
         modal.show(response.message, "error");
       });  
       const modal = new ModalManager("myModal", "modalMessage", "close");
-      socket.on('opponentConnected', (data) => {
+      socket.on('opponentConnected', () => {
         
       
         modal.show("Opponent Connected Redirecting to Game!!!", "success");
