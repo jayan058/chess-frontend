@@ -151,6 +151,7 @@ export class Online {
     socket.on("checkMate", (message) => {
       const modal = new ModalManager("myModal", "modalMessage", "close");
       modal.show(message.reason, "success");
+      // setTimeout(() => modal.close(), 3000);
     });
   }
 
@@ -207,12 +208,7 @@ export class Online {
       this.handleGameOver(result);
     } else if (this.game.inCheck()) {
       console.log("Check detected");
-      const checkMessage = `${this.getCurrentTurnColor()} is in check!`;
-      socket.emit("check", { reason: checkMessage });
-      // Optionally show check message to the players
-      const modal = new ModalManager("myModal", "modalMessage", "close");
-      modal.show(checkMessage, "error");
-      setTimeout(() => modal.close(), 3000);
+      socket.emit("check", { reason: `Check` });
     }
   }
 
