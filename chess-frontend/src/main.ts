@@ -11,24 +11,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Define routes where socket should be disconnected
         const disconnectRoutes = [
-            '#/create-game',
-            '#/join-game',
             '#/welcome',
             '#/login',
-            '#/signup',
             '#/home'
         ];
 
+        // Define routes where socket should be reconnected
+        const reconnectRoutes = [
+            '#/create-game',
+            '#/join-game'
+        ];
+
+        // Check if socket should be disconnected on new hash
         if (disconnectRoutes.includes(newHash)) {
-            // Disconnect socket when navigating to any of the defined routes
             socketInstance.disconnect();
         }
 
         // Load the new content
         Router.loadContent();
 
-        if (disconnectRoutes.includes(newHash)) {
-            // Reconnect the socket after reaching any of the defined routes
+        // Logic to disconnect and reconnect the socket based on old and new hash
+        const shouldReconnect = (oldHash === '#/online' || oldHash === '#/welcome') && reconnectRoutes.includes(newHash);
+        
+        if (shouldReconnect) {
+            socketInstance.disconnect();
+            setTimeout(() => {
+                socketInstance.reconnect();
+            }, 100); // Adjust the timeout duration as needed
+        } else if (reconnectRoutes.includes(newHash) && !shouldReconnect) {
             setTimeout(() => {
                 socketInstance.reconnect();
             }, 100); // Adjust the timeout duration as needed

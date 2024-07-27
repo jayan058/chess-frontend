@@ -1,10 +1,9 @@
 import { Chess } from "chess.js";
 
 import { Game } from "./updatePlayersinfo";
-import socketInstance from '../utils/socket';
+import socketInstance from "../utils/socket";
 import { Auth } from "../auth";
 const socket = socketInstance.getSocket();
-
 
 interface Player {
   socketId: string;
@@ -22,7 +21,6 @@ export class Online {
   private static whitePlayer: Player;
   private static blackPlayer: Player;
   private static myColor: string; // Add this to track the current player's color
- 
 
   static async load(): Promise<string> {
     const response = await fetch("src/views/online.html");
@@ -30,6 +28,15 @@ export class Online {
   }
 
   static async init(players: Player[]): Promise<void> {
+    this.initEventListeners();
+    setTimeout(() => {
+      this.board = ChessBoard("board", {
+        draggable: true,
+        position: "start",
+        onDrop: this.handleMove.bind(this),
+        onSnapEnd: this.onSnapEnd.bind(this),
+      });
+    }, 3000);
     // Assuming players[0] is white and players[1] is black
     this.whitePlayer = players[0];
     this.blackPlayer = players[1];
@@ -42,22 +49,14 @@ export class Online {
     console.log(`My color is: ${this.myColor}`);
 
     this.currentTurn = "w"; // White starts first
-    this.initEventListeners();
     this.updateTurnIndicator(this.currentTurn);
   }
 
   static initEventListeners() {
-   console.log(Auth.getAccessToken());
-   
+    console.log(Auth.getAccessToken());
+
     this.game = new Chess();
-    setTimeout(() => {
-      this.board = ChessBoard("board", {
-        draggable: true,
-        position: "start",
-        onDrop: this.handleMove.bind(this),
-        onSnapEnd: this.onSnapEnd.bind(this),
-      });
-    }, 100);
+    
     // Clear previous event handlers if any
     socket.off("gameStarted");
     socket.off("turn");
@@ -66,9 +65,9 @@ export class Online {
     socket.off("playerInfo");
 
     // Set up event handlers
-    socket.on("gameStarted", (players) => {     
-        console.log("here");
-        
+    socket.on("gameStarted", (players) => {
+      console.log("here");
+
       this.init(players.participants); // Initialize with new players
     });
 
@@ -79,17 +78,12 @@ export class Online {
     });
 
     socket.on("playerInfo", (data) => {
-        console.log("Recieved");
-        
-        
-      
-        setTimeout(() => {
-               const game = new Game('game-info');
-                game.updatePlayerInfo(data);
-            
-        }, 1000); // 5000 milliseconds = 5 seconds
-     
-        
+      console.log("Recieved");
+
+      setTimeout(() => {
+        const game = new Game("game-info");
+        game.updatePlayerInfo(data);
+      }, 3000); // 5000 milliseconds = 5 seconds
     });
     socket.on(
       "timerUpdate",
@@ -118,7 +112,10 @@ export class Online {
         console.warn("Invalid move received from server:", move);
       }
     });
+    
   }
+
+
 
   private static handleMove(source: string, target: string) {
     console.log("Handling move:", { source, target });
@@ -210,4 +207,12 @@ export class Online {
     this.updateTurnIndicator(this.currentTurn);
     socket.emit("turn", this.currentTurn); // Notify the server of the turn change
   }
+
+  
 }
+
+
+Online.initEventListeners()
+
+
+

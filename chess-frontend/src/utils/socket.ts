@@ -14,7 +14,6 @@ class SocketSingleton {
             }
         });
         
-        console.log(this.socket.auth);
 
         // Handle reconnection
         this.socket.on('reconnect_attempt', () => {
