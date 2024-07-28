@@ -1,5 +1,7 @@
 // src/services/loadRooms.ts
-import { fetchActiveRooms } from './selectGame';
+import { fetchActiveRooms } from './selectGame'; 
+
+export const roomElement = document.createElement('button');
 export async function loadActiveRooms() {
   try {
     const rooms = await fetchActiveRooms();
@@ -12,14 +14,10 @@ export async function loadActiveRooms() {
 
 function renderRooms(rooms: { roomName: string }[]): void {
   const roomsContainer = document.getElementById('container');
-
   if (roomsContainer) {
-    
-
     rooms.forEach(room => {
-      const roomElement = document.createElement('button');
-      roomElement.className = 'active-rooms-list';
-      roomElement.textContent = `Room Name: ${room.roomName}`;
+       roomElement.className = 'active-rooms-list';
+      roomElement.textContent = `${room.roomName}`;
       roomsContainer.appendChild(roomElement);
     });
   }
