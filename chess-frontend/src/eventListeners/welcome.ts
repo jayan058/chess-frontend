@@ -127,15 +127,15 @@ export class WelcomePage {
           window.location.hash='#/join-game'
           modal.hide()
         } },
-        { text: "Watch Live Games", onClick: () => console.log("Hello") },
+        { text: "Watch A Game", onClick: () => {
+          window.location.hash='#/watch-game'
+          modal.hide()
+        } },
         {
           text: "Play With A Random Stranger",
           onClick: () => console.log("Hello"),
         },
-        {
-          text: "Invite A Friend To A Game",
-          onClick: () => console.log("Hello"),
-        },
+        
       ]);
     });
   }

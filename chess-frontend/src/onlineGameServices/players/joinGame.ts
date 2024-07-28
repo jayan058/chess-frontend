@@ -1,9 +1,9 @@
 // src/pages/createGame.ts
-import { Auth } from "../auth";
-import { Router } from "../router";
-import { ModalManager } from "../utils/modal";
+import { Auth } from "../../auth";
+import { Router } from "../../router";
+import { ModalManager } from "../../utils/modal";
 
-import socketInstance from '../utils/socket';
+import socketInstance from '../../utils/socket';
 
 const socket = socketInstance.getSocket();
 

@@ -1,9 +1,9 @@
 import { Chess } from "chess.js";
 
-import { Game } from "./updatePlayersinfo";
-import socketInstance from "../utils/socket";
-import { Auth } from "../auth";
-import { ModalManager } from "../utils/modal";
+import { Game } from "../updatePlayersinfo";
+import socketInstance from "../../utils/socket";
+import { Auth } from "../../auth";
+import { ModalManager } from "../../utils/modal";
 const socket = socketInstance.getSocket();
 
 interface Player {
