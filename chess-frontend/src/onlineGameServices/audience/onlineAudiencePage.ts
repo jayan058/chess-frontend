@@ -13,10 +13,15 @@ export class OnlineAudiencePage {
   }
 
   static initEventListeners() {
-    this.board = ChessBoard("board", {
-      draggable: false,
-      position: "start",
-    });
+    
+    setTimeout(() => {
+        this.board = ChessBoard("board", {
+          draggable: true,
+          position: "start",
+         
+        });
+      }, 0);
+      
     this.game = new Chess();
     socket.off("gameStarted");
     socket.off("turn");
@@ -101,6 +106,16 @@ export class OnlineAudiencePage {
       modal.show(message.reason, "success");
       // setTimeout(() => modal.close(), 3000);
     });
+    socket.on("latestFen", (latestFen) => {
+        console.log(latestFen);
+        console.log("Setting board positiom..........");
+        
+        this.board.position(latestFen)
+        this.game.load(latestFen);
+      
+      });
+
+
   }
 
   private static updateBoard() {
