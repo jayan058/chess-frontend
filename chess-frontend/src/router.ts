@@ -7,6 +7,7 @@ import { loadCSS } from "./utils/cssLoader";
 import { CreateGamePage } from "./onlineGameServices/players/createGame";
 import { JoinGame } from "./onlineGameServices/players/joinGame";
 import { Online } from "./onlineGameServices/players/online";
+import { WatchGame } from "./onlineGameServices/audience/watchGame";
 
 const routes: { [key: string]: any } = {
   "#/home": { component: HomePage, css: "home" },
@@ -17,7 +18,7 @@ const routes: { [key: string]: any } = {
   "#/create-game": { component: CreateGamePage, css: "createRoom"},
   "#/join-game": { component: JoinGame, css: "joinRoom"},
   "#/online": { component: Online, css: "online"},
-  "#/watch-game": { component: Online, css: "online"},
+  "#/watch-game": { component: WatchGame, css: "watchGame"},
 };
 
 export class Router {

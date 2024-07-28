@@ -1,0 +1,61 @@
+@import "../components/button";
+@import "../components/anchor";
+@import "../components/header";
+@import "../components/modal";
+@import "../components/body";
+@import "../components/footer";
+@import "../components/image";
+@import "../components/containor";
+
+.container__active-room-heading {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+}
+
+.active-rooms-list {
+    display: inline-block;
+    color: #555;
+    font-size: 18px;
+    font-weight: 400;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .rooms-container {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .heading {
+        font-size: 20px;
+    }
+
+    .active-rooms-list {
+        font-size: 16px;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 400px) {
+    .rooms-container {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .heading {
+        font-size: 18px;
+    }
+
+    .active-rooms-list {
+        font-size: 14px;
+        padding: 8px;
+    }
+}
