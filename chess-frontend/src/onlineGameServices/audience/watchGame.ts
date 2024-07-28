@@ -1,6 +1,4 @@
-// src/eventListeners/home.ts
 import { loadActiveRooms } from "./loadRooms";
-import { roomElement } from "./loadRooms";
 import socketInstance from "../../utils/socket";
 const socket = socketInstance.getSocket();
 
@@ -10,14 +8,10 @@ export class WatchGame {
     return response.text();
   }
 
-  static initEventListeners() {
-    loadActiveRooms();
-    roomElement.addEventListener("click", () => {
-      console.log(roomElement.innerText);
-     
-      // Emit the 'watchGame' event to the server
-      socket.emit("watchGame", roomElement.innerText);
-      window.location.hash="#/online-audience-page"
-    })
+  static initEventListeners() { 
+    console.log("Initializing event listeners");
+    
+    socket.off("watchGame"); // Clear previous 'watchGame' event
+    loadActiveRooms(); // Load and render rooms
   }
 }

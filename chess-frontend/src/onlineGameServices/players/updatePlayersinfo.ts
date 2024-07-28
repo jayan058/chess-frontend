@@ -1,4 +1,4 @@
-import { PlayerInfo } from "../interfaces/playersInfo";
+import { PlayerInfo } from "../../interfaces/playersInfo";
 export class Game {
     private container: HTMLElement;
   

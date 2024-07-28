@@ -1,6 +1,6 @@
 import { Chess } from "chess.js";
 
-import { Game } from "../updatePlayersinfo";
+import { Game } from "./updatePlayersinfo";
 import socketInstance from "../../utils/socket";
 import { Auth } from "../../auth";
 import { ModalManager } from "../../utils/modal";
@@ -237,7 +237,7 @@ export class Online {
     playerId: number,
     myColor: string
   ) {
-    socket.emit("move", move, playerId, myColor); // Send the move object to the server
+    socket.emit("move", move, playerId, myColor,this.game.fen()); // Send the move object to the server
   }
 
   private static getCurrentPlayerId(): number {
