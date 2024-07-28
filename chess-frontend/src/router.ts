@@ -3,22 +3,27 @@ import { LoginPage } from "./eventListeners/login";
 import { SignupPage } from "./eventListeners/signup";
 import { WelcomePage } from "./eventListeners/welcome";
 import { OfflinePage } from "./eventListeners/offline";
-import { loadCSS } from "./utils/cssLoader"; 
+import { loadCSS } from "./utils/cssLoader";
 import { CreateGamePage } from "./onlineGameServices/players/createGame";
 import { JoinGame } from "./onlineGameServices/players/joinGame";
 import { Online } from "./onlineGameServices/players/online";
 import { WatchGame } from "./onlineGameServices/audience/watchGame";
+import { OnlineAudiencePage } from "./onlineGameServices/audience/onlineAudiencePage";
 
 const routes: { [key: string]: any } = {
   "#/home": { component: HomePage, css: "home" },
   "#/login": { component: LoginPage, css: "login" },
   "#/signup": { component: SignupPage, css: "signup" },
   "#/welcome": { component: WelcomePage, css: "welcome" },
-  "#/offline": { component: OfflinePage, css: "offline"},
-  "#/create-game": { component: CreateGamePage, css: "createRoom"},
-  "#/join-game": { component: JoinGame, css: "joinRoom"},
-  "#/online": { component: Online, css: "online"},
-  "#/watch-game": { component: WatchGame, css: "watchGame"},
+  "#/offline": { component: OfflinePage, css: "offline" },
+  "#/create-game": { component: CreateGamePage, css: "createRoom" },
+  "#/join-game": { component: JoinGame, css: "joinRoom" },
+  "#/online": { component: Online, css: "online" },
+  "#/watch-game": { component: WatchGame, css: "watchGame" },
+  "#/online-audience-page": {
+    component: OnlineAudiencePage,
+    css: "onlineAudiencePage",
+  },
 };
 
 export class Router {
@@ -29,11 +34,9 @@ export class Router {
       this.loadHeader(hash);
       const content = await route.component.load();
       document.getElementById("main-content")!.innerHTML = content;
-      await loadCSS(route.css);    
+      await loadCSS(route.css);
 
-      route.component.initEventListeners()
-       
-
+      route.component.initEventListeners();
     }
   }
 
@@ -61,8 +64,7 @@ export class Router {
     <span id="user-greeting-information__greeting-message" class="user-greeting-information__greeting-message">Hello, User! Welcome back.</span>
   </div>
             `;
-    }
-    else if (hash === "#/offline") {
+    } else if (hash === "#/offline") {
       headerContent = `
              <button id="pauseBtn"><i class="fas fa-pause"></i> Pause</button>
           <button id="restartBtn"><i class="fas fa-redo"></i> Restart</button>
@@ -70,10 +72,8 @@ export class Router {
           <button id="openModalButton">Show The Game Moves</button>
             `;
     }
-   
 
     header.innerHTML = headerContent;
-   
   }
 
   static handleRouteChange() {
@@ -82,7 +82,9 @@ export class Router {
 
   static init() {
     window.addEventListener("popstate", () => this.handleRouteChange());
+    this.handleRouteChange();
+    window.addEventListener("beforeunload", () => {
       this.handleRouteChange();
-      window.addEventListener("beforeunload", () => {this.handleRouteChange()} ) 
+    });
   }
 }

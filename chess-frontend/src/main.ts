@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Logic to disconnect and reconnect the socket based on old and new hash
     const shouldReconnect =
-      (oldHash === "#/online" || oldHash === "#/welcome") &&
+      (oldHash === "#/online" || oldHash === "#/welcome" || oldHash=="#/online-audience-page") &&
       reconnectRoutes.includes(newHash);
 
     if (shouldReconnect) {
