@@ -1,8 +1,11 @@
 export interface PlayerInfo {
     myColor: string;
-    myId: number;
+    myName:string,
+    myPicture:string,
+    myRoom:number
     otherParticipants: Array<{
       color: string;
-      userId: number;
+      name: string;
+      picture:string
     }>;
   }

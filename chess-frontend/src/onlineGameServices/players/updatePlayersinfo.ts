@@ -26,9 +26,10 @@ export class Game {
       myInfoDiv.className = 'player';
       myInfoDiv.id = 'my-info';
       myInfoDiv.innerHTML = `
-        <h2>Your Info</h2>
-        <p id="my-color">Color: </p>
-        <p id="my-id">ID: </p>
+        <h2>You</h2>
+        <p id="my-name">Name: </p>
+        <p id="my-color">ID: </p>
+        <img id=my-picture src="" />
       `;
       playerInfoContainer.appendChild(myInfoDiv);
   
@@ -37,9 +38,10 @@ export class Game {
       opponentInfoDiv.className = 'player';
       opponentInfoDiv.id = 'opponent-info';
       opponentInfoDiv.innerHTML = `
-        <h2>Opponent's Info</h2>
+        <h2>Opponent</h2>
         <p id="opponent-color">Color: </p>
-        <p id="opponent-id">ID: </p>
+           <p id="opponent-name">Name: </p>
+             <img id="opponent-picture" src="" />
       `;
       playerInfoContainer.appendChild(opponentInfoDiv);
   
@@ -57,21 +59,23 @@ export class Game {
     public updatePlayerInfo(data: PlayerInfo) {
       // Update your information
       const myColorElement = document.getElementById('my-color') as HTMLParagraphElement;
-      const myIdElement = document.getElementById('my-id') as HTMLParagraphElement;
+      const myNameElement = document.getElementById('my-name') as HTMLParagraphElement;
+      const myPictureElement = document.getElementById('my-picture') as HTMLImageElement;
       myColorElement.textContent = `Color: ${data.myColor}`;
-      myIdElement.textContent = `ID: ${data.myId}`;
-  
+      myNameElement.textContent = `Name: ${data.myName}`;
+      myPictureElement.src=`${data.myPicture}`
       // Update opponent information
       const opponentColorElement = document.getElementById('opponent-color') as HTMLParagraphElement;
-      const opponentIdElement = document.getElementById('opponent-id') as HTMLParagraphElement;
-      
+      const opponentNameElement = document.getElementById('opponent-name') as HTMLParagraphElement;
+      const opponentPictureElement = document.getElementById('opponent-picture') as HTMLImageElement;
       if (data.otherParticipants.length > 0) {
         const opponent = data.otherParticipants[0];
-        opponentColorElement.textContent = `Color: ${opponent.color}`;
-        opponentIdElement.textContent = `ID: ${opponent.userId}`;
+        opponentColorElement.textContent = `Name: ${opponent.name}`;
+        opponentNameElement.textContent = `Color: ${opponent.color}`;
+        opponentPictureElement.src=`${opponent.picture}`
       } else {
         opponentColorElement.textContent = 'Color: N/A';
-        opponentIdElement.textContent = 'ID: N/A';
+        opponentNameElement.textContent = 'ID: N/A';
       }
     }
   

@@ -4,8 +4,10 @@ import { Game } from "./updatePlayersinfo";
 import socketInstance from "../../utils/socket";
 import { Auth } from "../../auth";
 import { ModalManager } from "../../utils/modal";
+import { PlayerInfo } from "../../interfaces/playersInfo";
+import { messageSend } from "./messages";
 const socket = socketInstance.getSocket();
-
+export let myData:PlayerInfo
 interface Player {
   socketId: string;
   name: string;
@@ -54,8 +56,8 @@ export class Online {
   }
 
   static initEventListeners() {
-    console.log(Auth.getAccessToken());
-
+   
+    messageSend()
     this.game = new Chess();
 
     // Clear previous event handlers if any
@@ -80,7 +82,7 @@ export class Online {
 
     socket.on("playerInfo", (data) => {
       console.log("Recieved");
-
+     myData=data
       setTimeout(() => {
         if (data.myColor == "black") {
           this.board.flip();

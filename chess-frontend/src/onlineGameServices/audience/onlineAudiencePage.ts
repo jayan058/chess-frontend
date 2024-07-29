@@ -16,7 +16,7 @@ export class OnlineAudiencePage {
     
     setTimeout(() => {
         this.board = ChessBoard("board", {
-          draggable: true,
+          draggable: false,
           position: "start",
          
         });
@@ -108,11 +108,16 @@ export class OnlineAudiencePage {
     });
     socket.on("latestFen", (latestFen) => {
         console.log(latestFen);
-        console.log("Setting board positiom..........");
+      
         
         this.board.position(latestFen)
         this.game.load(latestFen);
       
+      });
+
+      socket.on("watchersTimers", (whiteTimer,blackTimer) => {
+        this.updateTimerDisplay("white-timer",whiteTimer);
+        this.updateTimerDisplay("black-timer",blackTimer);
       });
 
 
