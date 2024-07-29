@@ -5,7 +5,7 @@ import { myData } from "./online";
 import { Message } from "../../interfaces/messages";
 
 
-export function messageSend(){
+export function sendTextMessage(){
 const sendMessageButton = document.getElementById("send-message");
 const messageInput = document.getElementById(
   "message-input"
@@ -35,27 +35,39 @@ function sendMessage(content: string) {
     const message: Message = {
       sender: myData.myName,
       content: content,
-      timestamp: Date.now(),
+      timestamp: new Date().toISOString(),
       picture:myData.myPicture,
       roomId:myData.myRoom
     };
     socket.emit("message", message); // Emit the message to the server
   }
-  
+
 
   socket.on("message", (message: Message) => {
     console.log("Message received:", message);
-   displayMessage(message);
-  });  
-
-
-  function displayMessage(message: Message) {
+    displayMessage(message);
+  });
+  
+  // Function to display messages
+  export function displayMessage(message: Message) {
     const messageContainer = document.getElementById("message-container");
     if (messageContainer) {
-      const messageElement = document.createElement("div");
-      messageElement.classList.add("message");
-      messageElement.innerHTML = `<strong>${message.sender}:</strong> ${message.content} <small>${new Date(message.timestamp).toLocaleTimeString()}</small>`;
+        const messageElement = document.createElement("div");
+        const messageImageElement = document.createElement("img");
+        messageElement.classList.add("message");
+        messageImageElement.src = `${message.picture}`;
+        messageElement.innerHTML = `<strong>${message.sender}:</strong> ${
+          message.content
+        }`;
+        messageContainer.appendChild(messageElement);
+        messageContainer.appendChild(messageImageElement);
+      
+  
       messageContainer.appendChild(messageElement);
     }
+  }
+  
+  
 
-}
+
+

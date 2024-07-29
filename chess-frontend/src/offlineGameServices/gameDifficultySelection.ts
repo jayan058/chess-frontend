@@ -1,4 +1,4 @@
-import { modal } from "../eventListeners/offline";
+import { modal } from "../components/offline";
 
 
 

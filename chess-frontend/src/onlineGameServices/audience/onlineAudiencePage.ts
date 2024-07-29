@@ -3,7 +3,9 @@ import { Chess } from "chess.js";
 import { ModalManager } from "../../utils/modal";
 import socketInstance from "../../utils/socket";
 const socket = socketInstance.getSocket();
-
+import { transformMessages } from "./transformMessage";
+import { ReceivedMessage } from "../../interfaces/recievedMessage";
+import { displayPlayerVsPlayer } from "./gamePlayersInfo";
 export class OnlineAudiencePage {
   private static game: Chess;
   private static board: any;
@@ -13,21 +15,20 @@ export class OnlineAudiencePage {
   }
 
   static initEventListeners() {
-    
     setTimeout(() => {
-        this.board = ChessBoard("board", {
-          draggable: false,
-          position: "start",
-         
-        });
-      }, 0);
-      
+      this.board = ChessBoard("board", {
+        draggable: false,
+        position: "start",
+      });
+    }, 0);
+
     this.game = new Chess();
     socket.off("gameStarted");
     socket.off("turn");
     socket.off("move");
     socket.off("error");
     socket.off("playerInfo");
+    socket.off("latestData");
     socket.on("move", (move) => {
       console.log("Move received from server:", move);
       console.log("Current FEN before applying move:", this.game.fen());
@@ -54,9 +55,9 @@ export class OnlineAudiencePage {
         }
       }
     );
-    socket.on("game-over", (data) => {
+    socket.on("game-over", () => {
       const modal = new ModalManager("myModal", "modalMessage", "close");
-      modal.show(data, "success");
+      modal.show("Game Over!!! One of the players disconnected", "success");
 
       setTimeout(() => {
         modal.close();
@@ -78,7 +79,7 @@ export class OnlineAudiencePage {
         console.warn("Invalid move received from server:", move);
       }
     });
-    socket.on("timeOut", (message) => {
+    socket.on("timeOutNotifyForAudience", (message) => {
       const modal = new ModalManager("myModal", "modalMessage", "close");
       modal.show(message, "error");
 
@@ -106,21 +107,22 @@ export class OnlineAudiencePage {
       modal.show(message.reason, "success");
       // setTimeout(() => modal.close(), 3000);
     });
-    socket.on("latestFen", (latestFen) => {
-        console.log(latestFen);
-      
-        
-        this.board.position(latestFen)
-        this.game.load(latestFen);
-      
+    socket.on("latestData", (latestData) => {
+      console.log(latestData);
+      displayPlayerVsPlayer([latestData.participants[0], latestData.participants[1]]);
+
+      latestData.messages.forEach((message: ReceivedMessage) => {
+        transformMessages(message);
       });
 
-      socket.on("watchersTimers", (whiteTimer,blackTimer) => {
-        this.updateTimerDisplay("white-timer",whiteTimer);
-        this.updateTimerDisplay("black-timer",blackTimer);
-      });
+      this.board.position(latestData.latestFen);
+      this.game.load(latestData.latestFen);
+    });
 
-
+    socket.on("watchersTimers", (whiteTimer, blackTimer) => {
+      this.updateTimerDisplay("white-timer", whiteTimer);
+      this.updateTimerDisplay("black-timer", blackTimer);
+    });
   }
 
   private static updateBoard() {

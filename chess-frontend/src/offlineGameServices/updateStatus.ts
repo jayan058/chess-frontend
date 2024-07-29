@@ -1,7 +1,7 @@
 
 
-import { game } from "../eventListeners/offline";
-import { modal } from "../eventListeners/offline";
+import { game } from "../components/offline";
+import { modal } from "../components/offline";
 export var updateStatus = function () {
     let status = "";
     console.log("Show");

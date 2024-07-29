@@ -1,11 +1,9 @@
 import { Chess } from "chess.js";
-
 import { Game } from "./updatePlayersinfo";
 import socketInstance from "../../utils/socket";
-import { Auth } from "../../auth";
 import { ModalManager } from "../../utils/modal";
 import { PlayerInfo } from "../../interfaces/playersInfo";
-import { messageSend } from "./messages";
+import { sendTextMessage} from "./textMessages";
 const socket = socketInstance.getSocket();
 export let myData:PlayerInfo
 interface Player {
@@ -57,7 +55,8 @@ export class Online {
 
   static initEventListeners() {
    
-    messageSend()
+    sendTextMessage()
+  
     this.game = new Chess();
 
     // Clear previous event handlers if any

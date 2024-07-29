@@ -1,7 +1,7 @@
 
 import { evaluateBoard, reverseArray } from './gameUtility';
 import { Piece } from 'chess.js';
-import { updatePositionCount } from '../eventListeners/offline';
+import { updatePositionCount } from '../components/offline';
 
 
 const minimaxRoot = (depth: number, game: any, isMaximisingPlayer: boolean) => {

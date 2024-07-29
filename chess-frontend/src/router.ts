@@ -1,8 +1,8 @@
-import { HomePage } from "./eventListeners/home";
-import { LoginPage } from "./eventListeners/login";
-import { SignupPage } from "./eventListeners/signup";
-import { WelcomePage } from "./eventListeners/welcome";
-import { OfflinePage } from "./eventListeners/offline";
+import { HomePage } from "./components/home";
+import { LoginPage } from "./components/login";
+import { SignupPage } from "./components/signup";
+import { WelcomePage } from "./components/welcome";
+import { OfflinePage } from "./components/offline";
 import { loadCSS } from "./utils/cssLoader";
 import { CreateGamePage } from "./onlineGameServices/players/createGame";
 import { JoinGame } from "./onlineGameServices/players/joinGame";
