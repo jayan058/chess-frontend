@@ -1,4 +1,3 @@
-@charset "UTF-8";
 button {
   background-color: #007bff;
   color: #fff;
@@ -169,12 +168,14 @@ body {
 
 .footer {
   background-color: #f8f9fa;
-  color: #fff;
+  color: #333;
   text-align: center;
   padding: 10px;
   position: fixed;
-  bottom: 0;
+  bottom: 0; /* Position at the bottom of the viewport */
   width: 100%;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Optional shadow for separation */
+  z-index: 1000; /* Ensure it appears above other content */
 }
 
 .footer p {
@@ -192,6 +193,7 @@ img {
 body {
   font-family: Arial, sans-serif;
   background-color: #f0f0f0;
+  padding-bottom: 60px;
 }
 
 .main-content__header h1 {
@@ -337,7 +339,6 @@ body {
   font-family: "Roboto", sans-serif;
   background-color: #f0f4f8;
   margin: 0;
-  height: 100vh;
 }
 
 .table-container {
@@ -345,9 +346,7 @@ body {
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  padding: 20px;
-  box-sizing: border-box;
+  padding-bottom: 40px;
 }
 
 table {
@@ -355,7 +354,8 @@ table {
   border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
   padding: 15px;
   text-align: left;
   border-bottom: 1px solid #ddd;
@@ -372,6 +372,10 @@ th {
   font-size: 18px;
 }
 
+tr {
+  cursor: pointer;
+}
+
 tr.win {
   background-color: #d4edda;
   color: #155724;
@@ -384,29 +388,15 @@ tr.lose {
 
 tr:hover {
   background-color: #e9ecef;
-  transform: scale(1.02);
 }
 
 td {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-td.tick-icon::before {
-  content: "✔";
-  color: #28a745;
-  margin-right: 8px;
-  font-size: 18px;
-}
-
-td.cross-icon::before {
-  content: "✘";
-  color: #dc3545;
-  margin-right: 8px;
-  font-size: 18px;
-}
-
 @media (max-width: 768px) {
-  th, td {
+  th,
+  td {
     padding: 12px;
     font-size: 14px;
   }

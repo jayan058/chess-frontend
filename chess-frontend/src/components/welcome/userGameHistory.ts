@@ -1,3 +1,5 @@
+import { addRowClickEventListeners } from './fetchChessGames';
+
 export class GameTable {
   private data: any[];
   private container: HTMLElement | null;
@@ -15,21 +17,23 @@ export class GameTable {
   private init(): void {
     if (this.container) {
       this.container.innerHTML = this.createTable();
+      addRowClickEventListeners(this.container.id); // Add event listeners after rendering
     }
   }
 
   private createTable(): string {
+    // Generate a unique class name for the header, if needed
+    const headerClass = this.data.length > 0 ? `header-${this.data[0].gameId}` : 'header-default';
+    
     return `
         <div class="table-container">
           <table class="responsive-table">
             <thead>
-              <tr>
-              
+              <tr class="${headerClass}">
                 <th>White Player Name</th>
                 <th>Black Player Name</th>
                 <th>Winner</th>
-                <th>How The Game Was Decided </th>
-                
+                <th>How The Game Was Decided</th>
               </tr>
             </thead>
             <tbody>
@@ -42,17 +46,14 @@ export class GameTable {
 
   private createTableRow(game: any): string {
     const isWinner = game.winnerId === game.yourId;
-    const resultClass = isWinner ? "win" : "lose";
-    const resultIconClass = isWinner ? "tick-icon" : "cross-icon";
+    const rowClass = isWinner ? "win" : "lose";
 
     return `
-        <tr>
-        
+        <tr class="${rowClass}" data-game-id="${game.gameId}">
           <td>${game.whitePlayerName}</td>
           <td>${game.blackPlayerName}</td>
-          <td class="${resultClass} ${resultIconClass}">${game.winnerName}</td>
+          <td>${game.winnerName}</td>
           <td>${game.winType}</td>
-        
         </tr>
       `;
   }

@@ -44,7 +44,7 @@ export class WelcomePage {
       
       this.updateUserDetails(userData.foundUser[0]);
       new GameTable(userData.enhancedGameDetails, 'game-history-container');
-
+      
     } catch (error) {
       console.error("Failed to fetch user details:", error);
     }

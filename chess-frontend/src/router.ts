@@ -9,7 +9,7 @@ import { JoinGame } from "./onlineGameServices/players/joinGame";
 import { Online } from "./onlineGameServices/players/online";
 import { WatchGame } from "./onlineGameServices/audience/watchGame";
 import { OnlineAudiencePage } from "./onlineGameServices/audience/onlineAudiencePage";
-
+import { GameReplay } from "./components/gameReplay";
 const routes: { [key: string]: any } = {
   "#/home": { component: HomePage, css: "home" },
   "#/login": { component: LoginPage, css: "login" },
@@ -24,6 +24,7 @@ const routes: { [key: string]: any } = {
     component: OnlineAudiencePage,
     css: "onlineAudiencePage",
   },
+  "#/game-replay": { component: GameReplay, css: "gameReplay" },
 };
 
 export class Router {
