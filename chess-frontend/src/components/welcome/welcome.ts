@@ -1,9 +1,9 @@
 // eventListeners/welcome.ts
-import { Auth } from "../auth";
-import { Router } from "../router";
-import { sessionChangeListeners } from "../utils/sessionChangeListener";
-import { ChessAlertModal } from "../modals/chessAlertModal";
-
+import { Auth } from "../../auth";
+import { Router } from "../../router";
+import { sessionChangeListeners } from "../../utils/sessionChangeListener";
+import { ChessAlertModal } from "../../modals/chessAlertModal";
+import { GameTable } from "./userGameHistory";
 export class WelcomePage {
   static async load(): Promise<string> {
     if (!Auth.isLoggedIn()) {
@@ -41,7 +41,10 @@ export class WelcomePage {
       }
       const userData = await response.json();
       console.log(userData);
-      this.updateUserDetails(userData);
+      
+      this.updateUserDetails(userData.foundUser[0]);
+      new GameTable(userData.enhancedGameDetails, 'game-history-container');
+
     } catch (error) {
       console.error("Failed to fetch user details:", error);
     }
@@ -89,12 +92,12 @@ export class WelcomePage {
   static setupPlayOfflineEventListener() {
     document
       .getElementById("play-offline")!
-      .addEventListener("click", async (e) => {
+      .addEventListener("click", async (e) => {   
         e.preventDefault();
         const token = Auth.getAccessToken();
 
         try {
-          const response = await fetch("http://localhost:3000/offline", {
+          const response = await fetch("http://localhost:3000/offline", { 
             method: "POST",
             headers: {
               Authorization: `Bearer ${token}`,

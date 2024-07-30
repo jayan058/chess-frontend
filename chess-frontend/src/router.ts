@@ -1,7 +1,7 @@
 import { HomePage } from "./components/home";
 import { LoginPage } from "./components/login";
 import { SignupPage } from "./components/signup";
-import { WelcomePage } from "./components/welcome";
+import { WelcomePage } from "./components/welcome/welcome";
 import { OfflinePage } from "./components/offline";
 import { loadCSS } from "./utils/cssLoader";
 import { CreateGamePage } from "./onlineGameServices/players/createGame";
