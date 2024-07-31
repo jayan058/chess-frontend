@@ -11,16 +11,32 @@
     <div class="timers">
       <div class="timer">
         <span>White Timer:</span>
-        <span id="white-timer">10:00</span>
+        <div id="white-timer" class="timer-display">10:00</div>
       </div>
       <div class="timer">
         <span>Black Timer:</span>
-        <span id="black-timer">10:00</span>
+        <div id="black-timer" class="timer-display">10:00</div>
       </div>
     </div>
-    <div id="message-container"></div>
-    <input type="text" id="message-input" placeholder="Type a message" />
-    <button id="send-message">Send</button>
+<!-- Modal Structure -->
+<!-- Modal Structure -->
+<div class="modal">
+  <div class="modal-content">
+  
+    <div class="message-container"></div>
+    <div class="message-form">
+      <input class="message-input" type="text" placeholder="Type your message...">
+      <button class="send-message">Send</button>
+    </div>
+  </div>
+</div>
+
+<!-- Button to Show Messages -->
+<button class="show-messages">Show Messages</button>
+
+
+
+
 
     <div id="board" style="width: 400px"></div>
   </body>

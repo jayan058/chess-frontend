@@ -134,10 +134,10 @@ export class WelcomePage {
           window.location.hash='#/watch-game'
           modal.hide()
         } },
-        {
-          text: "Play With A Random Stranger",
-          onClick: () => console.log("Hello"),
-        },
+        { text: "Play With A Random Stranger", onClick: () => {
+          window.location.hash='#/random-match-making'
+          modal.hide()
+        } }
         
       ]);
     });

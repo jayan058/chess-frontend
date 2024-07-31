@@ -89,4 +89,126 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #ffffff;
+  margin: 3% auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: #e9eff1;
+  border-radius: 8px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: #1877f2;
+  border-radius: 8px;
+}
+
+.close-button {
+  color: #888;
+  float: right;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 15px;
+}
+
+.sent-message {
+  background-color: #e1ffc7;
+  margin-left: auto;
+  border-top-right-radius: 0;
+  border-top-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  overflow-wrap: anywhere;
+}
+
+.received-message {
+  margin-right: auto;
+  background-color: #f1f0f0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 15px;
+  border-bottom-left-radius: 15px;
+  overflow-wrap: anywhere;
+}
+
+/* Message Text */
+.message-text {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+  font-family: "Roboto", sans-serif;
+}
+
+/* Message Form styles */
+.message-form {
+  display: flex;
+  margin-top: 20px;
+}
+
+.message-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.send-message {
+  margin-left: 10px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 20px;
+  background-color: #007bff;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.send-message:hover {
+  background-color: #0056b3;
 }/*# sourceMappingURL=online.css.map */

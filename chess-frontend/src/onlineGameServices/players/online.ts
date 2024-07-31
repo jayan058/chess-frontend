@@ -3,9 +3,9 @@ import { Game } from "./updatePlayersinfo";
 import socketInstance from "../../utils/socket";
 import { ModalManager } from "../../utils/modal";
 import { PlayerInfo } from "../../interfaces/playersInfo";
-import { sendTextMessage} from "./textMessages";
+import { sendTextMessage } from "./textMessages";
 const socket = socketInstance.getSocket();
-export let myData:PlayerInfo
+export let myData: PlayerInfo;
 interface Player {
   socketId: string;
   name: string;
@@ -54,9 +54,8 @@ export class Online {
   }
 
   static initEventListeners() {
-   
-    sendTextMessage()
-  
+    sendTextMessage();
+
     this.game = new Chess();
 
     // Clear previous event handlers if any
@@ -81,7 +80,7 @@ export class Online {
 
     socket.on("playerInfo", (data) => {
       console.log("Recieved");
-     myData=data
+      myData = data;
       setTimeout(() => {
         if (data.myColor == "black") {
           this.board.flip();
@@ -149,6 +148,18 @@ export class Online {
       }, 8000);
     });
 
+    socket.on(
+      "revertResponse",
+      (response: { accepted: boolean; move: any }) => {
+        if (response.accepted) {
+          this.game.undo();
+          this.updateBoard();
+        } else {
+          alert("Move revert request denied by opponent");
+        }
+      }
+    );
+
     socket.on("checkMate", (message) => {
       const modal = new ModalManager("myModal", "modalMessage", "close");
       modal.show(message.reason, "success");
@@ -189,6 +200,7 @@ export class Online {
       }${seconds}`;
     }
   }
+
   private static checkGameStatus() {
     let result = "";
 
@@ -211,6 +223,14 @@ export class Online {
       console.log("Check detected");
       socket.emit("check", { reason: `Check` });
     }
+  }
+
+  private static getLastMove(): { from: string; to: string } | any {
+    const moves = this.game.history({ verbose: true });
+    if (moves.length === 0) {
+      return null; // No moves have been made yet
+    }
+    return moves[moves.length - 1]; // Return the last move
   }
 
   // Event listeners for timers
@@ -238,7 +258,7 @@ export class Online {
     playerId: number,
     myColor: string
   ) {
-    socket.emit("move", move, playerId, myColor,this.game.fen()); // Send the move object to the server
+    socket.emit("move", move, playerId, myColor, this.game.fen()); // Send the move object to the server
   }
 
   private static getCurrentPlayerId(): number {

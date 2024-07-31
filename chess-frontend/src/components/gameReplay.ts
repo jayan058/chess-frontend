@@ -33,6 +33,9 @@ export class GameReplay {
 
         // Initialize Chess.js game
         this.game = new Chess();
+
+        // Reset the game to start from the beginning
+        this.reset();
     }
 
     static play() {
