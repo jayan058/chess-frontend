@@ -29,10 +29,14 @@ export class Game {
     myInfoDiv.className = "player-info";
     myInfoDiv.id = "my-info";
     myInfoDiv.innerHTML = `
-        <h2 class="player-title">You</h2>
+    <div>
+        <h2 class="player-title">You</h2>  
+        <img id="my-picture" src="" />
+    </div>
+    <div>
         <p id="my-name">Name: </p>
         <p id="my-color">ID: </p>
-        <img id="my-picture" src="" />
+    </div>  
       `;
     playerInfoContent.appendChild(myInfoDiv);
   
@@ -41,10 +45,14 @@ export class Game {
     opponentInfoDiv.className = "player-info";
     opponentInfoDiv.id = "opponent-info";
     opponentInfoDiv.innerHTML = `
-        <h2 class="player-title">Opponent</h2>
+    <div>
+        <h2 class="player-title">Opponent</h2>       
+         <img id="opponent-picture" src="" />
+    </div>   
+    <div>  
         <p id="opponent-name">Name: </p>
         <p id="opponent-color">Color: </p>
-        <img id="opponent-picture" src="" />
+    </div>    
       `;
     playerInfoContent.appendChild(opponentInfoDiv);
   

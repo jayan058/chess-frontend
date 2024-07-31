@@ -11,10 +11,14 @@ export class RandomMatchMaking {
   
     static initEventListeners() {
         const modal = new ModalManager("myModal", "modalMessage", "close");
-
-        socket.emit("randomMatchRequest");
+        modal.show("Finding An Opponent For You Hang In There", "success");
+        let opponentFindInterval=setInterval(()=>{
+           socket.emit("randomMatchRequest");
+        },3000)
+       
         socket.on("opponentConnected", () => {
-            modal.show("Opponent Connected Redirecting to Game!!!", "success");
+          clearInterval(opponentFindInterval)
+            modal.show("We Found An Opponent For You!!!Redirecting to Game!!!", "success");
           });
           socket.on("redirectToGame", () => {
             modal.close();

@@ -5,6 +5,8 @@ import { sessionChangeListeners } from "../../utils/sessionChangeListener";
 import { ChessAlertModal } from "../../modals/chessAlertModal";
 import { GameTable } from "./userGameHistory";
 export class WelcomePage {
+  static currentPage: number = parseInt(localStorage.getItem('currentPage') || '1');
+
   static async load(): Promise<string> {
     if (!Auth.isLoggedIn()) {
       window.location.hash = "#/login";
@@ -21,13 +23,14 @@ export class WelcomePage {
     this.fetchUserDetails();
     this.setupPlayOfflineEventListener();
     this.setupPlayOnlineEventListener();
+    this.setupPaginationEventListeners(); 
   }
 
-  static async fetchUserDetails() {
+  static async fetchUserDetails(page: number = 1) {
     let token = Auth.getAccessToken();
     try {
       const response = await fetch(
-        "http://localhost:3000/user/getUserDetails",
+        `http://localhost:3000/user/getUserDetails?page=${page}&limit=4`,
         {
           method: "GET",
           headers: {
@@ -36,6 +39,7 @@ export class WelcomePage {
           },
         }
       );
+
       if (!response.ok) {
         console.log(response);
       }
@@ -45,10 +49,15 @@ export class WelcomePage {
       this.updateUserDetails(userData.foundUser[0]);
       new GameTable(userData.enhancedGameDetails, 'game-history-container');
       
+      // Update pagination information
+      this.updatePaginationInfo();
+      
     } catch (error) {
       console.error("Failed to fetch user details:", error);
     }
   }
+
+  
 
   static updateUserDetails(userData: { profilePicture: string; name: string }) {
     const userImage = document.getElementById(
@@ -88,7 +97,43 @@ export class WelcomePage {
         menuElement.style.display = "none";
       });
     });
+  } static setupPaginationEventListeners() {
+    document.getElementById("next-page")?.addEventListener("click", () => {
+      this.currentPage++;
+      localStorage.setItem('currentPage', this.currentPage.toString());
+      this.fetchUserDetails(this.currentPage);
+    });
+
+    document.getElementById("previous-page")?.addEventListener("click", () => {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+        localStorage.setItem('currentPage', this.currentPage.toString());
+        this.fetchUserDetails(this.currentPage);
+      }
+    });
+
+    // Initial update of pagination info
+    this.updatePaginationInfo();
   }
+  static updatePaginationInfo() {
+    const pageInfo = document.getElementById("page-info");
+    if (pageInfo) {
+      pageInfo.textContent = `Page ${this.currentPage}`;
+    }
+
+    const previousButton = document.getElementById("previous-page") as HTMLButtonElement;
+    const nextButton = document.getElementById("next-page") as HTMLButtonElement;
+
+    if (this.currentPage <= 1) {
+      if (previousButton) previousButton.disabled = true;
+    } else if (previousButton) {
+      previousButton.disabled = false;
+    }
+
+    // Optionally, adjust logic to disable 'Next' button based on total pages
+    if (nextButton) nextButton.disabled = false;
+  }
+  
   static setupPlayOfflineEventListener() {
     document
       .getElementById("play-offline")!

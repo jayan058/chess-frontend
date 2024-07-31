@@ -3,10 +3,14 @@ import { myData } from "./online";
 import { Message } from "../../interfaces/messages";
 
 const socket = socketInstance.getSocket();
+let newMessageCount = 0;
 
 export function sendTextMessage() {
   const sendMessageButton = document.querySelector(".send-message") as HTMLButtonElement;
   const messageInput = document.querySelector(".message-input") as HTMLInputElement;
+  const showMessagesButton = document.querySelector(".show-messages") as HTMLButtonElement;
+  const messageModal = document.querySelector(".modal") as HTMLElement;
+  const closeButton = document.querySelector(".close-button") as HTMLElement;
 
   if (sendMessageButton && messageInput) {
     sendMessageButton.addEventListener("click", () => {
@@ -14,6 +18,7 @@ export function sendTextMessage() {
       if (content) {
         sendMessage(content); // Send message to server
         messageInput.value = ""; // Clear the input field
+        scrollToBottom(); // Scroll to bottom after sending a message
       }
     });
 
@@ -25,13 +30,10 @@ export function sendTextMessage() {
     });
   }
 
-  const showMessagesButton = document.querySelector(".show-messages") as HTMLButtonElement;
-  const messageModal = document.querySelector(".modal") as HTMLElement;
-  const closeButton = document.querySelector(".close-button") as HTMLElement;
-
   if (showMessagesButton) {
     showMessagesButton.addEventListener("click", () => {
       messageModal.style.display = "block";
+      resetMessageCount(); // Reset new message count
     });
   }
 
@@ -40,6 +42,7 @@ export function sendTextMessage() {
       messageModal.style.display = "none";
     });
   }
+
   if (messageModal) {
     messageModal.addEventListener("click", (event) => {
       if (event.target === messageModal) {
@@ -63,7 +66,43 @@ function sendMessage(content: string) {
 socket.on("message", (message: Message) => {
   console.log("Message received:", message);
   displayMessage(message);
+  handleNewMessage(); // Handle new message for notification
+  scrollToBottom(); // Scroll to bottom after receiving a new message
 });
+
+function handleNewMessage() {
+  const messageModal = document.querySelector(".modal") as HTMLElement;
+  if (messageModal.style.display !== "block") {
+    newMessageCount++;
+    updateMessageButton();
+  }
+}
+
+function updateMessageButton() {
+  const showMessagesButton = document.querySelector(".show-messages") as HTMLButtonElement;
+  if (showMessagesButton) {
+    if (newMessageCount > 0) {
+      showMessagesButton.textContent = `Show Messages (New Messages)`;
+      showMessagesButton.style.backgroundColor = "red"; // Change color for new messages
+    } else {
+      showMessagesButton.textContent = "Show Messages";
+      showMessagesButton.style.backgroundColor = ""; // Reset color
+    }
+  }
+}
+
+function resetMessageCount() {
+  newMessageCount = 0;
+  updateMessageButton();
+}
+
+// Function to scroll to the bottom of the message container
+function scrollToBottom() {
+  const messageContainer = document.querySelector(".message-container");
+  if (messageContainer) {
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+  }
+}
 
 // Function to display messages
 export function displayMessage(message: Message) {
@@ -90,6 +129,7 @@ export function displayMessage(message: Message) {
     messageElement.appendChild(messageImageElement);
     messageElement.appendChild(messageTextElement);
     messageContainer.appendChild(messageElement);
+
+    scrollToBottom(); // Scroll to bottom after adding a new message to the container
   }
 }
-

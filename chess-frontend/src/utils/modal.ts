@@ -1,4 +1,6 @@
 export class ModalManager {
+  private static instances: ModalManager[] = [];
+
   private modal: HTMLElement | null;
   private modalMessage: HTMLElement | null;
   private closeButton: HTMLElement | null;
@@ -21,6 +23,9 @@ export class ModalManager {
 
     // Hide the modal by default
     this.close();
+
+    // Add this instance to the static array of instances
+    ModalManager.instances.push(this);
   }
 
   // Show the modal with a specific message and type
@@ -38,6 +43,13 @@ export class ModalManager {
   close(): void {
     if (this.modal) {
       this.modal.style.display = "none";
+    }
+  }
+
+  // Static method to close all instances
+  static closeAll(): void {
+    for (const instance of ModalManager.instances) {
+      instance.close();
     }
   }
 }

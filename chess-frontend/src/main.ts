@@ -1,6 +1,6 @@
 import { Router } from "./router";
 import socketInstance from "./utils/socket"; // Import the SocketSingleton instance
-
+import { ModalManager } from "./utils/modal";
 document.addEventListener("DOMContentLoaded", () => {
   Router.init();
   let previousHash = window.location.hash;
@@ -19,6 +19,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (disconnectRoutes.includes(newHash)) {
       socketInstance.disconnect();
     }
+
+
+    ModalManager.closeAll();
 
     // Load the new content
     Router.loadContent();

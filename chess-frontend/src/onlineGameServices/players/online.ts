@@ -225,13 +225,7 @@ export class Online {
     }
   }
 
-  private static getLastMove(): { from: string; to: string } | any {
-    const moves = this.game.history({ verbose: true });
-    if (moves.length === 0) {
-      return null; // No moves have been made yet
-    }
-    return moves[moves.length - 1]; // Return the last move
-  }
+
 
   // Event listeners for timers
 
