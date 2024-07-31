@@ -1,6 +1,8 @@
 import { Router } from "./router";
 import socketInstance from "./utils/socket"; // Import the SocketSingleton instance
 import { ModalManager } from "./utils/modal";
+import { ChessAlertModal } from "./modals/chessAlertModal";
+import { TableModal } from "./modals/tableModal";
 document.addEventListener("DOMContentLoaded", () => {
   Router.init();
   let previousHash = window.location.hash;
@@ -22,7 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     ModalManager.closeAll();
-
+    ChessAlertModal.closeAll();
+    TableModal.closeAll();
     // Load the new content
     Router.loadContent();
 

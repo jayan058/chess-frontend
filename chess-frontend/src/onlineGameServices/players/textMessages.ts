@@ -70,7 +70,7 @@ socket.on("message", (message: Message) => {
   scrollToBottom(); // Scroll to bottom after receiving a new message
 });
 
-function handleNewMessage() {
+export function handleNewMessage() {
   const messageModal = document.querySelector(".modal") as HTMLElement;
   if (messageModal.style.display !== "block") {
     newMessageCount++;
@@ -97,7 +97,7 @@ function resetMessageCount() {
 }
 
 // Function to scroll to the bottom of the message container
-function scrollToBottom() {
+export function scrollToBottom() {
   const messageContainer = document.querySelector(".message-container");
   if (messageContainer) {
     messageContainer.scrollTop = messageContainer.scrollHeight;

@@ -6,6 +6,8 @@ const socket = socketInstance.getSocket();
 import { transformMessages } from "./transformMessage";
 import { ReceivedMessage } from "../../interfaces/recievedMessage";
 import { displayPlayerVsPlayer } from "./gamePlayersInfo";
+import { displayMessage,handleNewMessage,scrollToBottom } from "../players/textMessages";
+import { Message } from "../../interfaces/messages";
 export class OnlineAudiencePage {
   private static game: Chess;
   private static board: any;
@@ -15,6 +17,7 @@ export class OnlineAudiencePage {
   }
 
   static initEventListeners() {
+
     setTimeout(() => {
       this.board = ChessBoard("board", {
         draggable: false,
@@ -29,6 +32,7 @@ export class OnlineAudiencePage {
     socket.off("error");
     socket.off("playerInfo");
     socket.off("latestData");
+    socket.off("message");
     socket.on("move", (move) => {
       console.log("Move received from server:", move);
       console.log("Current FEN before applying move:", this.game.fen());
@@ -113,6 +117,14 @@ export class OnlineAudiencePage {
 
       latestData.messages.forEach((message: ReceivedMessage) => {
         transformMessages(message);
+      });
+
+
+      socket.on("message", (message: Message) => {
+        console.log("Message received:", message);
+        displayMessage(message);
+        handleNewMessage(); // Handle new message for notification
+        scrollToBottom(); // Scroll to bottom after receiving a new message
       });
 
       this.board.position(latestData.latestFen);

@@ -1,4 +1,6 @@
 export class ChessAlertModal {
+    private static instances: ChessAlertModal[] = [];
+
     modalElement: HTMLDivElement;
     messageElement: HTMLParagraphElement;
     buttonsElement: HTMLDivElement;
@@ -15,6 +17,9 @@ export class ChessAlertModal {
         document.body.appendChild(this.modalElement);
         this.messageElement = this.modalElement.querySelector('#modalMessage') as HTMLParagraphElement;
         this.buttonsElement = this.modalElement.querySelector('#modalButtons') as HTMLDivElement;
+
+        // Add this instance to the static array of instances
+        ChessAlertModal.instances.push(this);
     }
 
     show(message: string, buttons: { text: string, onClick: () => void }[] = []) {
@@ -33,6 +38,11 @@ export class ChessAlertModal {
     hide() {
         this.modalElement.style.display = 'none';
     }
-    
-    
+
+    // Static method to close all instances
+    static closeAll() {
+        for (const instance of ChessAlertModal.instances) {
+            instance.hide();
+        }
+    }
 }

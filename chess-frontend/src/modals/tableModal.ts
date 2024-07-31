@@ -1,4 +1,6 @@
 export class TableModal {
+    private static instances: TableModal[] = [];
+
     modalElement: HTMLElement;
     closeButton: HTMLElement;
     tableBody: HTMLTableSectionElement;
@@ -10,6 +12,9 @@ export class TableModal {
 
         // Bind event listeners
         this.bindEvents();
+
+        // Add this instance to the static array of instances
+        TableModal.instances.push(this);
     }
 
     bindEvents() {
@@ -47,5 +52,12 @@ export class TableModal {
     hide() {
         // Hide the modal
         this.modalElement.style.display = 'none';
+    }
+
+    // Static method to close all instances
+    static closeAll() {
+        for (const instance of TableModal.instances) {
+            instance.hide();
+        }
     }
 }
