@@ -5,14 +5,17 @@ import { sessionChangeListeners } from "../../utils/sessionChangeListener";
 import { ChessAlertModal } from "../../modals/chessAlertModal";
 import { GameTable } from "./userGameHistory";
 export class WelcomePage {
-  static currentPage: number = parseInt(localStorage.getItem('currentPage') || '1');
-
+  static currentPage: number = 1;
+  static totalPages: number = 1;
   static async load(): Promise<string> {
     if (!Auth.isLoggedIn()) {
       window.location.hash = "#/login";
       Router.loadContent();
       return "";
     }
+    this.currentPage = 1;
+    localStorage.setItem('currentPage', this.currentPage.toString());
+
     const response = await fetch("src/views/welcome.html");
     return response.text();
   }
@@ -39,23 +42,27 @@ export class WelcomePage {
           },
         }
       );
-
+  
       if (!response.ok) {
         console.log(response);
       }
       const userData = await response.json();
       console.log(userData);
-      
+  
       this.updateUserDetails(userData.foundUser[0]);
       new GameTable(userData.enhancedGameDetails, 'game-history-container');
-      
+  
+      // Update totalPages
+      this.totalPages = userData.totalPages;
+  
       // Update pagination information
-      this.updatePaginationInfo();
+      this.updatePaginationInfo(this.totalPages);
       
     } catch (error) {
       console.error("Failed to fetch user details:", error);
     }
   }
+  
 
   
 
@@ -103,7 +110,7 @@ export class WelcomePage {
       localStorage.setItem('currentPage', this.currentPage.toString());
       this.fetchUserDetails(this.currentPage);
     });
-
+  
     document.getElementById("previous-page")?.addEventListener("click", () => {
       if (this.currentPage > 1) {
         this.currentPage--;
@@ -111,28 +118,33 @@ export class WelcomePage {
         this.fetchUserDetails(this.currentPage);
       }
     });
-
+  
     // Initial update of pagination info
-    this.updatePaginationInfo();
+    this.updatePaginationInfo(this.totalPages);
   }
-  static updatePaginationInfo() {
+  
+  static updatePaginationInfo(totalPages: number) {
     const pageInfo = document.getElementById("page-info");
     if (pageInfo) {
-      pageInfo.textContent = `Page ${this.currentPage}`;
+      pageInfo.textContent = `Page ${this.currentPage} of ${totalPages}`;
     }
-
+  
     const previousButton = document.getElementById("previous-page") as HTMLButtonElement;
     const nextButton = document.getElementById("next-page") as HTMLButtonElement;
-
+  
     if (this.currentPage <= 1) {
-      if (previousButton) previousButton.disabled = true;
-    } else if (previousButton) {
+      previousButton.disabled = true;
+    } else {
       previousButton.disabled = false;
     }
-
-    // Optionally, adjust logic to disable 'Next' button based on total pages
-    if (nextButton) nextButton.disabled = false;
+  
+    if (this.currentPage >= totalPages) {
+      nextButton.disabled = true;
+    } else {
+      nextButton.disabled = false;
+    }
   }
+  
   
   static setupPlayOfflineEventListener() {
     document
