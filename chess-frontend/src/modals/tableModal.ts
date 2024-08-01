@@ -10,18 +10,14 @@ export class TableModal {
         this.closeButton = this.modalElement.querySelector('.modal-close') as HTMLElement;
         this.tableBody = this.modalElement.querySelector('#move-history-table tbody') as HTMLTableSectionElement;
 
-        // Bind event listeners
         this.bindEvents();
 
-        // Add this instance to the static array of instances
         TableModal.instances.push(this);
     }
 
     bindEvents() {
-        // Close the modal when the close button is clicked
         this.closeButton.addEventListener('click', () => this.hide());
 
-        // Close the modal when clicking outside the modal content
         window.addEventListener('click', (event) => {
             if (event.target === this.modalElement) {
                 this.hide();
@@ -30,10 +26,8 @@ export class TableModal {
     }
 
     show(moves: string[] = []) {
-        // Clear previous content
         this.tableBody.innerHTML = '';
 
-        // Populate table with new data
         for (let i = 0; i < moves.length; i += 2) {
             const playerMove = moves[i] || '';
             const computerMove = moves[i + 1] || '';

@@ -1,9 +1,10 @@
-// eventListeners/welcome.ts
+
 import { Auth } from "../../auth";
 import { Router } from "../../router";
 import { sessionChangeListeners } from "../../utils/sessionChangeListener";
 import { ChessAlertModal } from "../../modals/chessAlertModal";
 import { GameTable } from "./userGameHistory";
+
 export class WelcomePage {
   static currentPage: number = 1;
   static totalPages: number = 1;
@@ -27,6 +28,7 @@ export class WelcomePage {
     this.setupPlayOfflineEventListener();
     this.setupPlayOnlineEventListener();
     this.setupPaginationEventListeners(); 
+
   }
 
   static async fetchUserDetails(page: number = 1) {
@@ -126,6 +128,12 @@ export class WelcomePage {
   static updatePaginationInfo(totalPages: number) {
     const pageInfo = document.getElementById("page-info");
     if (pageInfo) {
+      console.log(totalPages);
+      
+      if(totalPages==0){
+        pageInfo.textContent = `No Games Played Yet`;
+       return
+      }
       pageInfo.textContent = `Page ${this.currentPage} of ${totalPages}`;
     }
   

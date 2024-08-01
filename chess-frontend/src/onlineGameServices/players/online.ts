@@ -6,6 +6,8 @@ import { PlayerInfo } from "../../interfaces/playersInfo";
 import { sendTextMessage } from "./textMessages";
 const socket = socketInstance.getSocket();
 export let myData: PlayerInfo;
+let pieceMove=new Audio()
+pieceMove.src="./assets/audio/pieceMoving.mp3"
 interface Player {
   socketId: string;
   name: string;
@@ -121,6 +123,7 @@ export class Online {
         console.log("New FEN after applying move:", this.game.fen());
         this.updateBoard();
         this.renderBoard();
+        pieceMove.play()
       } else {
         console.warn("Invalid move received from server:", move);
       }
@@ -181,6 +184,7 @@ export class Online {
         const playerId = this.getCurrentPlayerId();
         this.sendMove(move, playerId, this.myColor); // Emit the move to the server
         this.switchTurn();
+        pieceMove.play()
       } else {
         console.warn("Invalid move attempted:", move);
         return "snapback";

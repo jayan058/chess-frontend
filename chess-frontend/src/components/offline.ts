@@ -7,7 +7,8 @@ import { updateStatus } from "../offlineGameServices/updateStatus";
 import { initializeGameControls } from "../offlineGameServices/gameControls";
 import { sessionChangeListeners } from "../utils/sessionChangeListener";
 import { gameDifficultySelection } from "../offlineGameServices/gameDifficultySelection";
-
+let pieceMove=new Audio()
+pieceMove.src="./assets/audio/pieceMoving.mp3"
 let positionCount: number;
 
 export function updatePositionCount() {
@@ -53,10 +54,11 @@ export class OfflinePage {
       }
     };
 
-    let makeBestMove = function () {
+    let makeBestMove = function () { 
       let bestMove = getBestMove(game);
       game.move(bestMove);
       board.position(game.fen());
+     pieceMove.play()
       setTimeout(updateStatus, 800);
 
       if (game.game_over()) {
@@ -96,13 +98,14 @@ export class OfflinePage {
       if (move === null) {
         return "snapback";
       }
-
+      pieceMove.play()
       window.setTimeout(makeBestMove, 250);
     };
 
     let onSnapEnd = function () {
       board.position(game.fen());
       updateStatus();
+      pieceMove.play()
     };
 
     let onMouseoverSquare = function (square: any) {
@@ -148,7 +151,7 @@ export class OfflinePage {
       onMouseoverSquare: onMouseoverSquare,
       onSnapEnd: onSnapEnd,
     };
-    // Pause functionality
+   
 
     board = ChessBoard("board", cfg);
     initializeGameControls(game, board);

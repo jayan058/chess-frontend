@@ -22,7 +22,7 @@ export class RandomMatchMaking {
           });
           socket.on("redirectToGame", () => {
             modal.close();
-            window.location.href = "#/online"; // Redirect both users to the game page
+            window.location.href = "#/online"; 
           });
 
     }

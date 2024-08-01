@@ -12,14 +12,11 @@ export class Auth {
   }
 
   static clearTokens() {
-    // Trigger server-side logout
     fetch('/logout', { method: 'POST' })
       .then(response => {
         if (response.ok) {
-          // Clear access and refresh tokens on the client side
           document.cookie = `${this.ACCESS_TOKEN_KEY}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
           document.cookie = `${this.REFRESH_TOKEN_KEY}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
-          // Notify other tabs of session change
           localStorage.setItem(this.SESSION_STATE_KEY, Date.now().toString());
         }
       })

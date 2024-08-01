@@ -15,7 +15,6 @@ class SocketSingleton {
         });
         
 
-        // Handle reconnection
         this.socket.on('reconnect_attempt', () => {
             console.log('Reconnection attempt detected. Updating socket auth token...');
             this.updateAuthToken();
@@ -33,7 +32,7 @@ class SocketSingleton {
     public static destroyInstance() {
         if (SocketSingleton.instance) {
             SocketSingleton.instance.socket.disconnect();
-            SocketSingleton.instance.socket.off(); // Remove all listeners
+            SocketSingleton.instance.socket.off(); 
             SocketSingleton.instance = null;
         }
     }

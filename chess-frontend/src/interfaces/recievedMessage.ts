@@ -5,11 +5,11 @@ export interface ReceivedMessage {
     senderId: number;
     message: string;
     messageType: string | null;
-    createdAt: string; // Use string if the timestamp is in ISO format
+    createdAt: string; 
     name: string;
     email: string;
     passwordHash: string;
     profilePicture: string;
-    updatedAt: string; // Use string if the timestamp is in ISO format
+    updatedAt: string;
   }
   

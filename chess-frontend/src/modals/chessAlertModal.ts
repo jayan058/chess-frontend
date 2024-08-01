@@ -18,7 +18,6 @@ export class ChessAlertModal {
         this.messageElement = this.modalElement.querySelector('#modalMessage') as HTMLParagraphElement;
         this.buttonsElement = this.modalElement.querySelector('#modalButtons') as HTMLDivElement;
 
-        // Add this instance to the static array of instances
         ChessAlertModal.instances.push(this);
     }
 

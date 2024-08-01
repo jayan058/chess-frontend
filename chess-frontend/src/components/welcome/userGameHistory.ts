@@ -17,12 +17,12 @@ export class GameTable {
   private init(): void {
     if (this.container) {
       this.container.innerHTML = this.createTable();
-      addRowClickEventListeners(this.container.id); // Add event listeners after rendering
+      addRowClickEventListeners(this.container.id); 
     }
   }
 
   private createTable(): string {
-    // Generate a unique class name for the header, if needed
+  
     const headerClass = this.data.length > 0 ? `header-${this.data[0].gameId}` : 'header-default';
     
     return `

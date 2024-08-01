@@ -24,11 +24,9 @@ export class ModalManager {
     // Hide the modal by default
     this.close();
 
-    // Add this instance to the static array of instances
     ModalManager.instances.push(this);
   }
 
-  // Show the modal with a specific message and type
   show(message: string, type: "success" | "error"): void {
     if (this.modalMessage) {
       this.modalMessage.textContent = message;
@@ -39,14 +37,12 @@ export class ModalManager {
     }
   }
 
-  // Hide the modal
   close(): void {
     if (this.modal) {
       this.modal.style.display = "none";
     }
   }
 
-  // Static method to close all instances
   static closeAll(): void {
     for (const instance of ModalManager.instances) {
       instance.close();

@@ -4,7 +4,8 @@ import { Message } from "../../interfaces/messages";
 
 const socket = socketInstance.getSocket();
 let newMessageCount = 0;
-
+let newMessage=new Audio()
+newMessage.src="./assets/audio/newMessage.mp3"
 export function sendTextMessage() {
   const sendMessageButton = document.querySelector(".send-message") as HTMLButtonElement;
   const messageInput = document.querySelector(".message-input") as HTMLInputElement;
@@ -66,8 +67,10 @@ function sendMessage(content: string) {
 socket.on("message", (message: Message) => {
   console.log("Message received:", message);
   displayMessage(message);
+
   handleNewMessage(); // Handle new message for notification
   scrollToBottom(); // Scroll to bottom after receiving a new message
+  newMessage.play()
 });
 
 export function handleNewMessage() {

@@ -1,5 +1,6 @@
 import { Chess } from "chess.js";
-
+let pieceMove=new Audio()
+pieceMove.src="./assets/audio/pieceMoving.mp3"
 export class GameReplay {
     private static game: Chess;
     private static board: any;
@@ -65,6 +66,7 @@ export class GameReplay {
 
             this.game.move({ from: move.from, to: move.to });
             this.board.position(this.game.fen());
+            pieceMove.play()
             this.currentMoveIndex++;
         } else {
             // If all moves are played, reset the game
@@ -77,6 +79,7 @@ export class GameReplay {
             this.currentMoveIndex--;
             this.game.undo();
             this.board.position(this.game.fen());
+            pieceMove.play()
         }
     }
 

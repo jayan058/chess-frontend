@@ -1,4 +1,4 @@
-// eventListeners/login.ts
+
 
 import { ModalManager } from "../utils/modal";
 export class LoginPage {
@@ -37,7 +37,7 @@ export class LoginPage {
           localStorage.setItem('authChange', Date.now().toString());
           window.location.hash = "#/welcome";
         } else {
-          // Handle HTTP errors
+         
           const error = await response.json();
           const modal = new ModalManager("myModal", "modalMessage", "close");
           modal.show(error.message, "error");
