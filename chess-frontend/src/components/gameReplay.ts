@@ -1,6 +1,10 @@
 import { Chess } from "chess.js";
+import { Auth } from "../auth";
+import { Router } from "../router";
+
 let pieceMove=new Audio()
 pieceMove.src="./assets/audio/pieceMoving.mp3"
+
 export class GameReplay {
     private static game: Chess;
     private static board: any;
@@ -9,6 +13,11 @@ export class GameReplay {
     private static intervalId: number | null = null;
 
     static async load(): Promise<string> {
+        if (!Auth.isLoggedIn()) {
+            window.location.hash = "#/login";
+            Router.loadContent();
+            return "";
+          }
         const response = await fetch("src/views/gameReplay.html");
         return response.text();
     }

@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const newHash = window.location.hash;
 
     // Define routes where socket should be disconnected
-    const disconnectRoutes = ["#/welcome", "#/login", "#/home"];
+    const disconnectRoutes = ["#/welcome", "#/login", "#/home","#/leader-board"];
 
     // Define routes where socket should be reconnected
     const reconnectRoutes = ["#/create-game", "#/join-game","#/watch-game","#/random-match-making"];

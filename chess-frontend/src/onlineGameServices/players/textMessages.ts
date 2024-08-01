@@ -4,14 +4,31 @@ import { Message } from "../../interfaces/messages";
 
 const socket = socketInstance.getSocket();
 let newMessageCount = 0;
-let newMessage=new Audio()
-newMessage.src="./assets/audio/newMessage.mp3"
+let newMessage = new Audio();
+newMessage.src = "./assets/audio/newMessage.mp3";
+
+let mediaRecorder: MediaRecorder | null = null;
+let audioChunks: Blob[] = [];
+
 export function sendTextMessage() {
-  const sendMessageButton = document.querySelector(".send-message") as HTMLButtonElement;
-  const messageInput = document.querySelector(".message-input") as HTMLInputElement;
-  const showMessagesButton = document.querySelector(".show-messages") as HTMLButtonElement;
+  const sendMessageButton = document.querySelector(
+    ".send-message"
+  ) as HTMLElement;
+  const messageInput = document.querySelector(
+    ".message-input"
+  ) as HTMLInputElement;
+  const showMessagesButton = document.querySelector(
+    ".show-messages"
+  ) as HTMLButtonElement;
   const messageModal = document.querySelector(".modal") as HTMLElement;
   const closeButton = document.querySelector(".close-button") as HTMLElement;
+  const startRecordingButton = document.querySelector(
+    ".start-recording"
+  ) as HTMLElement;
+  const stopRecordingButton = document.querySelector(
+    ".stop-recording"
+  ) as HTMLElement;
+  const sendAudioButton = document.querySelector(".send-audio") as HTMLElement;
 
   if (sendMessageButton && messageInput) {
     sendMessageButton.addEventListener("click", () => {
@@ -34,7 +51,7 @@ export function sendTextMessage() {
   if (showMessagesButton) {
     showMessagesButton.addEventListener("click", () => {
       messageModal.style.display = "block";
-      resetMessageCount(); // Reset new message count
+      resetMessageCount();
     });
   }
 
@@ -51,6 +68,12 @@ export function sendTextMessage() {
       }
     });
   }
+
+  if (startRecordingButton && stopRecordingButton && sendAudioButton) {
+    startRecordingButton.addEventListener("click", startRecording);
+    stopRecordingButton.addEventListener("click", stopRecording);
+    sendAudioButton.addEventListener("click", sendAudioMessage);
+  }
 }
 
 function sendMessage(content: string) {
@@ -59,9 +82,77 @@ function sendMessage(content: string) {
     content: content,
     timestamp: new Date().toISOString(),
     picture: myData.myPicture,
-    roomId: myData.myRoom
+    roomId: myData.myRoom,
   };
   socket.emit("message", message); // Emit the message to the server
+}
+
+function startRecording() {
+  const startRecordingButton = document.querySelector(
+    ".start-recording"
+  ) as HTMLElement;
+  const stopRecordingButton = document.querySelector(
+    ".stop-recording"
+  ) as HTMLElement;
+
+  navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+    mediaRecorder = new MediaRecorder(stream);
+    mediaRecorder.start();
+
+    mediaRecorder.addEventListener("dataavailable", (event) => {
+      audioChunks.push(event.data);
+    });
+
+    startRecordingButton.style.display = "none";
+    stopRecordingButton.style.display = "inline";
+  });
+}
+
+function stopRecording() {
+ 
+  const stopRecordingButton = document.querySelector(
+    ".stop-recording"
+  ) as HTMLElement;
+  const sendAudioButton = document.querySelector(".send-audio") as HTMLElement;
+
+  if (mediaRecorder) {
+    mediaRecorder.stop();
+    mediaRecorder.addEventListener("stop", () => {
+      sendAudioButton.style.display = "inline";
+      stopRecordingButton.style.display = "none";
+    });
+  }
+  
+}
+
+function sendAudioMessage() {
+  const startRecordingButton = document.querySelector(
+    ".start-recording"
+  ) as HTMLElement;
+  const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+  const audioUrl = URL.createObjectURL(audioBlob);
+  const audio = new Audio(audioUrl);
+  audio.play();
+
+  const reader = new FileReader();
+  reader.readAsDataURL(audioBlob);
+  reader.onloadend = () => {
+    const base64AudioMessage = reader.result;
+    const message: Message = {
+      sender: myData.myName,
+      content: base64AudioMessage as string,
+      timestamp: new Date().toISOString(),
+      picture: myData.myPicture,
+      roomId: myData.myRoom,
+      isAudio: true,
+    };
+    socket.emit("message", message); // Emit the audio message to the server
+  };
+
+  audioChunks = []; // Clear audio chunks after sending
+  const sendAudioButton = document.querySelector(".send-audio") as HTMLElement;
+  sendAudioButton.style.display = "none";
+  startRecordingButton.style.display = "inline";
 }
 
 socket.on("message", (message: Message) => {
@@ -70,7 +161,7 @@ socket.on("message", (message: Message) => {
 
   handleNewMessage(); // Handle new message for notification
   scrollToBottom(); // Scroll to bottom after receiving a new message
-  newMessage.play()
+  newMessage.play();
 });
 
 export function handleNewMessage() {
@@ -82,7 +173,9 @@ export function handleNewMessage() {
 }
 
 function updateMessageButton() {
-  const showMessagesButton = document.querySelector(".show-messages") as HTMLButtonElement;
+  const showMessagesButton = document.querySelector(
+    ".show-messages"
+  ) as HTMLButtonElement;
   if (showMessagesButton) {
     if (newMessageCount > 0) {
       showMessagesButton.textContent = `Show Messages (New Messages)`;
@@ -120,9 +213,17 @@ export function displayMessage(message: Message) {
 
     const messageTextElement = document.createElement("p");
     messageTextElement.classList.add("message-text");
-    messageTextElement.innerHTML = `<strong>${message.sender}:</strong> ${message.content}`;
 
     // Apply different styles for sent and received messages
+    if (message.isAudio) {
+      const audioElement = document.createElement("audio");
+      audioElement.controls = true;
+      audioElement.src = message.content;
+      messageTextElement.appendChild(audioElement);
+    } else {
+      messageTextElement.innerHTML = `<strong>${message.sender}:</strong> ${message.content}`;
+    }
+
     if (message.sender === myData.myName) {
       messageElement.classList.add("sent-message");
     } else {

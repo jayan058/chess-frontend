@@ -56,6 +56,8 @@ export class Online {
   }
 
   static initEventListeners() {
+   
+
     sendTextMessage();
 
     this.game = new Chess();
@@ -66,6 +68,7 @@ export class Online {
     socket.off("move");
     socket.off("error");
     socket.off("playerInfo");
+    socket.off("randomMatchRequest")
 
     // Set up event handlers
     socket.on("gameStarted", (players) => {

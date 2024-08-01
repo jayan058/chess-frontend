@@ -19,6 +19,8 @@ export class JoinGame {
   }
 
   static initEventListeners() {
+    socket.off("randomMatchRequest")
+
     const createRoomForm = document.getElementById(
       "join-room-form"
     ) as HTMLFormElement;

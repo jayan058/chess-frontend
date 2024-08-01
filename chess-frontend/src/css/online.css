@@ -20,54 +20,19 @@ button:hover {
   text-align: center;
   padding: 10px;
   position: fixed;
-  bottom: 0; /* Position at the bottom of the viewport */
+  bottom: 0;
   width: 100%;
-  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Optional shadow for separation */
-  z-index: 1000; /* Ensure it appears above other content */
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
 .footer p {
   margin: 0;
 }
 
-body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f4f4;
-  margin: 0;
-  padding: 0;
-  color: #333;
-  height: 90vh;
-}
-
-.container {
-  max-width: 500px;
-  padding: 70px;
-  margin: 5% auto;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.footer {
-  background-color: #f8f9fa;
-  color: #333;
-  text-align: center;
-  padding: 10px;
-  position: fixed;
-  bottom: 0; /* Position at the bottom of the viewport */
-  width: 100%;
-  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Optional shadow for separation */
-  z-index: 1000; /* Ensure it appears above other content */
-}
-
-.footer p {
-  margin: 0;
-}
-
-#board {
+.board {
   width: 400px;
   margin: auto;
-  padding-bottom: 40px;
 }
 
 /*!
@@ -136,6 +101,46 @@ body {
   left: 2px;
 }
 
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  height: 90vh;
+}
+
+.container {
+  max-width: 500px;
+  padding: 70px;
+  margin: 5% auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.footer {
+  background-color: #f8f9fa;
+  color: #333;
+  text-align: center;
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.footer p {
+  margin: 0;
+}
+
+#board {
+  width: 400px;
+  margin: auto;
+  padding-bottom: 40px;
+}
+
 .player-info {
   display: flex;
   justify-content: space-between;
@@ -170,7 +175,6 @@ body {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-/* Modal Content */
 .modal-content {
   background-color: #ffffff;
   margin: 3% auto;
@@ -241,7 +245,6 @@ body {
   overflow-wrap: anywhere;
 }
 
-/* Message Text */
 .message-text {
   display: flex;
   flex-direction: column;
@@ -251,10 +254,11 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
-/* Message Form styles */
 .message-form {
   display: flex;
   margin-top: 20px;
+  align-items: center;
+  width: 80%;
 }
 
 .message-input {
@@ -276,12 +280,43 @@ body {
   font-size: 14px;
 }
 
+.start-recording {
+  margin-left: 10px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 20px;
+  background-color: #007bff;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.stop-recording {
+  margin-left: 10px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 20px;
+  background-color: red;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.send-audio {
+  margin-left: 10px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 20px;
+  background-color: #007bff;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
 .send-message:hover {
   background-color: #0056b3;
 }
 
-/* Import Google Font */
-/* Basic reset for better cross-browser compatibility */
 * {
   margin: 0;
   padding: 0;
@@ -289,14 +324,12 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
-/* Container */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
 }
 
-/* Container for player info */
 .player-info-container {
   display: flex;
   flex-direction: column;
@@ -366,7 +399,6 @@ body {
   animation: blink 1s step-start infinite;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .player-info-content {
     flex-direction: column;
@@ -378,7 +410,6 @@ body {
     margin: 10px 0;
   }
 }
-/* Animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -393,4 +424,10 @@ body {
   50% {
     opacity: 0.5;
   }
+}
+.message-form__icons {
+  display: flex;
+  align-items: center;
+  width: 10%;
+  justify-content: space-around;
 }/*# sourceMappingURL=online.css.map */

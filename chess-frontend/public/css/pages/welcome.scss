@@ -5,6 +5,9 @@
 @import "../components/body";
 @import "../components/footer";
 @import "../components/image";
+@import "../components/table";
+@import "../components/pagination";
+
 
 body {
   font-family: Arial, sans-serif;
@@ -152,110 +155,12 @@ nav {
   width: 100%;
 }
 
-body {
-  font-family: "Roboto", sans-serif;
-  background-color: #f0f4f8;
-  margin: 0;
-}
-
-.table-container {
-  width: 100%;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-
-  
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th,
-td {
-  padding: 15px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-  font-size: 16px;
-  transition: background-color 0.3s, transform 0.3s, color 0.3s;
-}
-
-th {
-  background-color: #007bff;
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 600;
-  font-size: 18px;
-}
-
-tr {
-  cursor: pointer;
-}
-
-tr.win {
-  background-color: #d4edda;
-  color: #155724;
-}
-
-tr.lose {
-  background-color: #f8d7da;
-  color: #721c24;
-}
-
-tr:hover {
-  background-color: #e9ecef;
-}
-
-td {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
-@media (max-width: 768px) {
-  th,
-  td {
-    padding: 12px;
-    font-size: 14px;
-  }
+.game-history-container{
+  padding: 10px;
 }
 
 
 
-.pagination-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 20px 0;
-  padding-bottom: 50px;
-}
-
-
-.pagination-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  margin: 0 5px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.pagination-button:hover {
-  background-color: #0056b3;
-}
-
-.pagination-button:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
-}
-
-
-.page-info {
-  margin: 0 15px;
-  font-size: 16px;
-}
 
 
 

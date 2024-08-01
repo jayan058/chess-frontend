@@ -28,6 +28,7 @@ export class WelcomePage {
     this.setupPlayOfflineEventListener();
     this.setupPlayOnlineEventListener();
     this.setupPaginationEventListeners(); 
+    this.setUpLeaderBoardEventListeners();
 
   }
 
@@ -206,5 +207,11 @@ export class WelcomePage {
         
       ]);
     });
+  }
+
+  static setUpLeaderBoardEventListeners(){
+    document.getElementById("getLeaderboardBtn")?.addEventListener("click", () => {
+      window.location.hash="#/leader-board"
+    })
   }
 }

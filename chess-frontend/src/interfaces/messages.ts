@@ -3,5 +3,6 @@ export interface Message{
     content:string,
     timestamp:string,
     picture:string,
-    roomId?:number
+    roomId?:number,
+    isAudio?:boolean
 }

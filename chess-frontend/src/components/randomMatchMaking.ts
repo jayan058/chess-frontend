@@ -1,29 +1,84 @@
 import socketInstance from "../utils/socket";
-
 const socket = socketInstance.getSocket();
 import { ModalManager } from "../utils/modal";
+import { Auth } from "../auth";
+import { Router } from "../router";
 
 export class RandomMatchMaking {
-    static async load(): Promise<string> {
-      const response = await fetch("src/views/randomMatchMaking.html");
-      return response.text();
-    }
-  
-    static initEventListeners() {
-        const modal = new ModalManager("myModal", "modalMessage", "close");
-        modal.show("Finding An Opponent For You Hang In There", "success");
-        let opponentFindInterval=setInterval(()=>{
-           socket.emit("randomMatchRequest");
-        },3000)
-       
-        socket.on("opponentConnected", () => {
-          clearInterval(opponentFindInterval)
-            modal.show("We Found An Opponent For You!!!Redirecting to Game!!!", "success");
-          });
-          socket.on("redirectToGame", () => {
-            modal.close();
-            window.location.href = "#/online"; 
-          });
+  static opponentFindInterval: number | undefined;
 
+  static async load(): Promise<string> {
+    if (!Auth.isLoggedIn()) {
+      window.location.hash = "#/login";
+      Router.loadContent();
+      return "";
+    }
+    const response = await fetch("src/views/randomMatchMaking.html");
+    return response.text();
+  }
+
+  static initEventListeners() {
+    const modal = new ModalManager("myModal", "modalMessage", "close");
+    modal.show("Finding An Opponent For You Hang In There", "success");
+
+    // Start finding opponent
+    this.startFindingOpponent();
+
+    socket.on("opponentConnected", RandomMatchMaking.handleOpponentConnected);
+    socket.on("redirectToGame", RandomMatchMaking.handleRedirectToGame);
+    socket.on("foundOpponent", RandomMatchMaking.handleFoundOpponent);
+
+    // Clear the interval when leaving the page
+    window.onbeforeunload = () => {
+      RandomMatchMaking.cleanup();
+    };
+
+    window.addEventListener("hashchange", () => {
+      RandomMatchMaking.cleanup();
+    });
+  }
+
+  static startFindingOpponent() {
+    this.opponentFindInterval = setInterval(() => {
+      console.log("Emitting randomMatchRequest");
+      socket.emit("randomMatchRequest");
+    }, 3000);
+  }
+
+  static stopFindingOpponent() {
+    if (this.opponentFindInterval) {
+      console.log("Clearing interval");
+      clearInterval(this.opponentFindInterval);
+      this.opponentFindInterval = undefined;
     }
   }
+
+  static handleOpponentConnected() {
+    console.log("Opponent connected");
+    const modal = new ModalManager("myModal", "modalMessage", "close");
+    modal.show(
+      "We Found An Opponent For You!!! Redirecting to Game!!!",
+      "success"
+    );
+  }
+
+  static handleRedirectToGame() {
+    console.log("Redirecting to game");
+    const modal = new ModalManager("myModal", "modalMessage", "close");
+    modal.close();
+    window.location.href = "#/online";
+  }
+
+  static handleFoundOpponent() {
+    console.log("Found opponent");
+    RandomMatchMaking.stopFindingOpponent();
+  }
+
+  static cleanup() {
+    console.log("Cleaning up");
+    RandomMatchMaking.stopFindingOpponent();
+    socket.off("opponentConnected", RandomMatchMaking.handleOpponentConnected);
+    socket.off("redirectToGame", RandomMatchMaking.handleRedirectToGame);
+    socket.off("foundOpponent", RandomMatchMaking.handleFoundOpponent);
+  }
+}

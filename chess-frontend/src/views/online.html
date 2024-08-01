@@ -1,43 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Online Chess Game</title>
-  </head>
-  <body>
-    <div id="game-info"></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Online Chess Game</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
+  <div id="game-info"></div>
 
-    <div class="timers">
-      <div class="timer">
-        <span>White Timer:</span>
-        <div id="white-timer" class="timer-display">10:00</div>
-      </div>
-      <div class="timer">
-        <span>Black Timer:</span>
-        <div id="black-timer" class="timer-display">10:00</div>
-      </div>
+  <div class="timers">
+    <div class="timer">
+      <span>White Timer:</span>
+      <div id="white-timer" class="timer-display">10:00</div>
     </div>
-<!-- Modal Structure -->
-<!-- Modal Structure -->
-<div class="modal">
-  <div class="modal-content">
-  
-    <div class="message-container"></div>
-    <div class="message-form">
-      <input class="message-input" type="text" placeholder="Type your message...">
-      <button class="send-message">Send</button>
+    <div class="timer">
+      <span>Black Timer:</span>
+      <div id="black-timer" class="timer-display">10:00</div>
     </div>
   </div>
-</div>
 
-<!-- Button to Show Messages -->
-<button class="show-messages">Show Messages</button>
+  <div class="modal">
+    <div class="modal-content">
+      <div class="message-container"></div>
+      <div class="message-form">
+        <input class="message-input" type="text" placeholder="Type your message...">
+        <div class="message-form__icons">
+        <i class="fa-solid fa-paper-plane send-message"></i>
+        <i class="fa-solid fa-play start-recording "></i>
+        <i class="fa-solid fa-circle-stop stop-recording" style="display:none;"></i>
+        <i class="fa-solid fa-paper-plane send-audio" style="display:none;"></i>
+      </div>
+      </div>
+    </div>
+  </div>
 
+  <button class="show-messages">Show Messages</button>
 
+  <div id="board" style="width: 400px"></div>
 
-
-
-    <div id="board" style="width: 400px"></div>
-  </body>
+  <script src="path/to/your/javascript.js"></script>
+</body>
 </html>

@@ -24,7 +24,6 @@ a:hover {
   color: #0056b3;
 }
 
-/* Form Styles */
 form {
   display: flex;
   flex-direction: column;
@@ -134,7 +133,6 @@ header a:hover {
   transition: opacity 0.3s ease-in-out;
 }
 
-/* Modal content */
 .modal-content {
   background-color: #fff;
   margin: 10% auto;
@@ -222,10 +220,10 @@ header a:hover {
   text-align: center;
   padding: 10px;
   position: fixed;
-  bottom: 0; /* Position at the bottom of the viewport */
+  bottom: 0;
   width: 100%;
-  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Optional shadow for separation */
-  z-index: 1000; /* Ensure it appears above other content */
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
 .footer p {
@@ -235,16 +233,6 @@ header a:hover {
 .board {
   width: 400px;
   margin: auto;
-}
-
-.info {
-  width: 400px;
-  margin: auto;
-}
-
-.move-history {
-  max-height: 100px;
-  overflow-y: scroll;
 }
 
 /*!
@@ -313,6 +301,21 @@ header a:hover {
   left: 2px;
 }
 
+.board {
+  width: 400px;
+  margin: auto;
+}
+
+.info {
+  width: 400px;
+  margin: auto;
+}
+
+.move-history {
+  max-height: 100px;
+  overflow-y: scroll;
+}
+
 .modal {
   display: none;
   position: fixed;
@@ -354,7 +357,6 @@ header a:hover {
   color: #3795f3;
 }
 
-/* Reset default styles */
 * {
   margin: 0;
   padding: 0;
@@ -483,9 +485,8 @@ footer {
   background-color: #f1f1f1;
 }
 
-/* Styles for the "Show The Game Moves" button */
 #openModalButton:hover {
-  background-color: #2d4373; /* Darker shade of blue for hover effect */
+  background-color: #2d4373;
 }
 
 #openModalButton:focus {
@@ -493,7 +494,7 @@ footer {
 }
 
 #openModalButton:active {
-  background-color: #1d2736; /* Even darker shade for active state */
+  background-color: #1d2736;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 

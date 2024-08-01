@@ -17,6 +17,8 @@ export class CreateGamePage {
   }
 
   static initEventListeners() {
+    socket.off("randomMatchRequest")
+
     const createRoomForm = document.getElementById(
       "create-room-form"
     ) as HTMLFormElement;

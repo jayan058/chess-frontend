@@ -24,7 +24,6 @@ a:hover {
   color: #0056b3;
 }
 
-/* Form Styles */
 form {
   display: flex;
   flex-direction: column;
@@ -143,10 +142,10 @@ body {
   text-align: center;
   padding: 10px;
   position: fixed;
-  bottom: 0; /* Position at the bottom of the viewport */
+  bottom: 0;
   width: 100%;
-  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Optional shadow for separation */
-  z-index: 1000; /* Ensure it appears above other content */
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
 .footer p {
@@ -168,7 +167,6 @@ body {
   transition: opacity 0.3s ease-in-out;
 }
 
-/* Modal content */
 .modal-content {
   background-color: #fff;
   margin: 10% auto;

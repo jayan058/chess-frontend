@@ -3,7 +3,8 @@ import { Chess } from "chess.js";
 import { ModalManager } from "../../utils/modal";
 import socketInstance from "../../utils/socket";
 const socket = socketInstance.getSocket();
-
+let pieceMove=new Audio()
+pieceMove.src="./assets/audio/pieceMoving.mp3"
 import { displayPlayerVsPlayer } from "./gamePlayersInfo";
 export class OnlineAudiencePage {
   private static game: Chess;
@@ -29,6 +30,8 @@ export class OnlineAudiencePage {
     socket.off("error");
     socket.off("playerInfo");
     socket.off("latestData");
+    socket.off("randomMatchRequest")
+
    
     socket.on("move", (move) => {
       console.log("Move received from server:", move);
@@ -69,7 +72,7 @@ export class OnlineAudiencePage {
     socket.on("move", (move) => {
       console.log("Move received from server:", move);
       console.log("Current FEN before applying move:", this.game.fen());
-
+     pieceMove.play()
       // Check if move is valid
       const result = this.game.move(move);
       if (result) {
