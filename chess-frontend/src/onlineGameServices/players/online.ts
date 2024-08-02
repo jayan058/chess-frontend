@@ -6,8 +6,8 @@ import { PlayerInfo } from "../../interfaces/playersInfo";
 import { sendTextMessage } from "./textMessages";
 const socket = socketInstance.getSocket();
 export let myData: PlayerInfo;
-let pieceMove=new Audio()
-pieceMove.src="./assets/audio/pieceMoving.mp3"
+let pieceMove = new Audio();
+pieceMove.src = "./assets/audio/pieceMoving.mp3";
 interface Player {
   socketId: string;
   name: string;
@@ -47,17 +47,11 @@ export class Online {
     // Determine the player's color
     this.myColor = players.find((p) => p.socketId === socket.id)?.color || "w";
 
-    console.log(this.whitePlayer);
-    console.log(this.blackPlayer);
-    console.log(`My color is: ${this.myColor}`);
-
     this.currentTurn = "w"; // White starts first
     this.updateTurnIndicator(this.currentTurn);
   }
 
   static initEventListeners() {
-   
-
     sendTextMessage();
 
     this.game = new Chess();
@@ -68,23 +62,19 @@ export class Online {
     socket.off("move");
     socket.off("error");
     socket.off("playerInfo");
-    socket.off("randomMatchRequest")
+    socket.off("randomMatchRequest");
 
     // Set up event handlers
     socket.on("gameStarted", (players) => {
-      console.log("here");
-
       this.init(players.participants); // Initialize with new players
     });
 
     socket.on("turn", (turn) => {
-      console.log(`It's now ${turn}'s turn.`);
       this.currentTurn = turn; // Update current turn
       this.updateTurnIndicator(turn);
     });
 
     socket.on("playerInfo", (data) => {
-      console.log("Recieved");
       myData = data;
       setTimeout(() => {
         if (data.myColor == "black") {
@@ -97,14 +87,12 @@ export class Online {
     socket.on(
       "timerUpdate",
       (data: { color: "white" | "black"; time: number }) => {
-        console.log(data);
-
         if (data.color === "white") {
           this.updateTimerDisplay("white-timer", data.time);
         } else {
           this.updateTimerDisplay("black-timer", data.time);
         }
-      }
+      },
     );
     socket.on("game-over", (data) => {
       const modal = new ModalManager("myModal", "modalMessage", "close");
@@ -117,16 +105,12 @@ export class Online {
     });
 
     socket.on("move", (move) => {
-      console.log("Move received from server:", move);
-      console.log("Current FEN before applying move:", this.game.fen());
-
       // Check if move is valid
       const result = this.game.move(move);
       if (result) {
-        console.log("New FEN after applying move:", this.game.fen());
         this.updateBoard();
         this.renderBoard();
-        pieceMove.play()
+        pieceMove.play();
       } else {
         console.warn("Invalid move received from server:", move);
       }
@@ -145,7 +129,6 @@ export class Online {
     socket.on("gameOverByMoves", (message) => {
       const modal = new ModalManager("myModal", "modalMessage", "close");
       modal.show(message.reason, "error");
-      console.log(message);
 
       let timeout = setTimeout(() => {
         modal.close();
@@ -163,31 +146,26 @@ export class Online {
         } else {
           alert("Move revert request denied by opponent");
         }
-      }
+      },
     );
 
     socket.on("checkMate", (message) => {
       const modal = new ModalManager("myModal", "modalMessage", "close");
       modal.show(message.reason, "success");
-      // setTimeout(() => modal.close(), 3000);
     });
   }
 
   private static handleMove(source: string, target: string) {
-    console.log("Handling move:", { source, target });
-    console.log("Current FEN:", this.game.fen());
-
     if (this.myColor === this.getCurrentTurnColor()) {
       const move = { from: source, to: target };
       const result = this.game.move(move);
       if (result) {
-        console.log("New FEN after move:", this.game.fen());
         this.updateBoard();
         this.checkGameStatus();
         const playerId = this.getCurrentPlayerId();
         this.sendMove(move, playerId, this.myColor); // Emit the move to the server
         this.switchTurn();
-        pieceMove.play()
+        pieceMove.play();
       } else {
         console.warn("Invalid move attempted:", move);
         return "snapback";
@@ -212,7 +190,6 @@ export class Online {
     let result = "";
 
     if (this.game.isCheckmate()) {
-      console.log("Checkmate detected");
       const winner = this.getCurrentTurnColor() === "w" ? "Black" : "White";
       result = `${winner} is in checkmate! ${this.getCurrentTurnColor()} wins the Game`;
       // Emit checkmate event and handle end of game
@@ -227,12 +204,9 @@ export class Online {
       result = "Game is a draw.";
       this.handleGameOver(result);
     } else if (this.game.inCheck()) {
-      console.log("Check detected");
       socket.emit("check", { reason: `Check` });
     }
   }
-
-
 
   // Event listeners for timers
 
@@ -257,7 +231,7 @@ export class Online {
   private static sendMove(
     move: { from: string; to: string },
     playerId: number,
-    myColor: string
+    myColor: string,
   ) {
     socket.emit("move", move, playerId, myColor, this.game.fen()); // Send the move object to the server
   }
@@ -283,13 +257,11 @@ export class Online {
         turnIndicator.innerText = `Current turn: ${this.blackPlayer.name}`;
       }
     }
-    console.log(`Turn indicator updated to: ${turn}`);
   }
 
   private static switchTurn() {
     // Switch the turn
     this.currentTurn = this.currentTurn === "w" ? "b" : "w";
-    console.log(this.currentTurn);
 
     this.updateTurnIndicator(this.currentTurn);
     socket.emit("turn", this.currentTurn); // Notify the server of the turn change

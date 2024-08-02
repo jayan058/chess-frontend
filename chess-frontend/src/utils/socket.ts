@@ -1,60 +1,58 @@
-import { io, Socket } from 'socket.io-client';
-import { Auth } from '../auth';
+import { io, Socket } from "socket.io-client";
+import { Auth } from "../auth";
 
 class SocketSingleton {
-    private static instance: SocketSingleton | null = null;
-    public socket: Socket;
+  private static instance: SocketSingleton | null = null;
+  public socket: Socket;
 
-    private constructor() {
-        this.socket = io('http://localhost:3000', {
-            transports: ['websocket'],
-            withCredentials: true,
-            auth: {
-                token: Auth.getAccessToken()
-            }
-        });
-        
+  private constructor() {
+    this.socket = io("http://localhost:3000", {
+      transports: ["websocket"],
+      withCredentials: true,
+      auth: {
+        token: Auth.getAccessToken(),
+      },
+    });
 
-        this.socket.on('reconnect_attempt', () => {
-            console.log('Reconnection attempt detected. Updating socket auth token...');
-            this.updateAuthToken();
-        });
+    this.socket.on("reconnect_attempt", () => {
+      this.updateAuthToken();
+    });
+  }
+
+  public static getInstance(): SocketSingleton {
+    if (!SocketSingleton.instance) {
+      SocketSingleton.instance = new SocketSingleton();
     }
 
-    public static getInstance(): SocketSingleton {
-        if (!SocketSingleton.instance) {
-            SocketSingleton.instance = new SocketSingleton();
-        }
+    return SocketSingleton.instance;
+  }
 
-        return SocketSingleton.instance;
+  public static destroyInstance() {
+    if (SocketSingleton.instance) {
+      SocketSingleton.instance.socket.disconnect();
+      SocketSingleton.instance.socket.off();
+      SocketSingleton.instance = null;
     }
+  }
 
-    public static destroyInstance() {
-        if (SocketSingleton.instance) {
-            SocketSingleton.instance.socket.disconnect();
-            SocketSingleton.instance.socket.off(); 
-            SocketSingleton.instance = null;
-        }
-    }
+  public getSocket(): Socket {
+    return this.socket;
+  }
 
-    public getSocket(): Socket {
-        return this.socket;
-    }
+  public disconnect() {
+    this.socket.disconnect();
+  }
 
-    public disconnect() {
-        this.socket.disconnect();
-    }
+  public reconnect() {
+    this.updateAuthToken();
+    this.socket.connect();
+  }
 
-    public reconnect() {
-        this.updateAuthToken();
-        this.socket.connect();
-    }
-
-    private updateAuthToken() {
-        this.socket.auth = {
-            token: Auth.getAccessToken()
-        };
-    }
+  private updateAuthToken() {
+    this.socket.auth = {
+      token: Auth.getAccessToken(),
+    };
+  }
 }
 
 const socketInstance = SocketSingleton.getInstance();

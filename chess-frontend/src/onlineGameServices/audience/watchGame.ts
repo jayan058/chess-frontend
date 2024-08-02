@@ -8,9 +8,7 @@ export class WatchGame {
     return response.text();
   }
 
-  static initEventListeners() { 
-    console.log("Initializing event listeners");
-    
+  static initEventListeners() {
     socket.off("watchGame"); // Clear previous 'watchGame' event
     loadActiveRooms(); // Load and render rooms
   }

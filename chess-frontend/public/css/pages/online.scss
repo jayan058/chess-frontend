@@ -4,7 +4,7 @@
 @import "../components/body";
 @import "../components/containor";
 @import "../components/footer";
-
+@import "../components/modal";
 #board {
     width: 400px;
     margin: auto;
@@ -54,6 +54,9 @@
   width: 90%;
   max-height: 80vh;
   overflow-y: auto; 
+  flex-direction: column;
+
+  justify-content: center;
 }
 
 .modal-content::-webkit-scrollbar {

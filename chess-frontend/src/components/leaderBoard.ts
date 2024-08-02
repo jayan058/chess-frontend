@@ -2,7 +2,7 @@ import { Auth } from "../auth";
 import { Router } from "../router";
 import { sessionChangeListeners } from "../utils/sessionChangeListener";
 export class LeaderBoard {
-    static currentPage: number = 1;
+  static currentPage: number = 1;
   static totalPages: number = 1;
 
   static async load(): Promise<string> {
@@ -12,7 +12,7 @@ export class LeaderBoard {
       return "";
     }
     this.currentPage = 1;
-    localStorage.setItem('currentPage', this.currentPage.toString());
+    localStorage.setItem("currentPage", this.currentPage.toString());
 
     const response = await fetch("src/views/leaderBoard.html");
     return response.text();
@@ -35,30 +35,31 @@ export class LeaderBoard {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-        }
+        },
       );
-  
+
       if (!response.ok) {
-        console.log(response);
       }
       const leaderboardData = await response.json();
-      console.log(leaderboardData);
-  
+
       this.renderLeaderboard(leaderboardData.userStats);
-  
+
       // Update totalPages
       this.totalPages = leaderboardData.totalPages;
-  
+
       // Update pagination information
       this.updatePaginationInfo(this.totalPages);
-      
     } catch (error) {
       console.error("Failed to fetch leaderboard data:", error);
     }
   }
 
-  static renderLeaderboard(leaderboard: Array<{ username: string, wins: number }>): void {
-    const leaderboardContainer = document.getElementById('leaderboard-container');
+  static renderLeaderboard(
+    leaderboard: Array<{ username: string; wins: number }>,
+  ): void {
+    const leaderboardContainer = document.getElementById(
+      "leaderboard-container",
+    );
     if (leaderboardContainer) {
       leaderboardContainer.innerHTML = `
         <table>
@@ -69,12 +70,16 @@ export class LeaderBoard {
             </tr>
           </thead>
           <tbody>
-            ${leaderboard.map(entry => `
+            ${leaderboard
+              .map(
+                (entry) => `
               <tr>
                 <td>${entry.username}</td>
                 <td>${entry.wins}</td>
               </tr>
-            `).join('')}
+            `,
+              )
+              .join("")}
           </tbody>
         </table>
       `;
@@ -84,14 +89,14 @@ export class LeaderBoard {
   static setupPaginationEventListeners() {
     document.getElementById("next-page")?.addEventListener("click", () => {
       this.currentPage++;
-      localStorage.setItem('currentPage', this.currentPage.toString());
+      localStorage.setItem("currentPage", this.currentPage.toString());
       this.fetchLeaderboardData(this.currentPage);
     });
 
     document.getElementById("previous-page")?.addEventListener("click", () => {
       if (this.currentPage > 1) {
         this.currentPage--;
-        localStorage.setItem('currentPage', this.currentPage.toString());
+        localStorage.setItem("currentPage", this.currentPage.toString());
         this.fetchLeaderboardData(this.currentPage);
       }
     });
@@ -106,8 +111,12 @@ export class LeaderBoard {
       pageInfo.textContent = `Page ${this.currentPage} of ${totalPages}`;
     }
 
-    const previousButton = document.getElementById("previous-page") as HTMLButtonElement;
-    const nextButton = document.getElementById("next-page") as HTMLButtonElement;
+    const previousButton = document.getElementById(
+      "previous-page",
+    ) as HTMLButtonElement;
+    const nextButton = document.getElementById(
+      "next-page",
+    ) as HTMLButtonElement;
 
     if (this.currentPage <= 1) {
       previousButton.disabled = true;
@@ -121,5 +130,4 @@ export class LeaderBoard {
       nextButton.disabled = false;
     }
   }
-  }
-  
+}

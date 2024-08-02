@@ -13,9 +13,6 @@ import { GameReplay } from "./components/gameReplay";
 import { RandomMatchMaking } from "./components/randomMatchMaking";
 import { LeaderBoard } from "./components/leaderBoard";
 
-
-
-
 const routes: { [key: string]: any } = {
   "#/home": { component: HomePage, css: "home" },
   "#/login": { component: LoginPage, css: "login" },
@@ -31,7 +28,10 @@ const routes: { [key: string]: any } = {
     css: "onlineAudiencePage",
   },
   "#/game-replay": { component: GameReplay, css: "gameReplay" },
-  "#/random-match-making": { component: RandomMatchMaking, css: "randomMatchMaking" },
+  "#/random-match-making": {
+    component: RandomMatchMaking,
+    css: "randomMatchMaking",
+  },
   "#/leader-board": { component: LeaderBoard, css: "leaderBoard" },
 };
 

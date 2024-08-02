@@ -8,15 +8,15 @@ export class SignupPage {
 
   static initEventListeners() {
     const usernameInput = document.getElementById(
-      "username"
+      "username",
     ) as HTMLInputElement;
     const passwordInput = document.getElementById(
-      "password"
+      "password",
     ) as HTMLInputElement;
     const photoInput = document.getElementById("photo") as HTMLInputElement;
     const emailInput = document.getElementById("email") as HTMLInputElement;
     const imagePreview = document.getElementById(
-      "image-preview"
+      "image-preview",
     ) as HTMLImageElement;
 
     if (photoInput && imagePreview) {
@@ -66,10 +66,10 @@ export class SignupPage {
 
           const result = await response.json();
           let formattedMessage = SignupPage.formatMessage(
-            result.message + " now login to Chess.com using the new credentials"
+            result.message +
+              " now login to Chess.com using the new credentials",
           );
           const modal = new ModalManager("myModal", "modalMessage", "close");
-          console.log(formattedMessage)
           modal.show(formattedMessage, "success");
           window.location.hash = "#/login";
         } catch (error: unknown) {}

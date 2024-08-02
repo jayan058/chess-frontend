@@ -1,4 +1,3 @@
-
 import { Auth } from "../../auth";
 import { Router } from "../../router";
 import { sessionChangeListeners } from "../../utils/sessionChangeListener";
@@ -15,7 +14,7 @@ export class WelcomePage {
       return "";
     }
     this.currentPage = 1;
-    localStorage.setItem('currentPage', this.currentPage.toString());
+    localStorage.setItem("currentPage", this.currentPage.toString());
 
     const response = await fetch("src/views/welcome.html");
     return response.text();
@@ -27,9 +26,8 @@ export class WelcomePage {
     this.fetchUserDetails();
     this.setupPlayOfflineEventListener();
     this.setupPlayOnlineEventListener();
-    this.setupPaginationEventListeners(); 
+    this.setupPaginationEventListeners();
     this.setUpLeaderBoardEventListeners();
-
   }
 
   static async fetchUserDetails(page: number = 1) {
@@ -43,38 +41,32 @@ export class WelcomePage {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-        }
+        },
       );
-  
+
       if (!response.ok) {
-        console.log(response);
       }
       const userData = await response.json();
-      console.log(userData);
-  
+
       this.updateUserDetails(userData.foundUser[0]);
-      new GameTable(userData.enhancedGameDetails, 'game-history-container');
-  
+      new GameTable(userData.enhancedGameDetails, "game-history-container");
+
       // Update totalPages
       this.totalPages = userData.totalPages;
-  
+
       // Update pagination information
       this.updatePaginationInfo(this.totalPages);
-      
     } catch (error) {
       console.error("Failed to fetch user details:", error);
     }
   }
-  
-
-  
 
   static updateUserDetails(userData: { profilePicture: string; name: string }) {
     const userImage = document.getElementById(
-      "user-greeting-information__user-image"
+      "user-greeting-information__user-image",
     ) as HTMLImageElement;
     const greetingMessage = document.getElementById(
-      "user-greeting-information__greeting-message"
+      "user-greeting-information__greeting-message",
     );
 
     if (userImage) {
@@ -90,9 +82,6 @@ export class WelcomePage {
     const dropdownToggles = document.querySelectorAll(".dropdown-toggle");
     const dropdownMenus = document.querySelectorAll(".dropdown-menu");
 
-    console.log("Dropdown toggles:", dropdownToggles);
-    console.log("Dropdown menus:", dropdownMenus);
-
     dropdownToggles.forEach((toggle, index) => {
       toggle.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -107,63 +96,65 @@ export class WelcomePage {
         menuElement.style.display = "none";
       });
     });
-  } static setupPaginationEventListeners() {
+  }
+  static setupPaginationEventListeners() {
     document.getElementById("next-page")?.addEventListener("click", () => {
       this.currentPage++;
-      localStorage.setItem('currentPage', this.currentPage.toString());
+      localStorage.setItem("currentPage", this.currentPage.toString());
       this.fetchUserDetails(this.currentPage);
     });
-  
+
     document.getElementById("previous-page")?.addEventListener("click", () => {
       if (this.currentPage > 1) {
         this.currentPage--;
-        localStorage.setItem('currentPage', this.currentPage.toString());
+        localStorage.setItem("currentPage", this.currentPage.toString());
         this.fetchUserDetails(this.currentPage);
       }
     });
-  
+
     // Initial update of pagination info
     this.updatePaginationInfo(this.totalPages);
   }
-  
+
   static updatePaginationInfo(totalPages: number) {
     const pageInfo = document.getElementById("page-info");
     if (pageInfo) {
-      console.log(totalPages);
-      
-      if(totalPages==0){
+      if (totalPages == 0) {
         pageInfo.textContent = `No Games Played Yet`;
-       return
+        return;
       }
       pageInfo.textContent = `Page ${this.currentPage} of ${totalPages}`;
     }
-  
-    const previousButton = document.getElementById("previous-page") as HTMLButtonElement;
-    const nextButton = document.getElementById("next-page") as HTMLButtonElement;
-  
+
+    const previousButton = document.getElementById(
+      "previous-page",
+    ) as HTMLButtonElement;
+    const nextButton = document.getElementById(
+      "next-page",
+    ) as HTMLButtonElement;
+
     if (this.currentPage <= 1) {
       previousButton.disabled = true;
     } else {
       previousButton.disabled = false;
     }
-  
+
     if (this.currentPage >= totalPages) {
       nextButton.disabled = true;
     } else {
       nextButton.disabled = false;
     }
   }
-  
-  
+
   static setupPlayOfflineEventListener() {
     document
       .getElementById("play-offline")!
-      .addEventListener("click", async (e) => {   
+      .addEventListener("click", async (e) => {
         e.preventDefault();
         const token = Auth.getAccessToken();
 
         try {
-          const response = await fetch("http://localhost:3000/offline", { 
+          const response = await fetch("http://localhost:3000/offline", {
             method: "POST",
             headers: {
               Authorization: `Bearer ${token}`,
@@ -188,30 +179,43 @@ export class WelcomePage {
       const modal = new ChessAlertModal();
 
       modal.show("", [
-        { text: "Create A New Room", onClick: () => {
-          window.location.hash='#/create-game'
-          modal.hide()
-        } },
-        { text: "Join A Game", onClick: () => {
-          window.location.hash='#/join-game'
-          modal.hide()
-        } },
-        { text: "Watch A Game", onClick: () => {
-          window.location.hash='#/watch-game'
-          modal.hide()
-        } },
-        { text: "Play With A Random Stranger", onClick: () => {
-          window.location.hash='#/random-match-making'
-          modal.hide()
-        } }
-        
+        {
+          text: "Create A New Room",
+          onClick: () => {
+            window.location.hash = "#/create-game";
+            modal.hide();
+          },
+        },
+        {
+          text: "Join A Game",
+          onClick: () => {
+            window.location.hash = "#/join-game";
+            modal.hide();
+          },
+        },
+        {
+          text: "Watch A Game",
+          onClick: () => {
+            window.location.hash = "#/watch-game";
+            modal.hide();
+          },
+        },
+        {
+          text: "Play With A Random Stranger",
+          onClick: () => {
+            window.location.hash = "#/random-match-making";
+            modal.hide();
+          },
+        },
       ]);
     });
   }
 
-  static setUpLeaderBoardEventListeners(){
-    document.getElementById("getLeaderboardBtn")?.addEventListener("click", () => {
-      window.location.hash="#/leader-board"
-    })
+  static setUpLeaderBoardEventListeners() {
+    document
+      .getElementById("getLeaderboardBtn")
+      ?.addEventListener("click", () => {
+        window.location.hash = "#/leader-board";
+      });
   }
 }

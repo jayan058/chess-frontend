@@ -38,7 +38,10 @@ header a {
   padding: 8px 12px;
   border: 1px solid transparent;
   border-radius: 4px;
-  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 header a:hover {
@@ -80,7 +83,7 @@ header a:hover {
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.4);
   -webkit-backdrop-filter: blur(5px);
-          backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
   transition: opacity 0.3s ease-in-out;
 }
 
@@ -184,7 +187,7 @@ body {
 img {
   border-radius: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   border: 2px solid #f1f1f1;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -244,4 +247,4 @@ img {
     font-size: 14px;
     padding: 8px;
   }
-}/*# sourceMappingURL=watchGame.css.map */
+} /*# sourceMappingURL=watchGame.css.map */

@@ -40,42 +40,36 @@ export class RandomMatchMaking {
 
   static startFindingOpponent() {
     this.opponentFindInterval = setInterval(() => {
-      console.log("Emitting randomMatchRequest");
       socket.emit("randomMatchRequest");
     }, 3000);
   }
 
   static stopFindingOpponent() {
     if (this.opponentFindInterval) {
-      console.log("Clearing interval");
       clearInterval(this.opponentFindInterval);
       this.opponentFindInterval = undefined;
     }
   }
 
   static handleOpponentConnected() {
-    console.log("Opponent connected");
     const modal = new ModalManager("myModal", "modalMessage", "close");
     modal.show(
       "We Found An Opponent For You!!! Redirecting to Game!!!",
-      "success"
+      "success",
     );
   }
 
   static handleRedirectToGame() {
-    console.log("Redirecting to game");
     const modal = new ModalManager("myModal", "modalMessage", "close");
     modal.close();
     window.location.href = "#/online";
   }
 
   static handleFoundOpponent() {
-    console.log("Found opponent");
     RandomMatchMaking.stopFindingOpponent();
   }
 
   static cleanup() {
-    console.log("Cleaning up");
     RandomMatchMaking.stopFindingOpponent();
     socket.off("opponentConnected", RandomMatchMaking.handleOpponentConnected);
     socket.off("redirectToGame", RandomMatchMaking.handleRedirectToGame);

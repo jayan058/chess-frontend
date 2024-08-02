@@ -7,7 +7,6 @@ export class Game {
 
     if (!this.container) {
       // Create the container element if it does not exist
-      console.log("No containor");
     }
 
     this.createUIElements();
@@ -15,15 +14,15 @@ export class Game {
 
   private createUIElements() {
     if (!this.container) return; // Ensure container exists before proceeding
-  
+
     // Create and append player info container
     const playerInfoContainer = document.createElement("div");
     playerInfoContainer.className = "player-info-container";
-  
+
     // Create player info content wrapper
     const playerInfoContent = document.createElement("div");
     playerInfoContent.className = "player-info-content";
-  
+
     // Create your info section
     const myInfoDiv = document.createElement("div");
     myInfoDiv.className = "player-info";
@@ -39,7 +38,7 @@ export class Game {
     </div>  
       `;
     playerInfoContent.appendChild(myInfoDiv);
-  
+
     // Create opponent info section
     const opponentInfoDiv = document.createElement("div");
     opponentInfoDiv.className = "player-info";
@@ -55,47 +54,47 @@ export class Game {
     </div>    
       `;
     playerInfoContent.appendChild(opponentInfoDiv);
-  
+
     // Create separator
     const separatorDiv = document.createElement("div");
     separatorDiv.className = "separator";
-  
+
     // Create turn indicator section
     const turnIndicatorDiv = document.createElement("div");
     turnIndicatorDiv.className = "turn-indicator";
     turnIndicatorDiv.id = "turn-indicator";
     turnIndicatorDiv.textContent = "Turn: Waiting for game to start...";
-  
+
     // Append the new elements to the container
     playerInfoContainer.appendChild(playerInfoContent);
     playerInfoContainer.appendChild(separatorDiv);
     this.container.appendChild(playerInfoContainer);
     this.container.appendChild(turnIndicatorDiv);
   }
-  
+
   public updatePlayerInfo(data: PlayerInfo) {
     // Update your information
     const myColorElement = document.getElementById(
-      "my-color"
+      "my-color",
     ) as HTMLParagraphElement;
     const myNameElement = document.getElementById(
-      "my-name"
+      "my-name",
     ) as HTMLParagraphElement;
     const myPictureElement = document.getElementById(
-      "my-picture"
+      "my-picture",
     ) as HTMLImageElement;
     myColorElement.textContent = `Color: ${data.myColor}`;
     myNameElement.textContent = `Name: ${data.myName}`;
     myPictureElement.src = `${data.myPicture}`;
     // Update opponent information
     const opponentColorElement = document.getElementById(
-      "opponent-color"
+      "opponent-color",
     ) as HTMLParagraphElement;
     const opponentNameElement = document.getElementById(
-      "opponent-name"
+      "opponent-name",
     ) as HTMLParagraphElement;
     const opponentPictureElement = document.getElementById(
-      "opponent-picture"
+      "opponent-picture",
     ) as HTMLImageElement;
     if (data.otherParticipants.length > 0) {
       const opponent = data.otherParticipants[0];
@@ -111,7 +110,7 @@ export class Game {
   public updateTurn(turn: string) {
     // Update turn indicator
     const turnIndicatorElement = document.getElementById(
-      "turn-indicator"
+      "turn-indicator",
     ) as HTMLDivElement;
     turnIndicatorElement.textContent = `Turn: ${turn}`;
   }

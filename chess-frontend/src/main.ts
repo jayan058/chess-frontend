@@ -12,16 +12,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const newHash = window.location.hash;
 
     // Define routes where socket should be disconnected
-    const disconnectRoutes = ["#/welcome", "#/login", "#/home","#/leader-board"];
+    const disconnectRoutes = [
+      "#/welcome",
+      "#/login",
+      "#/home",
+      "#/leader-board",
+    ];
 
     // Define routes where socket should be reconnected
-    const reconnectRoutes = ["#/create-game", "#/join-game","#/watch-game","#/random-match-making"];
+    const reconnectRoutes = [
+      "#/create-game",
+      "#/join-game",
+      "#/watch-game",
+      "#/random-match-making",
+    ];
 
     // Check if socket should be disconnected on new hash
     if (disconnectRoutes.includes(newHash)) {
       socketInstance.disconnect();
     }
-
 
     ModalManager.closeAll();
     ChessAlertModal.closeAll();
@@ -31,7 +40,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Logic to disconnect and reconnect the socket based on old and new hash
     const shouldReconnect =
-      (oldHash === "#/online" || oldHash === "#/welcome" || oldHash=="#/online-audience-page") &&
+      (oldHash === "#/online" ||
+        oldHash === "#/welcome" ||
+        oldHash == "#/online-audience-page") &&
       reconnectRoutes.includes(newHash);
 
     if (shouldReconnect) {

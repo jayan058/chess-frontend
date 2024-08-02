@@ -7,15 +7,15 @@ import { updateStatus } from "../offlineGameServices/updateStatus";
 import { initializeGameControls } from "../offlineGameServices/gameControls";
 import { sessionChangeListeners } from "../utils/sessionChangeListener";
 import { gameDifficultySelection } from "../offlineGameServices/gameDifficultySelection";
-let pieceMove=new Audio()
-pieceMove.src="./assets/audio/pieceMoving.mp3"
+let pieceMove = new Audio();
+pieceMove.src = "./assets/audio/pieceMoving.mp3";
 let positionCount: number;
 
 export function updatePositionCount() {
   positionCount++;
 }
 export function resetPositionCount() {
-  positionCount=0;
+  positionCount = 0;
 }
 export let board: any,
   game = new Chess();
@@ -33,7 +33,7 @@ export class OfflinePage {
   }
 
   static initEventListeners() {
-    sessionChangeListeners()
+    sessionChangeListeners();
     const tableModal = new TableModal("tableModal");
     function openModalWithMoveHistory(moves: []) {
       tableModal.show(moves);
@@ -43,7 +43,7 @@ export class OfflinePage {
       .addEventListener("click", () => {
         openModalWithMoveHistory(game.history());
       });
-    gameDifficultySelection()
+    gameDifficultySelection();
     let onDragStart = function (source: any, piece: string) {
       if (
         game.in_checkmate() === true ||
@@ -54,11 +54,11 @@ export class OfflinePage {
       }
     };
 
-    let makeBestMove = function () { 
+    let makeBestMove = function () {
       let bestMove = getBestMove(game);
       game.move(bestMove);
       board.position(game.fen());
-     pieceMove.play()
+      pieceMove.play();
       setTimeout(updateStatus, 800);
 
       if (game.game_over()) {
@@ -98,14 +98,14 @@ export class OfflinePage {
       if (move === null) {
         return "snapback";
       }
-      pieceMove.play()
+      pieceMove.play();
       window.setTimeout(makeBestMove, 250);
     };
 
     let onSnapEnd = function () {
       board.position(game.fen());
       updateStatus();
-      pieceMove.play()
+      pieceMove.play();
     };
 
     let onMouseoverSquare = function (square: any) {
@@ -151,7 +151,6 @@ export class OfflinePage {
       onMouseoverSquare: onMouseoverSquare,
       onSnapEnd: onSnapEnd,
     };
-   
 
     board = ChessBoard("board", cfg);
     initializeGameControls(game, board);

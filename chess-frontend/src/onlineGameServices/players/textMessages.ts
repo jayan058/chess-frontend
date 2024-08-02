@@ -12,21 +12,21 @@ let audioChunks: Blob[] = [];
 
 export function sendTextMessage() {
   const sendMessageButton = document.querySelector(
-    ".send-message"
+    ".send-message",
   ) as HTMLElement;
   const messageInput = document.querySelector(
-    ".message-input"
+    ".message-input",
   ) as HTMLInputElement;
   const showMessagesButton = document.querySelector(
-    ".show-messages"
+    ".show-messages",
   ) as HTMLButtonElement;
   const messageModal = document.querySelector(".modal") as HTMLElement;
   const closeButton = document.querySelector(".close-button") as HTMLElement;
   const startRecordingButton = document.querySelector(
-    ".start-recording"
+    ".start-recording",
   ) as HTMLElement;
   const stopRecordingButton = document.querySelector(
-    ".stop-recording"
+    ".stop-recording",
   ) as HTMLElement;
   const sendAudioButton = document.querySelector(".send-audio") as HTMLElement;
 
@@ -89,10 +89,10 @@ function sendMessage(content: string) {
 
 function startRecording() {
   const startRecordingButton = document.querySelector(
-    ".start-recording"
+    ".start-recording",
   ) as HTMLElement;
   const stopRecordingButton = document.querySelector(
-    ".stop-recording"
+    ".stop-recording",
   ) as HTMLElement;
 
   navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
@@ -109,9 +109,8 @@ function startRecording() {
 }
 
 function stopRecording() {
- 
   const stopRecordingButton = document.querySelector(
-    ".stop-recording"
+    ".stop-recording",
   ) as HTMLElement;
   const sendAudioButton = document.querySelector(".send-audio") as HTMLElement;
 
@@ -122,12 +121,11 @@ function stopRecording() {
       stopRecordingButton.style.display = "none";
     });
   }
-  
 }
 
 function sendAudioMessage() {
   const startRecordingButton = document.querySelector(
-    ".start-recording"
+    ".start-recording",
   ) as HTMLElement;
   const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
   const audioUrl = URL.createObjectURL(audioBlob);
@@ -156,7 +154,6 @@ function sendAudioMessage() {
 }
 
 socket.on("message", (message: Message) => {
-  console.log("Message received:", message);
   displayMessage(message);
 
   handleNewMessage(); // Handle new message for notification
@@ -174,7 +171,7 @@ export function handleNewMessage() {
 
 function updateMessageButton() {
   const showMessagesButton = document.querySelector(
-    ".show-messages"
+    ".show-messages",
   ) as HTMLButtonElement;
   if (showMessagesButton) {
     if (newMessageCount > 0) {

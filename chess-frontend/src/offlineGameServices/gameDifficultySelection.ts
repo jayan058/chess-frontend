@@ -1,9 +1,7 @@
 import { modal } from "../components/offline";
 
-
-
-export function gameDifficultySelection(){
-modal.show("Choose your level:", [
+export function gameDifficultySelection() {
+  modal.show("Choose your level:", [
     { text: "Easy", onClick: () => startGame(1) },
     { text: "Medium", onClick: () => startGame(2) },
     { text: "Hard", onClick: () => startGame(3) },
@@ -13,7 +11,7 @@ modal.show("Choose your level:", [
     modal.hide();
     const depth = level === 1 ? 1 : level === 2 ? 2 : 3;
     const searchDepthSelect = document.getElementById(
-      "search-depth"
+      "search-depth",
     ) as HTMLSelectElement;
     searchDepthSelect.value = depth.toString();
     searchDepthSelect.disabled = true;
@@ -22,6 +20,4 @@ modal.show("Choose your level:", [
       modal.hide();
     }, 2000);
   }
-
-
 }

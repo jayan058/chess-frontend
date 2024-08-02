@@ -47,7 +47,8 @@
 }
 
 /* highlighted square */
-.highlight1-32417, .highlight2-9c5d2 {
+.highlight1-32417,
+.highlight2-9c5d2 {
   box-shadow: inset 0 0 3px 3px yellow;
 }
 
@@ -67,6 +68,11 @@
 .numeric-fc462 {
   top: 2px;
   left: 2px;
+}
+
+.king-checkmate-highlight {
+  background-color: red !important;
+  border: 2px solid red;
 }
 
 #videoContainer {
@@ -98,4 +104,4 @@
 
 .controlBtn:hover {
   background-color: #555;
-}/*# sourceMappingURL=gameReplay.css.map */
+} /*# sourceMappingURL=gameReplay.css.map */

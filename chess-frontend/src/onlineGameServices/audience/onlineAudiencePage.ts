@@ -3,8 +3,8 @@ import { Chess } from "chess.js";
 import { ModalManager } from "../../utils/modal";
 import socketInstance from "../../utils/socket";
 const socket = socketInstance.getSocket();
-let pieceMove=new Audio()
-pieceMove.src="./assets/audio/pieceMoving.mp3"
+let pieceMove = new Audio();
+pieceMove.src = "./assets/audio/pieceMoving.mp3";
 import { displayPlayerVsPlayer } from "./gamePlayersInfo";
 export class OnlineAudiencePage {
   private static game: Chess;
@@ -15,7 +15,6 @@ export class OnlineAudiencePage {
   }
 
   static initEventListeners() {
-
     setTimeout(() => {
       this.board = ChessBoard("board", {
         draggable: false,
@@ -30,17 +29,12 @@ export class OnlineAudiencePage {
     socket.off("error");
     socket.off("playerInfo");
     socket.off("latestData");
-    socket.off("randomMatchRequest")
+    socket.off("randomMatchRequest");
 
-   
     socket.on("move", (move) => {
-      console.log("Move received from server:", move);
-      console.log("Current FEN before applying move:", this.game.fen());
-
       // Check if move is valid
       const result = this.game.move(move);
       if (result) {
-        console.log("New FEN after applying move:", this.game.fen());
         this.updateBoard();
         this.renderBoard();
       } else {
@@ -50,14 +44,12 @@ export class OnlineAudiencePage {
     socket.on(
       "timerUpdate",
       (data: { color: "white" | "black"; time: number }) => {
-        console.log(data);
-
         if (data.color === "white") {
           this.updateTimerDisplay("white-timer", data.time);
         } else {
           this.updateTimerDisplay("black-timer", data.time);
         }
-      }
+      },
     );
     socket.on("game-over", () => {
       const modal = new ModalManager("myModal", "modalMessage", "close");
@@ -70,13 +62,10 @@ export class OnlineAudiencePage {
     });
 
     socket.on("move", (move) => {
-      console.log("Move received from server:", move);
-      console.log("Current FEN before applying move:", this.game.fen());
-     pieceMove.play()
+      pieceMove.play();
       // Check if move is valid
       const result = this.game.move(move);
       if (result) {
-        console.log("New FEN after applying move:", this.game.fen());
         this.updateBoard();
         this.renderBoard();
       } else {
@@ -97,7 +86,6 @@ export class OnlineAudiencePage {
     socket.on("gameOverByMoves", (message) => {
       const modal = new ModalManager("myModal", "modalMessage", "close");
       modal.show(message.reason, "error");
-      console.log(message);
 
       let timeout = setTimeout(() => {
         modal.close();
@@ -112,10 +100,10 @@ export class OnlineAudiencePage {
       // setTimeout(() => modal.close(), 3000);
     });
     socket.on("latestData", (latestData) => {
-      console.log(latestData);
-      displayPlayerVsPlayer([latestData.participants[0], latestData.participants[1]]);
-
-   
+      displayPlayerVsPlayer([
+        latestData.participants[0],
+        latestData.participants[1],
+      ]);
 
       this.board.position(latestData.latestFen);
       this.game.load(latestData.latestFen);

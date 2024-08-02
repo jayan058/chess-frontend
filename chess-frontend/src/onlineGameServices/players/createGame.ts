@@ -17,10 +17,10 @@ export class CreateGamePage {
   }
 
   static initEventListeners() {
-    socket.off("randomMatchRequest")
+    socket.off("randomMatchRequest");
 
     const createRoomForm = document.getElementById(
-      "create-room-form"
+      "create-room-form",
     ) as HTMLFormElement;
     createRoomForm.addEventListener("submit", (event) => {
       event.preventDefault();

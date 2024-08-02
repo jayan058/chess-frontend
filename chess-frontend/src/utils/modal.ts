@@ -13,7 +13,7 @@ export class ModalManager {
 
     if (!this.modal || !this.modalMessage || !this.closeButton) {
       console.error(
-        "ModalManager: Could not find one or more required elements."
+        "ModalManager: Could not find one or more required elements.",
       );
       return;
     }
@@ -30,7 +30,7 @@ export class ModalManager {
   show(message: string, type: "success" | "error"): void {
     if (this.modalMessage) {
       this.modalMessage.textContent = message;
-      this.modalMessage.className = type; 
+      this.modalMessage.className = type;
     }
     if (this.modal) {
       this.modal.style.display = "block";

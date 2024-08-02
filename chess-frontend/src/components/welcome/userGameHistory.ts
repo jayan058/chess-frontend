@@ -1,4 +1,4 @@
-import { addRowClickEventListeners } from './fetchChessGames';
+import { addRowClickEventListeners } from "./fetchChessGames";
 
 export class GameTable {
   private data: any[];
@@ -17,14 +17,14 @@ export class GameTable {
   private init(): void {
     if (this.container) {
       this.container.innerHTML = this.createTable();
-      addRowClickEventListeners(this.container.id); 
+      addRowClickEventListeners(this.container.id);
     }
   }
 
   private createTable(): string {
-  
-    const headerClass = this.data.length > 0 ? `header-${this.data[0].gameId}` : 'header-default';
-    
+    const headerClass =
+      this.data.length > 0 ? `header-${this.data[0].gameId}` : "header-default";
+
     return `
         <div class="table-container">
           <table class="responsive-table">

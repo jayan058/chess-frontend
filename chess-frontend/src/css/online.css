@@ -79,7 +79,8 @@ button:hover {
 }
 
 /* highlighted square */
-.highlight1-32417, .highlight2-9c5d2 {
+.highlight1-32417,
+.highlight2-9c5d2 {
   box-shadow: inset 0 0 3px 3px yellow;
 }
 
@@ -99,6 +100,11 @@ button:hover {
 .numeric-fc462 {
   top: 2px;
   left: 2px;
+}
+
+.king-checkmate-highlight {
+  background-color: red !important;
+  border: 2px solid red;
 }
 
 body {
@@ -133,6 +139,93 @@ body {
 
 .footer p {
   margin: 0;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  transition: opacity 0.3s ease-in-out;
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 600px;
+  display: flex;
+  justify-content: space-between;
+  align-self: center;
+  animation: slide-down 0.5s ease-out;
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.close {
+  font-size: 24px;
+  font-weight: bold;
+  color: #999;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: #333;
+}
+
+.success {
+  color: green;
+}
+
+.error {
+  color: red;
+}
+
+@media (max-width: 600px) {
+  .modal-content {
+    width: 85%;
+    margin: 20% auto;
+  }
+}
+.modal-content h2,
+.modal-content p,
+.modal-content button {
+  margin: 10px 0;
+}
+
+.modal-content button {
+  align-self: center;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+  background-color: #0056b3;
 }
 
 #board {
@@ -184,6 +277,8 @@ body {
   width: 90%;
   max-height: 80vh;
   overflow-y: auto;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .modal-content::-webkit-scrollbar {
@@ -353,7 +448,9 @@ body {
   background: #f0f0f0;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, background 0.3s;
+  transition:
+    transform 0.3s,
+    background 0.3s;
   display: flex;
   cursor: pointer;
   padding: 30px;
@@ -369,7 +466,7 @@ body {
   height: auto;
   border-radius: 50%;
   margin-top: 10px;
-  border: 2px solid #007BFF;
+  border: 2px solid #007bff;
   transition: border 0.3s;
 }
 
@@ -380,7 +477,7 @@ body {
 .player-title {
   font-size: 1.5rem;
   margin-bottom: 10px;
-  color: #007BFF;
+  color: #007bff;
 }
 
 .separator {
@@ -395,7 +492,7 @@ body {
   font-weight: bold;
   text-align: center;
   margin-top: 20px;
-  color: #007BFF;
+  color: #007bff;
   animation: blink 1s step-start infinite;
 }
 
@@ -430,4 +527,4 @@ body {
   align-items: center;
   width: 10%;
   justify-content: space-around;
-}/*# sourceMappingURL=online.css.map */
+} /*# sourceMappingURL=online.css.map */

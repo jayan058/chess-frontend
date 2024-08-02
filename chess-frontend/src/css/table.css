@@ -22,7 +22,10 @@ td {
   text-align: left;
   border-bottom: 1px solid #ddd;
   font-size: 16px;
-  transition: background-color 0.3s, transform 0.3s, color 0.3s;
+  transition:
+    background-color 0.3s,
+    transform 0.3s,
+    color 0.3s;
 }
 
 th {
@@ -62,4 +65,4 @@ td {
     padding: 12px;
     font-size: 14px;
   }
-}/*# sourceMappingURL=table.css.map */
+} /*# sourceMappingURL=table.css.map */

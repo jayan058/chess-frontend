@@ -2,120 +2,125 @@ import { Chess } from "chess.js";
 import { Auth } from "../auth";
 import { Router } from "../router";
 
-let pieceMove=new Audio()
-pieceMove.src="./assets/audio/pieceMoving.mp3"
+let pieceMove = new Audio();
+pieceMove.src = "./assets/audio/pieceMoving.mp3";
 
 export class GameReplay {
-    private static game: Chess;
-    private static board: any;
-    private static gameMoves: { from: string, to: string }[] = [];
-    private static currentMoveIndex: number = 0;
-    private static intervalId: number | null = null;
+  private static game: Chess;
+  private static board: any;
+  private static gameMoves: { from: string; to: string }[] = [];
+  private static currentMoveIndex: number = 0;
+  private static intervalId: number | null = null;
 
-    static async load(): Promise<string> {
-        if (!Auth.isLoggedIn()) {
-            window.location.hash = "#/login";
-            Router.loadContent();
-            return "";
-          }
-        const response = await fetch("src/views/gameReplay.html");
-        return response.text();
+  static async load(): Promise<string> {
+    if (!Auth.isLoggedIn()) {
+      window.location.hash = "#/login";
+      Router.loadContent();
+      return "";
+    }
+    const response = await fetch("src/views/gameReplay.html");
+    return response.text();
+  }
+
+  static initEventListeners() {
+    this.board = ChessBoard("board", {
+      draggable: false,
+      position: "start",
+    });
+
+    // Add control buttons
+    document
+      .getElementById("playBtn")
+      ?.addEventListener("click", () => this.play());
+    document
+      .getElementById("pauseBtn")
+      ?.addEventListener("click", () => this.pause());
+    document
+      .getElementById("nextBtn")
+      ?.addEventListener("click", () => this.next());
+    document
+      .getElementById("rewindBtn")
+      ?.addEventListener("click", () => this.rewind());
+    document
+      .getElementById("resetBtn")
+      ?.addEventListener("click", () => this.reset()); // Add reset button listener
+
+    // Retrieve moves from localStorage
+    const storedMoves = localStorage.getItem("moves");
+    if (storedMoves) {
+      this.gameMoves = JSON.parse(storedMoves);
     }
 
-    static initEventListeners() {
-        this.board = ChessBoard("board", {
-            draggable: false,
-            position: "start",
-        });
+    // Initialize Chess.js game
+    this.game = new Chess();
 
-        // Add control buttons
-        document.getElementById("playBtn")?.addEventListener("click", () => this.play());
-        document.getElementById("pauseBtn")?.addEventListener("click", () => this.pause());
-        document.getElementById("nextBtn")?.addEventListener("click", () => this.next());
-        document.getElementById("rewindBtn")?.addEventListener("click", () => this.rewind());
-        document.getElementById("resetBtn")?.addEventListener("click", () => this.reset()); // Add reset button listener
+    // Reset the game to start from the beginning
+    this.reset();
+  }
 
-        // Retrieve moves from localStorage
-        const storedMoves = localStorage.getItem("moves");
-        if (storedMoves) {
-            this.gameMoves = JSON.parse(storedMoves);
-        }
+  static play() {
+    // Clear any existing interval
+    this.pause();
 
-        // Initialize Chess.js game
-        this.game = new Chess();
+    if (this.intervalId) return; // Already playing
 
-        // Reset the game to start from the beginning
-        this.reset();
+    this.intervalId = window.setInterval(() => this.next(), 1000); // Play moves every second
+    this.togglePlayPauseButtons(true);
+  }
+
+  static pause() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
+      this.togglePlayPauseButtons(false);
+    }
+  }
+
+  static next() {
+    if (this.currentMoveIndex < this.gameMoves.length) {
+      const move = this.gameMoves[this.currentMoveIndex];
+
+      this.game.move({ from: move.from, to: move.to });
+      this.board.position(this.game.fen());
+      pieceMove.play();
+      this.currentMoveIndex++;
+    } else {
+      // If all moves are played, reset the game
+      this.reset();
+    }
+  }
+
+  static rewind() {
+    if (this.currentMoveIndex > 0) {
+      this.currentMoveIndex--;
+      this.game.undo();
+      this.board.position(this.game.fen());
+      pieceMove.play();
+    }
+  }
+
+  static reset() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
     }
 
-    static play() {
-        console.log("Play button clicked");
+    this.game.reset(); // Reset the chess game
+    this.board.position(this.game.fen()); // Reset the board position
+    this.currentMoveIndex = 0; // Reset the move index
+    this.togglePlayPauseButtons(false); // Reset button states
+  }
 
-        // Clear any existing interval
-        this.pause();
+  static togglePlayPauseButtons(isPlaying: boolean) {
+    const playBtn = document.getElementById("playBtn") as HTMLButtonElement;
+    const pauseBtn = document.getElementById("pauseBtn") as HTMLButtonElement;
 
-        if (this.intervalId) return; // Already playing
-
-        this.intervalId = window.setInterval(() => this.next(), 1000); // Play moves every second
-        this.togglePlayPauseButtons(true);
+    if (isPlaying) {
+      playBtn.style.display = "none";
+      pauseBtn.style.display = "inline-block";
+    } else {
+      playBtn.style.display = "inline-block";
+      pauseBtn.style.display = "none";
     }
-
-    static pause() {
-        if (this.intervalId) {
-            clearInterval(this.intervalId);
-            this.intervalId = null;
-            this.togglePlayPauseButtons(false);
-        }
-    }
-
-    static next() {
-        if (this.currentMoveIndex < this.gameMoves.length) {
-            const move = this.gameMoves[this.currentMoveIndex];
-            console.log("Applying move:", move);
-
-            this.game.move({ from: move.from, to: move.to });
-            this.board.position(this.game.fen());
-            pieceMove.play()
-            this.currentMoveIndex++;
-        } else {
-            // If all moves are played, reset the game
-            this.reset();
-        }
-    }
-
-    static rewind() {
-        if (this.currentMoveIndex > 0) {
-            this.currentMoveIndex--;
-            this.game.undo();
-            this.board.position(this.game.fen());
-            pieceMove.play()
-        }
-    }
-
-    static reset() {
-        if (this.intervalId) {
-            clearInterval(this.intervalId);
-            this.intervalId = null;
-        }
-
-        this.game.reset(); // Reset the chess game
-        this.board.position(this.game.fen()); // Reset the board position
-        this.currentMoveIndex = 0; // Reset the move index
-        this.togglePlayPauseButtons(false); // Reset button states
-
-        console.log("Game reset");
-    }
-
-    static togglePlayPauseButtons(isPlaying: boolean) {
-        const playBtn = document.getElementById("playBtn") as HTMLButtonElement;
-        const pauseBtn = document.getElementById("pauseBtn") as HTMLButtonElement;
-
-        if (isPlaying) {
-            playBtn.style.display = "none";
-            pauseBtn.style.display = "inline-block";
-        } else {
-            playBtn.style.display = "inline-block";
-            pauseBtn.style.display = "none";
-        }
-    }
+  }
 }
