@@ -1,7 +1,7 @@
 import { Auth } from "../../auth";
 export async function fetchActiveRooms(): Promise<any> {
   try {
-    let token = Auth.getAccessToken();
+    let token = await Auth.getAccessToken();
     const response = await fetch("http://localhost:3000/room", {
       method: "GET",
       headers: {

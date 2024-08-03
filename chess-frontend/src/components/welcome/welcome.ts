@@ -3,7 +3,7 @@ import { Router } from "../../router";
 import { sessionChangeListeners } from "../../utils/sessionChangeListener";
 import { ChessAlertModal } from "../../modals/chessAlertModal";
 import { GameTable } from "./userGameHistory";
-
+import { ModalManager } from "../../utils/modal";
 export class WelcomePage {
   static currentPage: number = 1;
   static totalPages: number = 1;
@@ -28,10 +28,11 @@ export class WelcomePage {
     this.setupPlayOnlineEventListener();
     this.setupPaginationEventListeners();
     this.setUpLeaderBoardEventListeners();
+    this.setUpLogoutEventListeners();
   }
 
   static async fetchUserDetails(page: number = 1) {
-    let token = Auth.getAccessToken();
+    let token = await Auth.getAccessToken();
     try {
       const response = await fetch(
         `http://localhost:3000/user/getUserDetails?page=${page}&limit=4`,
@@ -41,7 +42,7 @@ export class WelcomePage {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-        },
+        }
       );
 
       if (!response.ok) {
@@ -63,10 +64,10 @@ export class WelcomePage {
 
   static updateUserDetails(userData: { profilePicture: string; name: string }) {
     const userImage = document.getElementById(
-      "user-greeting-information__user-image",
+      "user-greeting-information__user-image"
     ) as HTMLImageElement;
     const greetingMessage = document.getElementById(
-      "user-greeting-information__greeting-message",
+      "user-greeting-information__greeting-message"
     );
 
     if (userImage) {
@@ -127,10 +128,10 @@ export class WelcomePage {
     }
 
     const previousButton = document.getElementById(
-      "previous-page",
+      "previous-page"
     ) as HTMLButtonElement;
     const nextButton = document.getElementById(
-      "next-page",
+      "next-page"
     ) as HTMLButtonElement;
 
     if (this.currentPage <= 1) {
@@ -151,7 +152,7 @@ export class WelcomePage {
       .getElementById("play-offline")!
       .addEventListener("click", async (e) => {
         e.preventDefault();
-        const token = Auth.getAccessToken();
+        const token = await Auth.getAccessToken();
 
         try {
           const response = await fetch("http://localhost:3000/offline", {
@@ -218,4 +219,19 @@ export class WelcomePage {
         window.location.hash = "#/leader-board";
       });
   }
+
+  static setUpLogoutEventListeners(){
+    let changeProfileDetails= document.getElementById('logout')
+    changeProfileDetails?.addEventListener('click',()=>{
+     Auth.clearTokens()
+     const modal = new ModalManager("myModal", "modalMessage", "close");
+     modal.show("Logout Successfull", "success");
+
+     setTimeout(()=>{
+      window.location.hash="#/login"
+     },3000)
+    })
+  }
 }
+
+WelcomePage.dropDownToggle();

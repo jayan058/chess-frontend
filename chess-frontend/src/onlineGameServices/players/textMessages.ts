@@ -128,10 +128,6 @@ function sendAudioMessage() {
     ".start-recording",
   ) as HTMLElement;
   const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
-  const audioUrl = URL.createObjectURL(audioBlob);
-  const audio = new Audio(audioUrl);
-  audio.play();
-
   const reader = new FileReader();
   reader.readAsDataURL(audioBlob);
   reader.onloadend = () => {

@@ -25,7 +25,7 @@ export class LeaderBoard {
   }
 
   static async fetchLeaderboardData(page: number = 1) {
-    let token = Auth.getAccessToken();
+    let token = await Auth.getAccessToken();
     try {
       const response = await fetch(
         `http://localhost:3000/games/leaderboard?page=${page}&pageSize=4`,

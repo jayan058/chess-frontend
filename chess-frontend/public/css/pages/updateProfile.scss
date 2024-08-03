@@ -1,0 +1,33 @@
+@import "../components/button";
+@import "../components/anchor";
+@import "../components/form";
+@import "../components/label";
+@import "../components/header";
+@import "../components/modal";
+@import "../components/body";
+@import "../components/containor";
+@import "../components/footer";
+
+
+h2 {
+    color: #444;
+  }
+  
+  @media (max-width: 600px) {
+    .container {
+      padding: 70px;
+      margin: 10% auto;
+    }
+  
+    button {
+      padding: 10px;
+      font-size: 14px;
+    }
+  }
+  
+  .footer{
+    margin-top: 50px;
+  }
+  .container{
+    margin-bottom:30px ;
+  }

@@ -7,25 +7,19 @@
 @import "../components/image";
 @import "../components/containor";
 
-.container__active-room-heading {
-    margin-bottom: 20px;
-    font-size: 24px;
-    font-weight: 700;
-    color: #333;
-}
 
-.active-rooms-list {
-    display: inline-block;
-    color: #555;
-    font-size: 18px;
-    font-weight: 400;
-    background: #f9f9f9;
-    padding: 15px;
-    border-radius: 8px;
-    width: 100%;
-    max-width: 400px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+} 
+
+.main-content__header h1 {
+    margin: 0;
+    color: #007bff;
+  }
+
 
 /* Responsive Design */
 @media (max-width: 600px) {

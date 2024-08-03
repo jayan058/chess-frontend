@@ -1,7 +1,7 @@
-alpha_piece_theme = function (piece) {
+window.alpha_piece_theme = function (piece) {
   return chsspieces["alpha"][piece][0];
 };
-chess24_piece_theme = function (piece) {
+window.chess24_piece_theme = function (piece) {
   return chsspieces["chess24"][piece][0];
 };
 dilena_piece_theme = function (piece) {
@@ -10,7 +10,7 @@ dilena_piece_theme = function (piece) {
 leipzig_piece_theme = function (piece) {
   return chsspieces["leipzig"][piece][0];
 };
-metro_piece_theme = function (piece) {
+window.metro_piece_theme = function (piece) {
   return chsspieces["metro"][piece][0];
 };
 symbol_piece_theme = function (piece) {

@@ -1,6 +1,10 @@
+import { LoginPage } from "../../components/login";
 import { PlayerInfo } from "../../interfaces/playersInfo";
+import { myData } from "./online";
+
 export class Game {
   private container: HTMLElement;
+  private modal: HTMLElement | null = null;
 
   constructor(containerId: string) {
     this.container = document.getElementById(containerId) as HTMLElement;
@@ -10,107 +14,137 @@ export class Game {
     }
 
     this.createUIElements();
+    this.listenForButtonClick();
+    this.greetUser()
   }
-
+ private greetUser(){
+  let userGretting=document.getElementById("user-greeting-information")
+  userGretting!.textContent=`GoodLuck With The Game ${myData.myName}`
+ }
   private createUIElements() {
     if (!this.container) return; // Ensure container exists before proceeding
 
-    // Create and append player info container
-    const playerInfoContainer = document.createElement("div");
-    playerInfoContainer.className = "player-info-container";
+    // Create the modal element
+    this.modal = document.createElement("div");
+    this.modal.className = "modal";
+    this.modal.innerHTML = `
+      <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <div class="player-info-container">
+          <div class="player-info-content">
+            <div class="player-info" id="my-info">
+              <div>
+                <h2 class="player-title">You</h2>  
+                <img id="my-picture" src="" />
+              </div>
+              <div>
+                <p id="my-name">Name: </p>
+                <p id="my-color">ID: </p>
+              </div>  
+            </div>
+            <div class="player-info" id="opponent-info">
+              <div>
+                <h2 class="player-title">Opponent</h2>       
+                <img id="opponent-picture" src="" />
+              </div>   
+              <div>  
+                <p id="opponent-name">Name: </p>
+                <p id="opponent-color">Color: </p>
+              </div>    
+            </div>
+          </div>
+          <div class="separator"></div>
+          <div class="turn-indicator" id="turn-indicator">
+            Turn: Waiting for game to start...
+          </div>
+        </div>
+      </div>
+    `;
 
-    // Create player info content wrapper
-    const playerInfoContent = document.createElement("div");
-    playerInfoContent.className = "player-info-content";
+    // Append the modal to the container
+    this.container.appendChild(this.modal);
+    this.addModalEventListeners();
+  }
 
-    // Create your info section
-    const myInfoDiv = document.createElement("div");
-    myInfoDiv.className = "player-info";
-    myInfoDiv.id = "my-info";
-    myInfoDiv.innerHTML = `
-    <div>
-        <h2 class="player-title">You</h2>  
-        <img id="my-picture" src="" />
-    </div>
-    <div>
-        <p id="my-name">Name: </p>
-        <p id="my-color">ID: </p>
-    </div>  
-      `;
-    playerInfoContent.appendChild(myInfoDiv);
+  private listenForButtonClick() {
+    console.log("Here");
+    document.getElementById("show-game-info")?.addEventListener("click", () => {
+      console.log("Here");
 
-    // Create opponent info section
-    const opponentInfoDiv = document.createElement("div");
-    opponentInfoDiv.className = "player-info";
-    opponentInfoDiv.id = "opponent-info";
-    opponentInfoDiv.innerHTML = `
-    <div>
-        <h2 class="player-title">Opponent</h2>       
-         <img id="opponent-picture" src="" />
-    </div>   
-    <div>  
-        <p id="opponent-name">Name: </p>
-        <p id="opponent-color">Color: </p>
-    </div>    
-      `;
-    playerInfoContent.appendChild(opponentInfoDiv);
+      this.showModal();
+    });
+  }
 
-    // Create separator
-    const separatorDiv = document.createElement("div");
-    separatorDiv.className = "separator";
+  private addModalEventListeners() {
+    if (this.modal) {
+      const closeButton = this.modal.querySelector(
+        ".close-button"
+      ) as HTMLElement;
+      if (closeButton) {
+        closeButton.addEventListener("click", () => this.hideModal());
+      }
 
-    // Create turn indicator section
-    const turnIndicatorDiv = document.createElement("div");
-    turnIndicatorDiv.className = "turn-indicator";
-    turnIndicatorDiv.id = "turn-indicator";
-    turnIndicatorDiv.textContent = "Turn: Waiting for game to start...";
+      // Close the modal if the user clicks outside of it
+      window.addEventListener("click", (event) => {
+        if (event.target === this.modal) {
+          this.hideModal();
+        }
+      });
+    }
+  }
 
-    // Append the new elements to the container
-    playerInfoContainer.appendChild(playerInfoContent);
-    playerInfoContainer.appendChild(separatorDiv);
-    this.container.appendChild(playerInfoContainer);
-    this.container.appendChild(turnIndicatorDiv);
+  private showModal() {
+    if (this.modal) {
+      this.modal.style.display = "block";
+    }
+  }
+
+  private hideModal() {
+    if (this.modal) {
+      this.modal.style.display = "none";
+    }
   }
 
   public updatePlayerInfo(data: PlayerInfo) {
     // Update your information
     const myColorElement = document.getElementById(
-      "my-color",
+      "my-color"
     ) as HTMLParagraphElement;
     const myNameElement = document.getElementById(
-      "my-name",
+      "my-name"
     ) as HTMLParagraphElement;
     const myPictureElement = document.getElementById(
-      "my-picture",
+      "my-picture"
     ) as HTMLImageElement;
     myColorElement.textContent = `Color: ${data.myColor}`;
     myNameElement.textContent = `Name: ${data.myName}`;
     myPictureElement.src = `${data.myPicture}`;
+
     // Update opponent information
     const opponentColorElement = document.getElementById(
-      "opponent-color",
+      "opponent-color"
     ) as HTMLParagraphElement;
     const opponentNameElement = document.getElementById(
-      "opponent-name",
+      "opponent-name"
     ) as HTMLParagraphElement;
     const opponentPictureElement = document.getElementById(
-      "opponent-picture",
+      "opponent-picture"
     ) as HTMLImageElement;
     if (data.otherParticipants.length > 0) {
       const opponent = data.otherParticipants[0];
-      opponentColorElement.textContent = `Name: ${opponent.name}`;
-      opponentNameElement.textContent = `Color: ${opponent.color}`;
+      opponentColorElement.textContent = `Color: ${opponent.color}`;
+      opponentNameElement.textContent = `Name: ${opponent.name}`;
       opponentPictureElement.src = `${opponent.picture}`;
     } else {
       opponentColorElement.textContent = "Color: N/A";
-      opponentNameElement.textContent = "ID: N/A";
+      opponentNameElement.textContent = "Name: N/A";
     }
   }
 
   public updateTurn(turn: string) {
     // Update turn indicator
     const turnIndicatorElement = document.getElementById(
-      "turn-indicator",
+      "turn-indicator"
     ) as HTMLDivElement;
     turnIndicatorElement.textContent = `Turn: ${turn}`;
   }

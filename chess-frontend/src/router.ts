@@ -33,6 +33,7 @@ const routes: { [key: string]: any } = {
     css: "randomMatchMaking",
   },
   "#/leader-board": { component: LeaderBoard, css: "leaderBoard" },
+ 
 };
 
 export class Router {
@@ -79,6 +80,11 @@ export class Router {
           <button id="restartBtn"><i class="fas fa-redo"></i> Restart</button>
           <button id="abortBtn"><i class="fas fa-times"></i> Abort</button>
           <button id="openModalButton">Show The Game Moves</button>
+            `;
+    }
+    else if (hash === "#/online") {
+      headerContent = `
+          
             `;
     }
 

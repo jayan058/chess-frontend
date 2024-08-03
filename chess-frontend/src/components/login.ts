@@ -1,4 +1,5 @@
 import { ModalManager } from "../utils/modal";
+import { Auth } from "../auth";
 export class LoginPage {
   static async load(): Promise<string> {
     const response = await fetch("src/views/login.html");
@@ -31,11 +32,14 @@ export class LoginPage {
 
         if (response.ok) {
           const result = await response.json();
-
+          Auth.setAccessToken(result.accessToken);
+          Auth.setRefreshToken(result.refreshToken);
           const modal = new ModalManager("myModal", "modalMessage", "close");
           modal.show(result.message, "success");
           localStorage.setItem("authChange", Date.now().toString());
-          window.location.hash = "#/welcome";
+          setTimeout(()=>{
+            window.location.hash="#/welcome"
+           },3000)
         } else {
           const error = await response.json();
           const modal = new ModalManager("myModal", "modalMessage", "close");

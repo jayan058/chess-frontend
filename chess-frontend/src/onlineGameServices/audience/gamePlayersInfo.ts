@@ -1,4 +1,3 @@
-// Define interfaces to match the structure of your player data
 interface PlayerData {
   createdAt: string;
   email: string;
@@ -14,8 +13,10 @@ interface PlayerData {
   userId: number;
 }
 
-// Function to create and display player vs player information
 export function displayPlayerVsPlayer(players: PlayerData[]) {
+  const watcherName = document.getElementById("user-greeting-information");
+  watcherName!.innerText = `Enjoy Watching The Game ${players[2] as unknown as string}`;
+  players.splice(2, 1);
   const container = document.getElementById("player-vs-player-container");
   if (container) {
     // Clear any existing content
@@ -54,5 +55,26 @@ export function displayPlayerVsPlayer(players: PlayerData[]) {
 
     // Append playerVsPlayerDiv to container
     container.appendChild(playerVsPlayerDiv);
+    displayPLayersInformation();
   }
+}
+
+function displayPLayersInformation() {
+  const modal = document.getElementById("playerModal");
+  const btn = document.getElementById("show-players-btn");
+
+  const span = document.getElementsByClassName("close")[0] as HTMLElement;
+  btn!.addEventListener("click", () => {
+    modal!.style.display = "block";
+  });
+
+  span!.addEventListener("click", () => {
+    modal!.style.display = "none";
+  });
+
+  window.onclick = (event) => {
+    if (event.target === modal) {
+      modal!.style.display = "none";
+    }
+  };
 }

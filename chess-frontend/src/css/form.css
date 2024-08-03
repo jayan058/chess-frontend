@@ -3,10 +3,10 @@ form {
   flex-direction: column;
 }
 
-input[type="text"],
-input[type="password"],
-input[type="email"],
-input[type="file"] {
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=file] {
   padding: 12px;
   margin-bottom: 15px;
   border: 1px solid #ddd;
@@ -15,9 +15,9 @@ input[type="file"] {
   transition: border-color 0.3s ease;
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="email"]:focus {
+input[type=text]:focus,
+input[type=password]:focus,
+input[type=email]:focus {
   border-color: #007bff;
   outline: none;
 }
@@ -35,8 +35,8 @@ input[type="email"]:focus {
   width: auto;
   height: auto;
   -o-object-fit: contain;
-  object-fit: contain;
+     object-fit: contain;
   margin-top: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
-} /*# sourceMappingURL=form.css.map */
+}/*# sourceMappingURL=form.css.map */

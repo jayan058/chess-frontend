@@ -23,7 +23,7 @@ export async function addRowClickEventListeners(
 }
 
 async function handleRowClick(gameId: number): Promise<void> {
-  let token = Auth.getAccessToken();
+  let token = await  Auth.getAccessToken();
   try {
     const response = await fetch(
       `http://localhost:3000/games/id?gameId=${gameId}`,

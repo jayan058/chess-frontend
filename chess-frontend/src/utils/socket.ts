@@ -1,6 +1,6 @@
 import { io, Socket } from "socket.io-client";
 import { Auth } from "../auth";
-
+import { ModalManager } from "./modal";
 class SocketSingleton {
   private static instance: SocketSingleton | null = null;
   public socket: Socket;
@@ -14,8 +14,9 @@ class SocketSingleton {
       },
     });
 
-    this.socket.on("reconnect_attempt", () => {
-      this.updateAuthToken();
+    this.socket.on("reconnect_attempt", async () => {
+      await this.updateAuthToken();
+      this.socket.connect();
     });
   }
 
@@ -43,15 +44,25 @@ class SocketSingleton {
     this.socket.disconnect();
   }
 
-  public reconnect() {
-    this.updateAuthToken();
+  public async reconnect() {
+    await this.updateAuthToken();
     this.socket.connect();
   }
 
-  private updateAuthToken() {
-    this.socket.auth = {
-      token: Auth.getAccessToken(),
-    };
+  private async updateAuthToken() {
+    try {
+      const newToken = await Auth.refreshAccessToken();
+      this.socket.auth = {
+        token: newToken,
+      };
+    } catch (error) {
+      const modal = new ModalManager("myModal", "modalMessage", "close");
+      modal.show("Session Expired Login Again", "error");
+      setTimeout(()=>{
+         window.location.hash="#/login" 
+      },3000)
+    
+    }
   }
 }
 

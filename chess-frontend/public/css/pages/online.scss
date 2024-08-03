@@ -3,8 +3,11 @@
 @import "../components/chessBoard";
 @import "../components/body";
 @import "../components/containor";
-@import "../components/footer";
+
 @import "../components/modal";
+@import "../components/header";
+
+
 #board {
     width: 400px;
     margin: auto;
@@ -56,7 +59,7 @@
   overflow-y: auto; 
   flex-direction: column;
 
-  justify-content: center;
+ 
 }
 
 .modal-content::-webkit-scrollbar {
@@ -319,4 +322,25 @@
   justify-content: space-around;
 }
 
+.main-content__header h1 {
+  margin: 0;
+  color: #007bff;
+}
+
+.main-content__header {
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+}
+
+.message-image{
+  height: 40px;
+  width: 40px;
+}
+
+
+nav {
+  display: flex;
+  align-items: center;
+}
 

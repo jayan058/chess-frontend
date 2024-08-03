@@ -117,40 +117,6 @@ header a:hover {
     margin: 0 10px;
   }
 }
-body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f4f4;
-  margin: 0;
-  padding: 0;
-  color: #333;
-  height: 90vh;
-}
-
-.container {
-  max-width: 500px;
-  padding: 70px;
-  margin: 5% auto;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.footer {
-  background-color: #f8f9fa;
-  color: #333;
-  text-align: center;
-  padding: 10px;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-}
-
-.footer p {
-  margin: 0;
-}
-
 .modal {
   display: none;
   position: fixed;
@@ -236,4 +202,60 @@ body {
 
 .modal-content button:hover {
   background-color: #0056b3;
-}/*# sourceMappingURL=createRoom.css.map */
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  height: 90vh;
+}
+
+.container {
+  max-width: 500px;
+  padding: 70px;
+  margin: 5% auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.footer {
+  background-color: #f8f9fa;
+  color: #333;
+  text-align: center;
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.footer p {
+  margin: 0;
+}
+
+h2 {
+  color: #444;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 70px;
+    margin: 10% auto;
+  }
+  button {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+.footer {
+  margin-top: 50px;
+}
+
+.container {
+  margin-bottom: 30px;
+}/*# sourceMappingURL=updateProfile.css.map */

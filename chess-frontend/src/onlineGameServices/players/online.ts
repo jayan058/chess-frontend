@@ -8,18 +8,14 @@ const socket = socketInstance.getSocket();
 export let myData: PlayerInfo;
 let pieceMove = new Audio();
 pieceMove.src = "./assets/audio/pieceMoving.mp3";
-interface Player {
-  socketId: string;
-  name: string;
-  profilePicture: string;
-  roomId: number;
-  userId: number;
-  color: string;
-}
+import { Player } from "../../interfaces/player";
+
+declare const metro_piece_theme: (piece: string) => string;
+declare const chess24_board_theme: string[];
 
 export class Online {
   private static game: Chess;
-  private static board: any;
+  public static board: any;
   private static currentTurn: string = "w";
   private static whitePlayer: Player;
   private static blackPlayer: Player;
@@ -38,6 +34,8 @@ export class Online {
         position: "start",
         onDrop: this.handleMove.bind(this),
         onSnapEnd: this.onSnapEnd.bind(this),
+        pieceTheme: metro_piece_theme,
+        boardTheme: chess24_board_theme,
       });
     }, 3000);
     // Assuming players[0] is white and players[1] is black
@@ -53,7 +51,7 @@ export class Online {
 
   static initEventListeners() {
     sendTextMessage();
-
+   
     this.game = new Chess();
 
     // Clear previous event handlers if any
@@ -155,7 +153,7 @@ export class Online {
     });
   }
 
-  private static handleMove(source: string, target: string) {
+  public static handleMove(source: string, target: string) {
     if (this.myColor === this.getCurrentTurnColor()) {
       const move = { from: source, to: target };
       const result = this.game.move(move);
@@ -215,8 +213,9 @@ export class Online {
       this.board.position(this.game.fen());
     }
   }
+  
 
-  private static onSnapEnd() {
+  public static onSnapEnd() {
     this.updateBoard();
   }
   private static handleGameOver(message: string) {

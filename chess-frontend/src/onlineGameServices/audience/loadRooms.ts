@@ -15,7 +15,7 @@ function renderRooms(rooms: { roomName: string }[]): void {
     roomsContainer.innerHTML = ""; // Clear previous rooms
 
     rooms.forEach((room) => {
-      const roomElement = document.createElement("div"); // Create a new element for each room
+      const roomElement = document.createElement("button"); // Create a new element for each room
       roomElement.className = "active-rooms-list";
       roomElement.textContent = `${room.roomName}`;
       roomElement.addEventListener("click", () => {
@@ -26,4 +26,5 @@ function renderRooms(rooms: { roomName: string }[]): void {
       roomsContainer.appendChild(roomElement);
     });
   }
+
 }

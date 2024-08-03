@@ -6,21 +6,26 @@
     <title>Document</title>
 </head>
 <body>
-    Enjoy the Chess Game!!!!
-    <div id="player-vs-player-container"></div>
-    <div id="board" class="board"></div>
-    <div class="modal">
-        <div class="modal-content">
-        
-          <div class="message-container"></div>
-          <div class="message-form">
-            <input class="message-input" type="text" placeholder="Type your message...">
-            <button class="send-message">Send</button>
-          </div>
-        </div>
-      </div>
-      <button class="show-messages">Show Messages</button>
+  <header class="main-content__header">
+    <h1>You Are Currently Watching A Live Game</h1>
     
+      
+  </header>
+  <main>
+    <header class="main-content__header" >
+      <h1 id="user-greeting-information">Enjoy Watching The Game Audience</h1>  
+      <button id="show-players-btn">Show Who's Playing</button>
+</header>
+<div id="playerModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div id="player-vs-player-container"></div>
+  </div>
+</div>
+    <div id="board" class="board"></div>
+    
+    </main>
 
 </body>
 </html>

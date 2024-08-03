@@ -5,6 +5,10 @@ import socketInstance from "../../utils/socket";
 const socket = socketInstance.getSocket();
 let pieceMove = new Audio();
 pieceMove.src = "./assets/audio/pieceMoving.mp3";
+
+declare const metro_piece_theme: (piece: string) => string;
+declare const chess24_board_theme: string[];
+
 import { displayPlayerVsPlayer } from "./gamePlayersInfo";
 export class OnlineAudiencePage {
   private static game: Chess;
@@ -19,6 +23,8 @@ export class OnlineAudiencePage {
       this.board = ChessBoard("board", {
         draggable: false,
         position: "start",
+        pieceTheme: metro_piece_theme,
+        boardTheme: chess24_board_theme,
       });
     }, 0);
 
@@ -100,9 +106,11 @@ export class OnlineAudiencePage {
       // setTimeout(() => modal.close(), 3000);
     });
     socket.on("latestData", (latestData) => {
+      
       displayPlayerVsPlayer([
         latestData.participants[0],
         latestData.participants[1],
+        latestData.user[0].name
       ]);
 
       this.board.position(latestData.latestFen);

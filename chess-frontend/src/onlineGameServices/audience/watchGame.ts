@@ -8,8 +8,8 @@ export class WatchGame {
     return response.text();
   }
 
-  static initEventListeners() {
+  static async  initEventListeners() {
     socket.off("watchGame"); // Clear previous 'watchGame' event
-    loadActiveRooms(); // Load and render rooms
+     loadActiveRooms(); // Load and render rooms
   }
 }

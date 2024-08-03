@@ -71,7 +71,9 @@ export class SignupPage {
           );
           const modal = new ModalManager("myModal", "modalMessage", "close");
           modal.show(formattedMessage, "success");
-          window.location.hash = "#/login";
+          setTimeout(()=>{
+            window.location.hash="#/login"
+           },3000)
         } catch (error: unknown) {}
       });
   }
