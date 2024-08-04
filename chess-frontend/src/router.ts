@@ -1,18 +1,20 @@
+//importing all the components present in the application
 import { HomePage } from "./components/home";
 import { LoginPage } from "./components/login";
 import { SignupPage } from "./components/signup";
 import { WelcomePage } from "./components/welcome/welcome";
 import { OfflinePage } from "./components/offline";
 import { loadCSS } from "./utils/cssLoader";
-import { CreateGamePage } from "./onlineGameServices/players/createGame";
-import { JoinGame } from "./onlineGameServices/players/joinGame";
-import { Online } from "./onlineGameServices/players/online";
-import { WatchGame } from "./onlineGameServices/audience/watchGame";
-import { OnlineAudiencePage } from "./onlineGameServices/audience/onlineAudiencePage";
+import { CreateGamePage } from "./components/game/onlineGameServices/players/createGame";
+import { JoinGame } from "./components/game/onlineGameServices/players/joinGame";
+import { Online } from "./components/game/onlineGameServices/players/online";
+import { WatchGame } from "./components/game/onlineGameServices/audience/watchGame";
+import { OnlineAudiencePage } from "./components/game/onlineGameServices/audience/onlineAudiencePage";
 import { GameReplay } from "./components/gameReplay";
-import { RandomMatchMaking } from "./components/randomMatchMaking";
+import { RandomMatchMaking } from "./components/game/onlineGameServices/players/randomMatchMaking";
 import { LeaderBoard } from "./components/leaderBoard";
 
+//Defining all the routes(pages) present along with their files names and their typescript files
 const routes: { [key: string]: any } = {
   "#/home": { component: HomePage, css: "home" },
   "#/login": { component: LoginPage, css: "login" },
@@ -33,7 +35,6 @@ const routes: { [key: string]: any } = {
     css: "randomMatchMaking",
   },
   "#/leader-board": { component: LeaderBoard, css: "leaderBoard" },
- 
 };
 
 export class Router {
@@ -41,15 +42,14 @@ export class Router {
     const hash = window.location.hash || "#/home";
     const route = routes[hash];
     if (route) {
-      this.loadHeader(hash);
-      const content = await route.component.load();
+      this.loadHeader(hash); //Loading the header dynamically based on which page we are present
+      const content = await route.component.load(); //Loading the html file
       document.getElementById("main-content")!.innerHTML = content;
-      await loadCSS(route.css);
-
-      route.component.initEventListeners();
+      await loadCSS(route.css); //Loading the css files and awating for the promise to enusre all the css are loaded before the event listensers are initialized
+      route.component.initEventListeners(); //Initializing all the event listeners
     }
   }
-
+  //Function to load the header contents dynamically based on the page we are present in
   static loadHeader(hash: string) {
     const header = document.getElementById("header")!;
     let headerContent = "";
@@ -79,15 +79,9 @@ export class Router {
              <button id="pauseBtn"><i class="fas fa-pause"></i> Pause</button>
           <button id="restartBtn"><i class="fas fa-redo"></i> Restart</button>
           <button id="abortBtn"><i class="fas fa-times"></i> Abort</button>
-          <button id="openModalButton">Show The Game Moves</button>
+          <button id="openModalButton" class="openModalButton">Show The Game Moves</button>
             `;
     }
-    else if (hash === "#/online") {
-      headerContent = `
-          
-            `;
-    }
-
     header.innerHTML = headerContent;
   }
 
@@ -96,7 +90,7 @@ export class Router {
   }
 
   static init() {
-    window.addEventListener("popstate", () => this.handleRouteChange());
+    window.addEventListener("popstate", () => this.handleRouteChange()); //Handle the previous and next button clicks while on a page
     this.handleRouteChange();
     window.addEventListener("beforeunload", () => {
       this.handleRouteChange();

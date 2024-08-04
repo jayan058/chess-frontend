@@ -1,11 +1,10 @@
-// src/pages/createGame.ts
-import { Auth } from "../../auth";
-import { Router } from "../../router";
-import { ModalManager } from "../../utils/modal";
+//All the necessary imports
+import { Auth } from "../../../../auth";
+import { Router } from "../../../../router";
+import { ModalManager } from "../../../../utils/modal";
+import socketInstance from "../../../../utils/socket";
 
-import socketInstance from "../../utils/socket";
-
-const socket = socketInstance.getSocket();
+const socket = socketInstance.getSocket(); //Getting a new socket instance from
 
 export class JoinGame {
   static async load(): Promise<string> {
@@ -19,7 +18,7 @@ export class JoinGame {
   }
 
   static initEventListeners() {
-    socket.off("randomMatchRequest");
+    socket.off("randomMatchRequest"); //Removing any previous event listeners that might be present to prevent any unexptected behaviour
 
     const createRoomForm = document.getElementById(
       "join-room-form",
@@ -31,13 +30,15 @@ export class JoinGame {
         document.getElementById("room-name") as HTMLInputElement
       ).value;
 
-      socket.emit("joinRoom", { roomName });
+      socket.emit("joinRoom", { roomName }); //Requesting to join a room
       socket.on("joinRoomError", (response) => {
+        //Message shown if two people are already in the room
         const modal = new ModalManager("myModal", "modalMessage", "close");
         modal.show(response.message, "error");
       });
       const modal = new ModalManager("myModal", "modalMessage", "close");
       socket.on("opponentConnected", () => {
+        //Message shown on successfull room joining
         modal.show("Opponent Connected Redirecting to Game!!!", "success");
       });
       socket.on("redirectToGame", () => {

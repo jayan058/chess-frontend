@@ -8,19 +8,11 @@
 @import "../components/table";
 @import "../components/pagination";
 
+.main-content__header h1 {
+  margin: 0;
+  color: #007bff;
+}
 
-  .main-content__header h1 {
-    margin: 0;
-    color: #007bff;
-  }
-
-  .leaderboard-container{
-    padding: 20px;
-  }
-
-  
-  
-
-
-
-
+.leaderboard-container {
+  padding: 20px;
+}

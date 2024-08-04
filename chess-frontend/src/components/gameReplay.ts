@@ -1,15 +1,21 @@
+//All the necessary imports
 import { Chess } from "chess.js";
 import { Auth } from "../auth";
 import { Router } from "../router";
-
+//Setting up the audio for the piece moving
 let pieceMove = new Audio();
 pieceMove.src = "./assets/audio/pieceMoving.mp3";
 
+//Defining the theme for the board and the pieces
+declare const metro_piece_theme: (piece: string) => string;
+declare const chess24_board_theme: string[];
+
+//Class to handle the game replay
 export class GameReplay {
   private static game: Chess;
   private static board: any;
   private static gameMoves: { from: string; to: string }[] = [];
-  private static currentMoveIndex: number = 0;
+  private static currentMoveIndex: number = 0; //Reseting the currentMoveIndex to ensure smooth replay
   private static intervalId: number | null = null;
 
   static async load(): Promise<string> {
@@ -26,9 +32,11 @@ export class GameReplay {
     this.board = ChessBoard("board", {
       draggable: false,
       position: "start",
+      pieceTheme: metro_piece_theme,
+      boardTheme: chess24_board_theme,
     });
 
-    // Add control buttons
+    // Adding the control buttons event listeners
     document
       .getElementById("playBtn")
       ?.addEventListener("click", () => this.play());
@@ -50,21 +58,14 @@ export class GameReplay {
     if (storedMoves) {
       this.gameMoves = JSON.parse(storedMoves);
     }
-
-    // Initialize Chess.js game
     this.game = new Chess();
-
-    // Reset the game to start from the beginning
-    this.reset();
+    this.reset(); //Always reseting the game to aviod unexpected behaviour
   }
 
   static play() {
-    // Clear any existing interval
     this.pause();
-
     if (this.intervalId) return; // Already playing
-
-    this.intervalId = window.setInterval(() => this.next(), 1000); // Play moves every second
+    this.intervalId = window.setInterval(() => this.next(), 1000); // Playing the next move every 1000ms
     this.togglePlayPauseButtons(true);
   }
 
@@ -78,6 +79,7 @@ export class GameReplay {
 
   static next() {
     if (this.currentMoveIndex < this.gameMoves.length) {
+      //Play the moves as there are still moves remaining
       const move = this.gameMoves[this.currentMoveIndex];
 
       this.game.move({ from: move.from, to: move.to });
@@ -85,8 +87,7 @@ export class GameReplay {
       pieceMove.play();
       this.currentMoveIndex++;
     } else {
-      // If all moves are played, reset the game
-      this.reset();
+      this.reset(); // If all moves are played, reset the game
     }
   }
 

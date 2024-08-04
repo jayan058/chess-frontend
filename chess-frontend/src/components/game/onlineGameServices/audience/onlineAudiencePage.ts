@@ -1,7 +1,7 @@
 // eventListeners/home.ts
 import { Chess } from "chess.js";
-import { ModalManager } from "../../utils/modal";
-import socketInstance from "../../utils/socket";
+import { ModalManager } from "../../../../utils/modal";
+import socketInstance from "../../../../utils/socket";
 const socket = socketInstance.getSocket();
 let pieceMove = new Audio();
 pieceMove.src = "./assets/audio/pieceMoving.mp3";
@@ -47,16 +47,7 @@ export class OnlineAudiencePage {
         console.warn("Invalid move received from server:", move);
       }
     });
-    socket.on(
-      "timerUpdate",
-      (data: { color: "white" | "black"; time: number }) => {
-        if (data.color === "white") {
-          this.updateTimerDisplay("white-timer", data.time);
-        } else {
-          this.updateTimerDisplay("black-timer", data.time);
-        }
-      },
-    );
+
     socket.on("game-over", () => {
       const modal = new ModalManager("myModal", "modalMessage", "close");
       modal.show("Game Over!!! One of the players disconnected", "success");
@@ -106,20 +97,14 @@ export class OnlineAudiencePage {
       // setTimeout(() => modal.close(), 3000);
     });
     socket.on("latestData", (latestData) => {
-      
       displayPlayerVsPlayer([
         latestData.participants[0],
         latestData.participants[1],
-        latestData.user[0].name
+        latestData.user[0].name,
       ]);
 
       this.board.position(latestData.latestFen);
       this.game.load(latestData.latestFen);
-    });
-
-    socket.on("watchersTimers", (whiteTimer, blackTimer) => {
-      this.updateTimerDisplay("white-timer", whiteTimer);
-      this.updateTimerDisplay("black-timer", blackTimer);
     });
   }
 
@@ -131,15 +116,5 @@ export class OnlineAudiencePage {
 
   private static renderBoard() {
     this.updateBoard();
-  }
-  private static updateTimerDisplay(elementId: string, time: number) {
-    const timerElement = document.getElementById(elementId);
-    if (timerElement) {
-      const minutes = Math.floor(time / 60);
-      const seconds = time % 60;
-      timerElement.innerText = `${minutes}:${
-        seconds < 10 ? "0" : ""
-      }${seconds}`;
-    }
   }
 }

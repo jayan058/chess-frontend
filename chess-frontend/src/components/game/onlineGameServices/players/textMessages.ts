@@ -1,6 +1,6 @@
-import socketInstance from "../../utils/socket";
+import socketInstance from "../../../../utils/socket";
 import { myData } from "./online";
-import { Message } from "../../interfaces/messages";
+import { Message } from "../../../../interfaces/messages";
 
 const socket = socketInstance.getSocket();
 let newMessageCount = 0;
@@ -8,9 +8,10 @@ let newMessage = new Audio();
 newMessage.src = "./assets/audio/newMessage.mp3";
 
 let mediaRecorder: MediaRecorder | null = null;
-let audioChunks: Blob[] = [];
+let audioChunks: Blob[] = []; //To store the audio messages once they are available
 
 export function sendTextMessage() {
+  //Grabbing all the necessary html elements
   const sendMessageButton = document.querySelector(
     ".send-message",
   ) as HTMLElement;
@@ -40,7 +41,6 @@ export function sendTextMessage() {
       }
     });
 
-    // Optional: Send message on Enter key press
     messageInput.addEventListener("keypress", (e) => {
       if (e.key === "Enter") {
         sendMessageButton.click();
@@ -68,7 +68,7 @@ export function sendTextMessage() {
       }
     });
   }
-
+  //Event listeners for the audio message
   if (startRecordingButton && stopRecordingButton && sendAudioButton) {
     startRecordingButton.addEventListener("click", startRecording);
     stopRecordingButton.addEventListener("click", stopRecording);
@@ -100,7 +100,7 @@ function startRecording() {
     mediaRecorder.start();
 
     mediaRecorder.addEventListener("dataavailable", (event) => {
-      audioChunks.push(event.data);
+      audioChunks.push(event.data); //If the data is available then push it to the audioChunks array
     });
 
     startRecordingButton.style.display = "none";
@@ -134,7 +134,7 @@ function sendAudioMessage() {
     const base64AudioMessage = reader.result;
     const message: Message = {
       sender: myData.myName,
-      content: base64AudioMessage as string,
+      content: base64AudioMessage as string, //Send the blob url for the audio
       timestamp: new Date().toISOString(),
       picture: myData.myPicture,
       roomId: myData.myRoom,
@@ -195,6 +195,7 @@ export function scrollToBottom() {
 
 // Function to display messages
 export function displayMessage(message: Message) {
+  //Creatr a containor to display the message
   const messageContainer = document.querySelector(".message-container");
   if (messageContainer) {
     const messageElement = document.createElement("div");
@@ -207,7 +208,7 @@ export function displayMessage(message: Message) {
     const messageTextElement = document.createElement("p");
     messageTextElement.classList.add("message-text");
 
-    // Apply different styles for sent and received messages
+    //If the message is audio then create a audio element else create a text element
     if (message.isAudio) {
       const audioElement = document.createElement("audio");
       audioElement.controls = true;
@@ -216,7 +217,7 @@ export function displayMessage(message: Message) {
     } else {
       messageTextElement.innerHTML = `<strong>${message.sender}:</strong> ${message.content}`;
     }
-
+    // Apply Different styles to the messages based on who sent it
     if (message.sender === myData.myName) {
       messageElement.classList.add("sent-message");
     } else {

@@ -1,9 +1,12 @@
+//All the necessary imports
 import { Auth } from "../auth";
 import { Router } from "../router";
 import { sessionChangeListeners } from "../utils/sessionChangeListener";
+
+//Class to setup the leaderboard
 export class LeaderBoard {
-  static currentPage: number = 1;
-  static totalPages: number = 1;
+  static currentPage: number = 1; //Reseting the current page every time the page loads
+  static totalPages: number = 1; //Resting the total pages very time the page loads
 
   static async load(): Promise<string> {
     if (!Auth.isLoggedIn()) {
@@ -24,6 +27,7 @@ export class LeaderBoard {
     this.fetchLeaderboardData();
   }
 
+  //Function to fetch the leaderboard data
   static async fetchLeaderboardData(page: number = 1) {
     let token = await Auth.getAccessToken();
     try {
@@ -44,16 +48,15 @@ export class LeaderBoard {
 
       this.renderLeaderboard(leaderboardData.userStats);
 
-      // Update totalPages
       this.totalPages = leaderboardData.totalPages;
 
-      // Update pagination information
       this.updatePaginationInfo(this.totalPages);
     } catch (error) {
       console.error("Failed to fetch leaderboard data:", error);
     }
   }
 
+  //Function to render the leaderboard
   static renderLeaderboard(
     leaderboard: Array<{ username: string; wins: number }>,
   ): void {
@@ -86,6 +89,7 @@ export class LeaderBoard {
     }
   }
 
+  //Function to setup the event-listeners for the pagination buttons
   static setupPaginationEventListeners() {
     document.getElementById("next-page")?.addEventListener("click", () => {
       this.currentPage++;
@@ -105,6 +109,7 @@ export class LeaderBoard {
     this.updatePaginationInfo(this.totalPages);
   }
 
+  //Function to update the pagination information
   static updatePaginationInfo(totalPages: number) {
     const pageInfo = document.getElementById("page-info");
     if (pageInfo) {

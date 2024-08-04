@@ -1,5 +1,5 @@
 import { fetchActiveRooms } from "./selectGame";
-import socketInstance from "../../utils/socket";
+import socketInstance from "../../../../utils/socket";
 export async function loadActiveRooms() {
   try {
     const rooms = await fetchActiveRooms();
@@ -26,5 +26,4 @@ function renderRooms(rooms: { roomName: string }[]): void {
       roomsContainer.appendChild(roomElement);
     });
   }
-
 }

@@ -1,5 +1,6 @@
-import { modal } from "../components/offline";
+import { modal } from "../../offline";
 
+//Function to handle the chossing of the game difficulty selection
 export function gameDifficultySelection() {
   modal.show("Choose your level:", [
     { text: "Easy", onClick: () => startGame(1) },

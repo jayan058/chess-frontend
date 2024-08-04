@@ -1,3 +1,4 @@
+//Class to show the alert messages as modals in the application like during signup,login,joining a room,random matchmaking and others
 export class ModalManager {
   private static instances: ModalManager[] = [];
 

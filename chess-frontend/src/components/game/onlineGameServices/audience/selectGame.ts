@@ -1,4 +1,4 @@
-import { Auth } from "../../auth";
+import { Auth } from "../../../../auth";
 export async function fetchActiveRooms(): Promise<any> {
   try {
     let token = await Auth.getAccessToken();

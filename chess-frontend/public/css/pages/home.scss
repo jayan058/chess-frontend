@@ -5,7 +5,6 @@
 @import "../components/containor";
 @import "../components/footer";
 
-
 main {
   display: flex;
   justify-content: center;
@@ -16,7 +15,6 @@ main {
   height: 100%;
   width: 100%;
 }
-
 
 body,
 h1,
@@ -39,14 +37,13 @@ h1 {
 
 p {
   color: #000000de;
- 
+
   margin-bottom: 1rem;
   font-size: 1.2rem;
   animation: fadeIn 1.5s ease-in;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
   padding: 0 1rem;
 }
-
 
 .home-page {
   display: flex;

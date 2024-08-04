@@ -1,5 +1,7 @@
+//All the necessary imports
 import { Auth } from "../../auth";
 
+//Handling the click events for the rows of each tables that shows the past games played by the user
 export async function addRowClickEventListeners(
   containerId: string,
 ): Promise<void> {
@@ -22,8 +24,9 @@ export async function addRowClickEventListeners(
   });
 }
 
+//Fetching the clicked games moves and storing them in the local storage
 async function handleRowClick(gameId: number): Promise<void> {
-  let token = await  Auth.getAccessToken();
+  let token = await Auth.getAccessToken();
   try {
     const response = await fetch(
       `http://localhost:3000/games/id?gameId=${gameId}`,

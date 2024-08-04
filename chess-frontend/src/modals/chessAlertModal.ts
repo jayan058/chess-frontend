@@ -1,3 +1,4 @@
+//Modal to show alrets during the chess game like checkmate,abort,pause
 export class ChessAlertModal {
   private static instances: ChessAlertModal[] = [];
 

@@ -1,16 +1,20 @@
+//All the necessary imports
 import { io, Socket } from "socket.io-client";
 import { Auth } from "../auth";
 import { ModalManager } from "./modal";
+
+//Class to handle all of the socket functions like connect,disconnect,reconnect,getting access token and refreshing the access token
 class SocketSingleton {
   private static instance: SocketSingleton | null = null;
   public socket: Socket;
 
+  //Create a new socket instance
   private constructor() {
     this.socket = io("http://localhost:3000", {
       transports: ["websocket"],
       withCredentials: true,
       auth: {
-        token: Auth.getAccessToken(),
+        token: Auth.getAccessToken(), //Set the access token as auth in the socket instance
       },
     });
 
@@ -41,32 +45,31 @@ class SocketSingleton {
   }
 
   public disconnect() {
-    this.socket.disconnect();
+    this.socket.disconnect(); //Disconnect the socket connection
   }
 
   public async reconnect() {
-    await this.updateAuthToken();
+    await this.updateAuthToken(); //During every reconnection get a press access token
     this.socket.connect();
   }
 
   private async updateAuthToken() {
     try {
-      const newToken = await Auth.refreshAccessToken();
+      const newToken = await Auth.refreshAccessToken(); //Refresh the access token during every reconnection
       this.socket.auth = {
-        token: newToken,
+        token: newToken, //Update the token  in the socket instance with the new access token
       };
     } catch (error) {
       const modal = new ModalManager("myModal", "modalMessage", "close");
-      modal.show("Session Expired Login Again", "error");
-      setTimeout(()=>{
-         window.location.hash="#/login" 
-      },3000)
-    
+      modal.show("Session Expired Login Again", "error"); //Unable to refresh the access token
+      setTimeout(() => {
+        window.location.hash = "#/login";
+      }, 3000);
     }
   }
 }
 
-const socketInstance = SocketSingleton.getInstance();
+const socketInstance = SocketSingleton.getInstance(); //Create a new socket instance
 Object.freeze(socketInstance);
 
 export default socketInstance;

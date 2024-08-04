@@ -1,3 +1,4 @@
+//All the necessary imports
 import { Auth } from "../../auth";
 import { Router } from "../../router";
 import { sessionChangeListeners } from "../../utils/sessionChangeListener";
@@ -5,8 +6,8 @@ import { ChessAlertModal } from "../../modals/chessAlertModal";
 import { GameTable } from "./userGameHistory";
 import { ModalManager } from "../../utils/modal";
 export class WelcomePage {
-  static currentPage: number = 1;
-  static totalPages: number = 1;
+  static currentPage: number = 1; //Reseting the current page every time the page loads
+  static totalPages: number = 1; //Initializing the total number of pages
   static async load(): Promise<string> {
     if (!Auth.isLoggedIn()) {
       window.location.hash = "#/login";
@@ -20,6 +21,7 @@ export class WelcomePage {
     return response.text();
   }
 
+  //All the event listeners for the welcome page
   static initEventListeners() {
     sessionChangeListeners();
     this.dropDownToggle();
@@ -31,6 +33,7 @@ export class WelcomePage {
     this.setUpLogoutEventListeners();
   }
 
+  //Fetching the details of the user (their name,picture and their past games)
   static async fetchUserDetails(page: number = 1) {
     let token = await Auth.getAccessToken();
     try {
@@ -42,7 +45,7 @@ export class WelcomePage {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-        }
+        },
       );
 
       if (!response.ok) {
@@ -51,23 +54,20 @@ export class WelcomePage {
 
       this.updateUserDetails(userData.foundUser[0]);
       new GameTable(userData.enhancedGameDetails, "game-history-container");
-
-      // Update totalPages
       this.totalPages = userData.totalPages;
-
-      // Update pagination information
       this.updatePaginationInfo(this.totalPages);
     } catch (error) {
       console.error("Failed to fetch user details:", error);
     }
   }
 
+  //Function to greet the user
   static updateUserDetails(userData: { profilePicture: string; name: string }) {
     const userImage = document.getElementById(
-      "user-greeting-information__user-image"
+      "user-greeting-information__user-image",
     ) as HTMLImageElement;
     const greetingMessage = document.getElementById(
-      "user-greeting-information__greeting-message"
+      "user-greeting-information__greeting-message",
     );
 
     if (userImage) {
@@ -78,6 +78,8 @@ export class WelcomePage {
       greetingMessage.textContent = `Hello, ${userData.name}!`;
     }
   }
+
+  //Function to toggle the dropdown
 
   static dropDownToggle() {
     const dropdownToggles = document.querySelectorAll(".dropdown-toggle");
@@ -98,6 +100,8 @@ export class WelcomePage {
       });
     });
   }
+
+  //Function to handle the pagination event listeners
   static setupPaginationEventListeners() {
     document.getElementById("next-page")?.addEventListener("click", () => {
       this.currentPage++;
@@ -113,10 +117,9 @@ export class WelcomePage {
       }
     });
 
-    // Initial update of pagination info
     this.updatePaginationInfo(this.totalPages);
   }
-
+  //Function to update the pagination event listeners
   static updatePaginationInfo(totalPages: number) {
     const pageInfo = document.getElementById("page-info");
     if (pageInfo) {
@@ -128,10 +131,10 @@ export class WelcomePage {
     }
 
     const previousButton = document.getElementById(
-      "previous-page"
+      "previous-page",
     ) as HTMLButtonElement;
     const nextButton = document.getElementById(
-      "next-page"
+      "next-page",
     ) as HTMLButtonElement;
 
     if (this.currentPage <= 1) {
@@ -147,6 +150,7 @@ export class WelcomePage {
     }
   }
 
+  //Function to setup the offline event listeners
   static setupPlayOfflineEventListener() {
     document
       .getElementById("play-offline")!
@@ -175,6 +179,7 @@ export class WelcomePage {
       });
   }
 
+  //Function to setup the different online mode event listeners for the game
   static setupPlayOnlineEventListener() {
     document.getElementById("play-online")?.addEventListener("click", () => {
       const modal = new ChessAlertModal();
@@ -212,6 +217,7 @@ export class WelcomePage {
     });
   }
 
+  //Function to setup the leaderboard event listeners
   static setUpLeaderBoardEventListeners() {
     document
       .getElementById("getLeaderboardBtn")
@@ -220,17 +226,19 @@ export class WelcomePage {
       });
   }
 
-  static setUpLogoutEventListeners(){
-    let changeProfileDetails= document.getElementById('logout')
-    changeProfileDetails?.addEventListener('click',()=>{
-     Auth.clearTokens()
-     const modal = new ModalManager("myModal", "modalMessage", "close");
-     modal.show("Logout Successfull", "success");
+  //Function to setup the logout event listeners
 
-     setTimeout(()=>{
-      window.location.hash="#/login"
-     },3000)
-    })
+  static setUpLogoutEventListeners() {
+    let changeProfileDetails = document.getElementById("logout");
+    changeProfileDetails?.addEventListener("click", () => {
+      Auth.clearTokens();
+      const modal = new ModalManager("myModal", "modalMessage", "close");
+      modal.show("Logout Successfull", "success");
+
+      setTimeout(() => {
+        window.location.hash = "#/login";
+      }, 3000);
+    });
   }
 }
 

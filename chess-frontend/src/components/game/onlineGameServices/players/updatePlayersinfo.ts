@@ -1,5 +1,4 @@
-import { LoginPage } from "../../components/login";
-import { PlayerInfo } from "../../interfaces/playersInfo";
+import { PlayerInfo } from "../../../../interfaces/playersInfo";
 import { myData } from "./online";
 
 export class Game {
@@ -15,12 +14,12 @@ export class Game {
 
     this.createUIElements();
     this.listenForButtonClick();
-    this.greetUser()
+    this.greetUser();
   }
- private greetUser(){
-  let userGretting=document.getElementById("user-greeting-information")
-  userGretting!.textContent=`GoodLuck With The Game ${myData.myName}`
- }
+  private greetUser() {
+    let userGretting = document.getElementById("user-greeting-information");
+    userGretting!.textContent = `GoodLuck With The Game ${myData.myName}`;
+  }
   private createUIElements() {
     if (!this.container) return; // Ensure container exists before proceeding
 
@@ -78,7 +77,7 @@ export class Game {
   private addModalEventListeners() {
     if (this.modal) {
       const closeButton = this.modal.querySelector(
-        ".close-button"
+        ".close-button",
       ) as HTMLElement;
       if (closeButton) {
         closeButton.addEventListener("click", () => this.hideModal());
@@ -108,13 +107,13 @@ export class Game {
   public updatePlayerInfo(data: PlayerInfo) {
     // Update your information
     const myColorElement = document.getElementById(
-      "my-color"
+      "my-color",
     ) as HTMLParagraphElement;
     const myNameElement = document.getElementById(
-      "my-name"
+      "my-name",
     ) as HTMLParagraphElement;
     const myPictureElement = document.getElementById(
-      "my-picture"
+      "my-picture",
     ) as HTMLImageElement;
     myColorElement.textContent = `Color: ${data.myColor}`;
     myNameElement.textContent = `Name: ${data.myName}`;
@@ -122,13 +121,13 @@ export class Game {
 
     // Update opponent information
     const opponentColorElement = document.getElementById(
-      "opponent-color"
+      "opponent-color",
     ) as HTMLParagraphElement;
     const opponentNameElement = document.getElementById(
-      "opponent-name"
+      "opponent-name",
     ) as HTMLParagraphElement;
     const opponentPictureElement = document.getElementById(
-      "opponent-picture"
+      "opponent-picture",
     ) as HTMLImageElement;
     if (data.otherParticipants.length > 0) {
       const opponent = data.otherParticipants[0];
@@ -144,7 +143,7 @@ export class Game {
   public updateTurn(turn: string) {
     // Update turn indicator
     const turnIndicatorElement = document.getElementById(
-      "turn-indicator"
+      "turn-indicator",
     ) as HTMLDivElement;
     turnIndicatorElement.textContent = `Turn: ${turn}`;
   }

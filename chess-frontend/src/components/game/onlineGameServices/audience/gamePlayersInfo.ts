@@ -1,18 +1,4 @@
-interface PlayerData {
-  createdAt: string;
-  email: string;
-  id: number;
-  joinedAt: string;
-  name: string;
-  passwordHash: string;
-  profilePicture: string;
-  role: string;
-  roomId: number;
-  socketId: string;
-  updatedAt: string;
-  userId: number;
-}
-
+import { PlayerData } from "../../../../interfaces/playerData";
 export function displayPlayerVsPlayer(players: PlayerData[]) {
   const watcherName = document.getElementById("user-greeting-information");
   watcherName!.innerText = `Enjoy Watching The Game ${players[2] as unknown as string}`;

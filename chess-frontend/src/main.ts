@@ -1,3 +1,4 @@
+//All the necessary imports
 import { Router } from "./router";
 import socketInstance from "./utils/socket"; // Import the SocketSingleton instance
 import { ModalManager } from "./utils/modal";
@@ -11,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const oldHash = previousHash;
     const newHash = window.location.hash;
 
-    // Define routes where socket should be disconnected
+    // Defining routes where socket should be disconnected
     const disconnectRoutes = [
       "#/welcome",
       "#/login",
@@ -19,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "#/leader-board",
     ];
 
-    // Define routes where socket should be reconnected
+    // Defining routes where socket should be reconnected
     const reconnectRoutes = [
       "#/create-game",
       "#/join-game",
@@ -27,14 +28,15 @@ document.addEventListener("DOMContentLoaded", () => {
       "#/random-match-making",
     ];
 
-    // Check if socket should be disconnected on new hash
+    //Disconnecing the socket connection where its not required
     if (disconnectRoutes.includes(newHash)) {
       socketInstance.disconnect();
     }
-
+    //Remving all the modals that might be showing during the hash change
     ModalManager.closeAll();
     ChessAlertModal.closeAll();
     TableModal.closeAll();
+
     // Load the new content
     Router.loadContent();
 
@@ -56,6 +58,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 100);
     }
 
-    previousHash = newHash; // Update the previous hash
+    previousHash = newHash; // Updating the previous hash
   });
 });

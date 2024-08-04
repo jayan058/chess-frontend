@@ -1,5 +1,7 @@
+//All the necessary imports
 import { ModalManager } from "../utils/modal";
-
+import { formatMessage } from "../utils/formatMessage";
+//Class to handle the signup
 export class SignupPage {
   static async load(): Promise<string> {
     const response = await fetch("src/views/signup.html");
@@ -7,6 +9,7 @@ export class SignupPage {
   }
 
   static initEventListeners() {
+    //Grabbing all the form elements
     const usernameInput = document.getElementById(
       "username",
     ) as HTMLInputElement;
@@ -28,7 +31,7 @@ export class SignupPage {
           const reader = new FileReader();
 
           reader.onload = (e) => {
-            imagePreview.src = e.target?.result as string;
+            imagePreview.src = e.target?.result as string; //Setting the src of the image to send to the backend to upload
           };
 
           reader.readAsDataURL(file);
@@ -42,7 +45,7 @@ export class SignupPage {
       .getElementById("signup-form")
       ?.addEventListener("submit", async (event: Event) => {
         event.preventDefault();
-        const formData = new FormData();
+        const formData = new FormData(); //Creating a formdata object to bundle all the necessary data to and send to the backend
         formData.append("userName", usernameInput.value);
         formData.append("password", passwordInput.value);
         formData.append("email", emailInput.value);
@@ -59,29 +62,24 @@ export class SignupPage {
 
           if (!response.ok) {
             const result = await response.json();
-            let formattedMessage = SignupPage.formatMessage(result.message);
+            let formattedMessage = formatMessage(result.message);
             const modal = new ModalManager("myModal", "modalMessage", "close");
             modal.show(formattedMessage, "error");
           }
 
           const result = await response.json();
-          let formattedMessage = SignupPage.formatMessage(
+          let formattedMessage = formatMessage(
             result.message +
               " now login to Chess.com using the new credentials",
           );
           const modal = new ModalManager("myModal", "modalMessage", "close");
           modal.show(formattedMessage, "success");
-          setTimeout(()=>{
-            window.location.hash="#/login"
-           },3000)
-        } catch (error: unknown) {}
+          setTimeout(() => {
+            window.location.hash = "#/login"; //If the login in successfull then sending the user to the login page
+          }, 3000);
+        } catch (error: unknown) {
+          console.error(error);
+        }
       });
-  }
-
-  static formatMessage(result: string) {
-    let formattedMessage = result.replace(/[^a-zA-Z0-9\s.]/g, "");
-    formattedMessage =
-      formattedMessage.charAt(0).toUpperCase() + formattedMessage.slice(1);
-    return formattedMessage;
   }
 }

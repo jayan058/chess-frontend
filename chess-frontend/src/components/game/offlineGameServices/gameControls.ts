@@ -1,7 +1,8 @@
-import { ChessAlertModal } from "../modals/chessAlertModal";
+import { ChessAlertModal } from "../../../modals/chessAlertModal";
 import { updateStatus } from "./updateStatus";
+
+//Function to initialize the game controls(play,pause,abort,restart)
 export function initializeGameControls(game: any, board: any) {
-  // Initialize the modal
   const modal = new ChessAlertModal();
 
   // Pause functionality
@@ -14,7 +15,7 @@ export function initializeGameControls(game: any, board: any) {
 
   // Restart functionality
   document.getElementById("restartBtn")!.addEventListener("click", () => {
-    game.reset(); // Make sure `game` object has a reset method or reinitialize it
+    game.reset();
     board.position("start");
     updateStatus();
   });
@@ -27,9 +28,9 @@ export function initializeGameControls(game: any, board: any) {
     ]);
   });
 
+  //Function to resume the game
   function resumeGame() {
     modal.hide();
-    // Add logic to resume the game
   }
 
   function abortGame() {

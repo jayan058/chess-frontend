@@ -1,9 +1,10 @@
-import socketInstance from "../utils/socket";
+import socketInstance from "../../../../utils/socket";
 const socket = socketInstance.getSocket();
-import { ModalManager } from "../utils/modal";
-import { Auth } from "../auth";
-import { Router } from "../router";
+import { ModalManager } from "../../../../utils/modal";
+import { Auth } from "../../../../auth";
+import { Router } from "../../../../router";
 
+//Class to handle the random match making for the users
 export class RandomMatchMaking {
   static opponentFindInterval: number | undefined;
 
@@ -28,7 +29,7 @@ export class RandomMatchMaking {
     socket.on("redirectToGame", RandomMatchMaking.handleRedirectToGame);
     socket.on("foundOpponent", RandomMatchMaking.handleFoundOpponent);
 
-    // Clear the interval when leaving the page
+    // Clear the interval  and all the associated event listeners when leaving the page
     window.onbeforeunload = () => {
       RandomMatchMaking.cleanup();
     };
@@ -44,6 +45,7 @@ export class RandomMatchMaking {
     }, 3000);
   }
 
+  //Stop finding the oppoenent and clear the interval after the oppponent is found
   static stopFindingOpponent() {
     if (this.opponentFindInterval) {
       clearInterval(this.opponentFindInterval);
@@ -69,6 +71,7 @@ export class RandomMatchMaking {
     RandomMatchMaking.stopFindingOpponent();
   }
 
+  //Cleanup function to ensure that after the match-making is done then the event are all removed to avoid unexpected behaviour
   static cleanup() {
     RandomMatchMaking.stopFindingOpponent();
     socket.off("opponentConnected", RandomMatchMaking.handleOpponentConnected);

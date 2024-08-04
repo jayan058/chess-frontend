@@ -79,7 +79,8 @@ button:hover {
 }
 
 /* highlighted square */
-.highlight1-32417, .highlight2-9c5d2 {
+.highlight1-32417,
+.highlight2-9c5d2 {
   box-shadow: inset 0 0 3px 3px yellow;
 }
 
@@ -139,7 +140,7 @@ body {
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.4);
   -webkit-backdrop-filter: blur(5px);
-          backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
   transition: opacity 0.3s ease-in-out;
 }
 
@@ -229,7 +230,10 @@ header a {
   padding: 8px 12px;
   border: 1px solid transparent;
   border-radius: 4px;
-  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 header a:hover {
@@ -478,7 +482,9 @@ header a:hover {
   background: #f0f0f0;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, background 0.3s;
+  transition:
+    transform 0.3s,
+    background 0.3s;
   display: flex;
   cursor: pointer;
   padding: 30px;
@@ -494,7 +500,7 @@ header a:hover {
   height: auto;
   border-radius: 50%;
   margin-top: 10px;
-  border: 2px solid #007BFF;
+  border: 2px solid #007bff;
   transition: border 0.3s;
 }
 
@@ -505,7 +511,7 @@ header a:hover {
 .player-title {
   font-size: 1.5rem;
   margin-bottom: 10px;
-  color: #007BFF;
+  color: #007bff;
 }
 
 .separator {
@@ -520,7 +526,7 @@ header a:hover {
   font-weight: bold;
   text-align: center;
   margin-top: 20px;
-  color: #007BFF;
+  color: #007bff;
   animation: blink 1s step-start infinite;
 }
 
@@ -576,4 +582,4 @@ header a:hover {
 nav {
   display: flex;
   align-items: center;
-}/*# sourceMappingURL=online.css.map */
+} /*# sourceMappingURL=online.css.map */

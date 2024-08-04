@@ -1,5 +1,5 @@
 import { loadActiveRooms } from "./loadRooms";
-import socketInstance from "../../utils/socket";
+import socketInstance from "../../../../utils/socket";
 const socket = socketInstance.getSocket();
 
 export class WatchGame {
@@ -8,8 +8,8 @@ export class WatchGame {
     return response.text();
   }
 
-  static async  initEventListeners() {
+  static async initEventListeners() {
     socket.off("watchGame"); // Clear previous 'watchGame' event
-     loadActiveRooms(); // Load and render rooms
+    loadActiveRooms(); // Load and render rooms
   }
 }

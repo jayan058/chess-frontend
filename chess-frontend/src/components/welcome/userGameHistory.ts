@@ -1,5 +1,7 @@
+//All the necessary imports
 import { addRowClickEventListeners } from "./fetchChessGames";
 
+//Class for creating a table to show all the games played by the user
 export class GameTable {
   private data: any[];
   private container: HTMLElement | null;

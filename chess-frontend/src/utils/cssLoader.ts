@@ -1,3 +1,4 @@
+//Function to load the CSS stylesheets into the html files during the routing process
 export function loadCSS(page: string): Promise<void> {
   return new Promise((resolve, reject) => {
     const existingLinks = document.querySelectorAll('link[rel="stylesheet"]');

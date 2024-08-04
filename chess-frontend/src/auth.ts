@@ -2,6 +2,8 @@ export class Auth {
   private static ACCESS_TOKEN_KEY = "accessToken";
   private static REFRESH_TOKEN_KEY = "refreshToken";
   private static SESSION_STATE_KEY = "sessionState";
+  private static ACCESS_TOKEN_LIFETIME = 20; //20 seconds
+  private static REFRESH_TOKEN_LIFETIME = 18000; //5 hours in seconds
 
   static isLoggedIn(): boolean {
     return !!this.getAccessToken();
@@ -11,7 +13,7 @@ export class Auth {
     let accessToken = this.getToken(this.ACCESS_TOKEN_KEY);
     if (!accessToken) {
       try {
-        accessToken = await this.refreshAccessToken();
+        accessToken = await this.refreshAccessToken(); //If acess token expired then get a new one form the server
       } catch (error) {
         window.location.hash = "#/login";
       }
@@ -22,17 +24,17 @@ export class Auth {
   static getRefreshToken(): string | null {
     return this.getToken(this.REFRESH_TOKEN_KEY);
   }
+  //Function to set the access token
 
   static setAccessToken(token: string) {
-    // Set access token with a 20-second expiration
-    this.setToken(this.ACCESS_TOKEN_KEY, token, 20); // 20 seconds time for access token
+    this.setToken(this.ACCESS_TOKEN_KEY, token, this.ACCESS_TOKEN_LIFETIME);
   }
 
+  //Function to set the refresh token
   static setRefreshToken(token: string) {
-    // Set refresh token with a 600-second expiration
-    this.setToken(this.REFRESH_TOKEN_KEY, token, 18000); // 10 minutes time for refresh token
+    this.setToken(this.REFRESH_TOKEN_KEY, token, this.REFRESH_TOKEN_LIFETIME);
   }
-
+  //Clear all the token(used during handling logout)
   static clearTokens() {
     this.deleteToken(this.ACCESS_TOKEN_KEY);
     this.deleteToken(this.REFRESH_TOKEN_KEY);
@@ -43,6 +45,7 @@ export class Auth {
     this.clearTokens();
   }
 
+  //Function to get the token (both access and refresh)
   private static getToken(key: string): string | null {
     const nameEQ = key + "=";
     const ca = document.cookie.split(";");
@@ -57,18 +60,19 @@ export class Auth {
   private static setToken(
     key: string,
     token: string,
-    expiresInSeconds: number
+    expiresInSeconds: number,
   ) {
     const date = new Date();
     date.setTime(date.getTime() + expiresInSeconds * 1000);
     const expires = "expires=" + date.toUTCString();
-    document.cookie = `${key}=${token}; ${expires}; path=/;`;
+    document.cookie = `${key}=${token}; ${expires}; path=/;`; //Path is set to "/" to ensure it is available throughout the application
   }
 
   private static deleteToken(key: string) {
-    document.cookie = `${key}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    document.cookie = `${key}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`; //Delete the token by setting its expiry time
   }
 
+  //Function to refresh the access token
   static async refreshAccessToken(): Promise<string> {
     const refreshToken = Auth.getRefreshToken();
 
@@ -87,10 +91,9 @@ export class Auth {
     if (!response.ok) {
       throw new Error("Failed to refresh access token");
     }
-
     const data = await response.json();
     const newAccessToken = data.accessToken;
-    Auth.setAccessToken(newAccessToken);
+    Auth.setAccessToken(newAccessToken); //Set the newly recieved access token in the cookie
     return newAccessToken;
   }
 }

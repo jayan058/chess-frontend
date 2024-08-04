@@ -7,51 +7,46 @@
 @import "../components/image";
 @import "../components/containor";
 
-
-.container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    
-} 
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
 .main-content__header h1 {
-    margin: 0;
-    color: #007bff;
-  }
-
+  margin: 0;
+  color: #007bff;
+}
 
 /* Responsive Design */
 @media (max-width: 600px) {
-    .rooms-container {
-        width: 95%;
-        padding: 20px;
-    }
+  .rooms-container {
+    width: 95%;
+    padding: 20px;
+  }
 
-    .heading {
-        font-size: 20px;
-    }
+  .heading {
+    font-size: 20px;
+  }
 
-    .active-rooms-list {
-        font-size: 16px;
-        padding: 10px;
-    }
+  .active-rooms-list {
+    font-size: 16px;
+    padding: 10px;
+  }
 }
 
 @media (max-width: 400px) {
-    .rooms-container {
-        width: 100%;
-        padding: 15px;
-    }
+  .rooms-container {
+    width: 100%;
+    padding: 15px;
+  }
 
-    .heading {
-        font-size: 18px;
-    }
+  .heading {
+    font-size: 18px;
+  }
 
-    .active-rooms-list {
-        font-size: 14px;
-        padding: 8px;
-    }
+  .active-rooms-list {
+    font-size: 14px;
+    padding: 8px;
+  }
 }
-
-

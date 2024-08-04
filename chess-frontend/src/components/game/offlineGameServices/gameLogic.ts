@@ -1,7 +1,9 @@
+//All the necessary imports
 import { evaluateBoard, reverseArray } from "./gameUtility";
 import { Piece } from "chess.js";
-import { updatePositionCount } from "../components/offline";
+import { updatePositionCount } from "../../offline";
 
+//Minimax root function to create the root node of the minimax tree
 const minimaxRoot = (depth: number, game: any, isMaximisingPlayer: boolean) => {
   const newGameMoves = game.moves();
   let bestMove = -9999;
@@ -9,7 +11,7 @@ const minimaxRoot = (depth: number, game: any, isMaximisingPlayer: boolean) => {
 
   for (const newGameMove of newGameMoves) {
     game.move(newGameMove);
-    const value = minimax(depth - 1, game, -10000, 10000, !isMaximisingPlayer);
+    const value = minimax(depth - 1, game, -10000, 10000, !isMaximisingPlayer); //Call the minimax function to go to one level down in the minimax tree by calling the function by using depth-1
     game.undo();
     if (value >= bestMove) {
       bestMove = value;
@@ -19,6 +21,7 @@ const minimaxRoot = (depth: number, game: any, isMaximisingPlayer: boolean) => {
   return bestMoveFound;
 };
 
+//Minimax function which call itself recusively until the value corresponding to the evaluation of the board is returned.minimax function calls itself by negating the isMaximizingPlayer to switch form player to computer and vice versa
 const minimax = (
   depth: number,
   game: any,
@@ -28,7 +31,7 @@ const minimax = (
 ) => {
   updatePositionCount();
   if (depth === 0) {
-    return -evaluateBoard(game.board());
+    return -evaluateBoard(game.board()); //Now get the value for the evaluation of the board at this state i.e. the leaf node of the minimax tree
   }
 
   const newGameMoves = game.moves();
@@ -41,6 +44,7 @@ const minimax = (
         minimax(depth - 1, game, alpha, beta, !isMaximisingPlayer),
       );
       game.undo();
+      //Simple logic for alpha beta pruning
       alpha = Math.max(alpha, bestMove);
       if (beta <= alpha) {
         return bestMove;
@@ -56,6 +60,7 @@ const minimax = (
         minimax(depth - 1, game, alpha, beta, !isMaximisingPlayer),
       );
       game.undo();
+      //Logic for alpha beta pruning
       beta = Math.min(beta, bestMove);
       if (beta <= alpha) {
         return bestMove;
@@ -64,6 +69,8 @@ const minimax = (
     return bestMove;
   }
 };
+
+//All the 2-d array represnting the board that gives us the importance of the corresponding pieces in the different squares with the board.The value for the black pieces is the mirror of that compared to the white pieces because the prespective of the black player is just opposite to that of the white player.
 
 let pawnEvalWhite = [
   [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
@@ -139,6 +146,7 @@ let kingEvalWhite = [
 
 let kingEvalBlack = reverseArray(kingEvalWhite);
 
+//Function to return the value of each piece based on where it is present in the board from the above 2d matrix and adding it to a base value which different for different pieces
 const getPieceValue = (piece: Piece, x: number, y: number) => {
   if (piece === null) {
     return 0;

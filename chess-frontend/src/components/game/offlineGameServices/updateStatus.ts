@@ -1,5 +1,8 @@
-import { game } from "../components/offline";
-import { modal } from "../components/offline";
+//All the necessary imports
+import { game } from "../../offline";
+import { modal } from "../../offline";
+
+//Function to update the turn status(whether is players turn or the computers turn) or the game status(checkmate,gameover)
 export let updateStatus = function () {
   let status = "";
 

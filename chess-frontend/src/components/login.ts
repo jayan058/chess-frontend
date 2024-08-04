@@ -1,5 +1,8 @@
+//All the necessary imports
 import { ModalManager } from "../utils/modal";
 import { Auth } from "../auth";
+
+//Class to handle the login portion
 export class LoginPage {
   static async load(): Promise<string> {
     const response = await fetch("src/views/login.html");
@@ -37,9 +40,9 @@ export class LoginPage {
           const modal = new ModalManager("myModal", "modalMessage", "close");
           modal.show(result.message, "success");
           localStorage.setItem("authChange", Date.now().toString());
-          setTimeout(()=>{
-            window.location.hash="#/welcome"
-           },3000)
+          setTimeout(() => {
+            window.location.hash = "#/welcome"; //Redirecing to the welcome page if the login is successfull
+          }, 3000);
         } else {
           const error = await response.json();
           const modal = new ModalManager("myModal", "modalMessage", "close");

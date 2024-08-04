@@ -1,3 +1,4 @@
+//Modal to show all the moves that are made during a game
 export class TableModal {
   private static instances: TableModal[] = [];
 
