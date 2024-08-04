@@ -2,6 +2,8 @@
 import { Chess } from "chess.js";
 import { ModalManager } from "../../../../utils/modal";
 import socketInstance from "../../../../utils/socket";
+import { Auth } from "../../../../auth";
+import { Router } from "../../../../router";
 const socket = socketInstance.getSocket();
 let pieceMove = new Audio();
 pieceMove.src = "./assets/audio/pieceMoving.mp3";
@@ -14,6 +16,11 @@ export class OnlineAudiencePage {
   private static game: Chess;
   private static board: any;
   static async load(): Promise<string> {
+    if (!Auth.isLoggedIn()) {
+      window.location.hash = "#/login";
+      Router.loadContent();
+      return "";
+    }
     const response = await fetch("src/views/onlineAudiencePage.html");
     return response.text();
   }

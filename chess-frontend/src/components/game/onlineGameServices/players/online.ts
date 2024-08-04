@@ -6,6 +6,8 @@ import { ModalManager } from "../../../../utils/modal";
 import { PlayerInfo } from "../../../../interfaces/playersInfo";
 import { sendTextMessage } from "./textMessages";
 import { Player } from "../../../../interfaces/player";
+import { Auth } from "../../../../auth";
+import { Router } from "../../../../router";
 
 const socket = socketInstance.getSocket(); //Getting a new socket instance from SocketSingleton class
 export let myData: PlayerInfo;
@@ -29,6 +31,11 @@ export class Online {
   private static myColor: string;
 
   static async load(): Promise<string> {
+    if (!Auth.isLoggedIn()) {
+      window.location.hash = "#/login";
+      Router.loadContent();
+      return "";
+    }
     const response = await fetch("src/views/online.html");
     return response.text();
   }
